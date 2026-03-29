@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-ALI Charity Twitter 自动化发推脚本
-用于GitHub Actions
+ALI Charity Twitter 自动化发推脚本 - 调试版本
 """
 
 import os
@@ -13,14 +12,9 @@ import requests
 
 # 推文内容库
 TWEETS = [
-    "🌍 ALI Charity Platform Launch! Make every donation transparent with blockchain technology. ✅ 100% on-chain tracking ✅ Real-time fund visibility ✅ Governance with ALI tokens Join us: https://43.160.238.228 #CryptoCharity #Blockchain #DeFi #ALIToken",
-    "📊 Transparency Dashboard is LIVE! See exactly where your donations go: real-time fund tracking, project progress updates, blockchain-verified transactions. No more black boxes. Full transparency! 🙌 https://43.160.238.228 #Charity #Transparency #Blockchain",
-    "🎮 Donate to Mine ALI Tokens! Every 1 USDT donated = 1 ALI token. Platform voting rights, exclusive rewards, NFT airdrops. Your kindness has value! 💎 https://43.160.238.228 #ALIToken #DeFi #Crypto",
-    "🤝 Join the Global Charity Movement! 🌍 4 languages supported 🏆 Transparent governance 💎 ALI token rewards Be part of the future of philanthropy! https://43.160.238.228 #Community #CryptoCharity #Web3",
-    "📈 Our Impact: ✅ 8 pages ready ✅ Multi-language support ✅ Real-time transparency ✅ 100% blockchain-backed Transparency isn't just a promise. It's code! 🚀 https://43.160.238.228 #ALICharity #BlockchainTransparency",
-    "🌍 ALI慈善平台全球启动！让每一笔捐赠都透明可见。✅ 区块链100%可追溯 ✅ 资金实时可见 ✅ ALI代币参与治理 加入我们：https://43.160.238.228 #区块链慈善 #透明捐赠 #DeFi #ALI代币",
-    "📊 透明度仪表板上线！实时追踪您的捐赠去向，告别黑箱，全程透明！加入我们：https://43.160.238.228 #慈善 #透明度 #区块链",
-    "🎮 捐赠即挖矿，获得ALI代币！每捐赠1 USDT = 1 ALI代币，您的善心有价值！💎 加入我们：https://43.160.238.228 #ALI代币 #DeFi",
+    "🌍 ALI Charity Platform Launch! Make every donation transparent with blockchain. Join us: https://43.160.238.228 #CryptoCharity #Blockchain",
+    "📊 Transparency Dashboard is LIVE! See exactly where your donations go. Full transparency! https://43.160.238.228 #Charity #Blockchain",
+    "🎮 Donate to Mine ALI Tokens! Every 1 USDT donated = 1 ALI token. https://43.160.238.228 #ALIToken #DeFi",
 ]
 
 SERVER_URL = "https://43.160.238.228"
@@ -28,21 +22,38 @@ SERVER_URL = "https://43.160.238.228"
 def post_tweet(message):
     print("="*50)
     print("开始发送推文...")
+    print(f"消息: {message[:80]}...")
     
+    # 获取环境变量
+    api_key = os.environ.get('TWITTER_API_KEY', '')
+    api_secret = os.environ.get('TWITTER_API_KEY_SECRET', '')
+    access_token = os.environ.get('TWITTER_ACCESS_TOKEN', '')
+    access_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', '')
+    
+    print(f"API Key长度: {len(api_key)}")
+    print(f"Access Token长度: {len(access_token)}")
+    
+    # 创建OAuth1认证
     auth = OAuth1(
-        os.environ.get('TWITTER_API_KEY', ''),
-        client_secret=os.environ.get('TWITTER_API_KEY_SECRET', ''),
-        resource_owner_key=os.environ.get('TWITTER_ACCESS_TOKEN', ''),
-        resource_owner_secret=os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', '')
+        api_key,
+        client_secret=api_secret,
+        resource_owner_key=access_token,
+        resource_owner_secret=access_secret
     )
     
+    url = "https://api.twitter.com/1.1/statuses/update.json"
+    
     try:
+        print(f"发送请求...")
         response = requests.post(
-            'https://api.twitter.com/1.1/statuses/update.json',
+            url,
             auth=auth,
             data={"status": message},
             timeout=60
         )
+        
+        print(f"响应状态码: {response.status_code}")
+        print(f"响应内容: {response.text[:500]}")
         
         if response.status_code == 200:
             tweet_id = response.json().get("id")
@@ -50,8 +61,7 @@ def post_tweet(message):
             print(f"   Tweet URL: https://twitter.com/i/status/{tweet_id}")
             return True
         else:
-            print(f"❌ 发送失败: {response.status_code}")
-            print(f"   {response.text[:200]}")
+            print(f"❌ 发送失败!")
             return False
     except Exception as e:
         print(f"❌ 错误: {str(e)}")
@@ -65,7 +75,7 @@ def main():
     print("")
     
     tweet = random.choice(TWEETS)
-    print(f"📝 推文: {tweet[:50]}...")
+    print(f"📝 推文: {tweet}")
     print("")
     
     success = post_tweet(tweet)
