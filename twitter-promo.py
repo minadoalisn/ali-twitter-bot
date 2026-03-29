@@ -45,12 +45,23 @@ def post_tweet(message):
     print("开始发送推文...")
     print(f"推文内容: {message[:50]}...")
     
+    # 获取API密钥
+    api_key = os.environ.get('TWITTER_API_KEY', '')
+    api_secret = os.environ.get('TWITTER_API_KEY_SECRET', '')
+    access_token = os.environ.get('TWITTER_ACCESS_TOKEN', '')
+    access_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', '')
+    
+    print(f"API Key存在: {bool(api_key)}")
+    print(f"API Secret存在: {bool(api_secret)}")
+    print(f"Access Token存在: {bool(access_token)}")
+    print(f"Access Secret存在: {bool(access_secret)}")
+    
     # 创建OAuth1认证
     auth = OAuth1(
-        os.environ.get('TWITTER_API_KEY', ''),
-        client_secret=os.environ.get('TWITTER_API_KEY_SECRET', ''),
-        resource_owner_key=os.environ.get('TWITTER_ACCESS_TOKEN', ''),
-        resource_owner_secret=os.environ.get('TWITTER_ACCESS_TOKEN_SECRET', '')
+        api_key,
+        client_secret=api_secret,
+        resource_owner_key=access_token,
+        resource_owner_secret=access_secret
     )
     
     # Twitter API v1.1 端点
@@ -58,12 +69,16 @@ def post_tweet(message):
     
     # 发送请求
     try:
+        print(f"发送请求到: {url}")
         response = requests.post(
             url,
             auth=auth,
             data={"status": message},
             timeout=60
         )
+        
+        print(f"响应状态码: {response.status_code}")
+        print(f"响应内容: {response.text[:500]}")
         
         # 检查响应
         if response.status_code == 200:
@@ -76,9 +91,13 @@ def post_tweet(message):
         else:
             print(f"❌ 推文发送失败!")
             print(f"   状态码: {response.status_code}")
-            print(f"   响应: {response.text[:500]}")
             return False
             
+    except Exception as e:
+        print(f"❌ 发送出错: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
     except Exception as e:
         print(f"❌ 发送出错: {str(e)}")
         return False
