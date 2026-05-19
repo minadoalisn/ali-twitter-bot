@@ -3,7 +3,7 @@ import { products } from "@/lib/noirven-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
-  const staticRoutes = ["", "/auctions", "/series", "/story", "/sold", "/account"];
+  const staticRoutes = ["", "/auctions", "/series", "/story", "/sold"];
   const localized = staticRoutes.flatMap((path) => [
     {
       url: `${baseUrl}${path || "/"}`,

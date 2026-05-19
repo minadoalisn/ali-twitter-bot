@@ -8,7 +8,15 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
     <div className="min-h-screen bg-[var(--porcelain)]">
       <SiteHeader locale={locale} />
       <main className="section-shell py-20">
-        <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Noirven Admin</p>
+        <div className="flex items-center justify-between gap-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Noirven Admin</p>
+          <form action="/api/auth/logout" method="post">
+            <input type="hidden" name="next" value={locale === "zh" ? "/admin/login" : "/en/admin/login"} />
+            <button className="focus-ring rounded-full border border-black/14 px-4 py-3 text-[10px] uppercase tracking-[0.16em] text-black transition hover:border-[var(--champagne)]">
+              {locale === "zh" ? "退出后台" : "Sign Out"}
+            </button>
+          </form>
+        </div>
         <h1 className="mt-5 max-w-4xl font-serif text-6xl font-normal leading-tight">
           {locale === "zh" ? "后台以故事线、作品编号和支付审计为核心。" : "Admin is organized by storylines, serials, and payment audit."}
         </h1>

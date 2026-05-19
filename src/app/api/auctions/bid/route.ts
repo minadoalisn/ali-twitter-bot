@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
+import { requireUserSession } from "@/lib/auth";
 import { products } from "@/lib/noirven-data";
 import { bidSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
+  const session = await requireUserSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  }
+
   const payload = bidSchema.safeParse(await request.json());
 
   if (!payload.success) {
@@ -28,6 +34,7 @@ export async function POST(request: Request) {
     status: "accepted_for_mvp",
     message:
       "In production this writes through a Supabase Edge Function using a PostgreSQL row lock and creates or verifies a Stripe deposit.",
+    bidder: { email: session.email, nickname: session.nickname },
     bid: payload.data,
   });
 }

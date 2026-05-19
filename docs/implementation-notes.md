@@ -12,6 +12,8 @@
 
 - Stripe, OpenAI, Supabase service-role clients are lazily initialized server-side only.
 - No secret key is committed.
+- `/admin` and `/en/admin` are protected by signed HttpOnly sessions and require `NOIRVEN_ADMIN_USERNAME`, `NOIRVEN_ADMIN_PASSWORD`, and `NOIRVEN_AUTH_SECRET`.
+- `/account`, `/en/account`, bid submission, Stripe deposit creation, USDT settlement submission, and design generation APIs now check server-side authentication before continuing.
 - The previously shared Stripe test secret should be revoked and regenerated before real integration.
 - USDT is MVP manual/semi-automatic review, not automatic payout/refund.
 

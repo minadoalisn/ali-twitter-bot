@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireAdminSession } from "@/lib/auth";
 import { getImageModel, getOpenAI } from "@/lib/integrations/openai";
 import { getSeries } from "@/lib/noirven-data";
 import { generateDesignSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
+  const session = await requireAdminSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Admin authentication required" }, { status: 401 });
+  }
+
   const payload = generateDesignSchema.safeParse(await request.json());
 
   if (!payload.success) {

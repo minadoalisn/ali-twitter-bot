@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireUserSession } from "@/lib/auth";
 import { products } from "@/lib/noirven-data";
 import { getStripe } from "@/lib/integrations/stripe";
 import { depositSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
+  const session = await requireUserSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  }
+
   const payload = depositSchema.safeParse(await request.json());
 
   if (!payload.success) {
@@ -25,6 +31,7 @@ export async function POST(request: Request) {
         productId: product.id,
         serial: product.serial,
         nickname: payload.data.nickname,
+        collectorEmail: session.email ?? "",
         paymentRole: "auction_deposit",
       },
     });

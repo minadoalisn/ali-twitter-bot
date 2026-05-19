@@ -8,7 +8,15 @@ export function AccountPage({ locale = "zh" }: { locale?: Locale }) {
       <SiteHeader locale={locale} />
       <main className="section-shell grid gap-12 py-20 lg:grid-cols-[0.75fr_1.25fr]">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Collector Account</p>
+          <div className="flex items-center justify-between gap-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Collector Account</p>
+            <form action="/api/auth/logout" method="post">
+              <input type="hidden" name="next" value={locale === "zh" ? "/account/login" : "/en/account/login"} />
+              <button className="focus-ring rounded-full border border-black/14 px-4 py-3 text-[10px] uppercase tracking-[0.16em] text-black transition hover:border-[var(--champagne)]">
+                {locale === "zh" ? "退出登录" : "Sign Out"}
+              </button>
+            </form>
+          </div>
           <h1 className="mt-5 font-serif text-6xl font-normal leading-tight">
             {locale === "zh" ? "管理你的出价、保证金与归属档案。" : "Manage bids, deposits, and belonging archive."}
           </h1>

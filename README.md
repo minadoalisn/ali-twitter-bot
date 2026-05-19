@@ -36,6 +36,7 @@ http://127.0.0.1:3000
 Copy `.env.example` to `.env.local` and configure:
 
 - Supabase project URL and keys.
+- Auth secret and admin credentials: `NOIRVEN_AUTH_SECRET`, `NOIRVEN_ADMIN_USERNAME`, `NOIRVEN_ADMIN_PASSWORD`.
 - Stripe publishable key, secret key, webhook secret.
 - OpenAI API key and image model.
 - BNB/BEP-20 USDT receiving address.

@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
+import { requireUserSession } from "@/lib/auth";
 import { usdtSettlementSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
+  const session = await requireUserSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+  }
+
   const payload = usdtSettlementSchema.safeParse(await request.json());
 
   if (!payload.success) {
@@ -14,6 +20,7 @@ export async function POST(request: Request) {
     status: "pending_manual_review",
     network: "BNB Smart Chain / BEP-20 USDT",
     expectedAddress,
+    collector: { email: session.email, nickname: session.nickname },
     submission: payload.data,
     message:
       "MVP stores this settlement request for admin review. Production should verify recipient, amount, token contract, confirmations, and timestamp.",
