@@ -36,3 +36,12 @@ The repository includes `render.yaml` for Blueprint deployment.
 - Public URL target: `https://noirven.onrender.com`
 
 Secrets marked `sync: false` must be filled in the Render Dashboard.
+
+## Network Allowlist
+
+If Supabase, database access, an API gateway, or another protected backend uses an IP allowlist for Render traffic, allow these CIDR ranges:
+
+- `74.220.52.0/24`
+- `74.220.60.0/24`
+
+Do not place these CIDR ranges in frontend code. They belong in the target service firewall/network restriction settings.
