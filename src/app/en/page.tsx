@@ -1,0 +1,13 @@
+import { HomePage } from "@/components/sections/home-page";
+import { createMetadata } from "@/lib/seo";
+
+export const metadata = createMetadata({
+  title: "Seven-Day Light-Luxury Art Jewelry Auctions",
+  description:
+    "Noirven presents numbered one-of-one jewelry works through seven-day auctions. Every belonging is a quiet rescue.",
+  path: "/en",
+});
+
+export default function Page() {
+  return <HomePage locale="en" />;
+}

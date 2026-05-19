@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbfaf6;
+  --foreground: #151515;
+  --noir: #030303;
+  --obsidian: #090807;
+  --porcelain: #fbfaf6;
+  --ivory: #f7f3ea;
+  --platinum: #f4f1ea;
+  --warm-silver: #c9c2b6;
+  --graphite: #4b4a46;
+  --ash: #7d756c;
+  --champagne: #c8a96a;
+  --antique-gold: #8f7140;
+  --signature-red: #8e1f2f;
+  --hairline: #26221d;
+  --soft-hairline: #ded7ca;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(251, 250, 246, 0.96), rgba(247, 243, 234, 0.98)),
+    var(--background);
+  color: var(--foreground);
+  font-family: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(200, 169, 106, 0.32);
+  color: var(--noir);
+}
+
+.brand-wordmark {
+  font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+  letter-spacing: 0.48em;
+  font-weight: 400;
+}
+
+.brand-cn {
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  letter-spacing: 0.36em;
+}
+
+.hairline {
+  border-color: rgba(21, 21, 21, 0.12);
+}
+
+.dark-hairline {
+  border-color: rgba(244, 241, 234, 0.18);
+}
+
+.noir-surface {
+  background: var(--noir);
+  color: var(--platinum);
+}
+
+.section-shell {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 56px);
+  padding-right: clamp(20px, 4vw, 56px);
+}
+
+.focus-ring:focus-visible {
+  outline: 1px solid var(--champagne);
+  outline-offset: 4px;
+}
