@@ -95,3 +95,20 @@ select {
   outline: 1px solid var(--champagne);
   outline-offset: 4px;
 }
+
+.noir-primary-button {
+  background: var(--noir) !important;
+  border-color: var(--noir) !important;
+  color: #fffdf7 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.noir-primary-button:hover {
+  background: var(--graphite) !important;
+  border-color: var(--graphite) !important;
+  color: #ffffff !important;
+}
+
+.noir-primary-button * {
+  color: inherit;
+}
