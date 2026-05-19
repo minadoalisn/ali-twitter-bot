@@ -25,23 +25,13 @@
 6. Add Stripe Elements on account/product bid flow.
 7. Add admin generation UI that calls `/api/generate-design`.
 
-## Render Deployment
+## Vercel Deployment
 
-The repository includes `render.yaml` for Blueprint deployment.
+The project is now targeted for Vercel deployment.
 
-- Service name: `noirven`
-- Runtime: Node
-- Build command: `npm ci && npm run build`
-- Start command: `npm run start:render`
-- Public URL target: `https://noirven.onrender.com`
+- Framework: Next.js App Router.
+- Build command: `npm run build`.
+- Start command: managed by Vercel.
+- Production URL target: Vercel project domain, with custom domain optional later.
 
-Secrets marked `sync: false` must be filled in the Render Dashboard.
-
-## Network Allowlist
-
-If Supabase, database access, an API gateway, or another protected backend uses an IP allowlist for Render traffic, allow these CIDR ranges:
-
-- `74.220.52.0/24`
-- `74.220.60.0/24`
-
-Do not place these CIDR ranges in frontend code. They belong in the target service firewall/network restriction settings.
+Set secrets in the Vercel Project Settings before enabling real payments, Supabase writes, or image generation.
