@@ -1,4 +1,18 @@
-import type { AdminMetric, Product, StorySeries } from "@/lib/types";
+import type { AdminMetric, Category, Product, StorySeries } from "@/lib/types";
+
+type DailyProductSeed = {
+  serial: string;
+  title: string;
+  seriesId: string;
+  category: Category;
+  zhTitle: string;
+  image: string;
+  startPrice: number;
+  materialLine: string;
+  craftLine: string;
+  storyLine: string;
+  imagePrompt: string;
+};
 
 export const brand = {
   name: "NOIRVEN",
@@ -284,12 +298,15 @@ export const storyChapters = [
   },
 ];
 
-export const dailyProductSeeds = [
+export const dailyProductSeeds: DailyProductSeed[] = [
   {
     serial: "N-0501",
+    title: "Ash Garden Ember Ring",
     seriesId: "ash-garden",
     category: "ring",
     zhTitle: "灰烬花园烬花戒",
+    image: "/assets/products/n-0501-ash-garden-ring.png",
+    startPrice: 4888,
     materialLine: "黑陶瓷 / 烟晶 / 暗红珐琅 / 雾面钛",
     craftLine: "哑光陶瓷烧结 / 冷珐琅 / 微雕花芽",
     storyLine: "从裂面里长出的花，不需要春天批准。",
@@ -298,9 +315,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0502",
+    title: "Tide Return Nacre Necklace",
     seriesId: "tide-return",
     category: "necklace",
     zhTitle: "归潮贝母水纹项链",
+    image: "/assets/products/n-0502-tide-return-necklace.png",
+    startPrice: 3688,
     materialLine: "贝母 / 海蓝宝 / 透明水晶 / 青金石",
     craftLine: "贝母薄片镶嵌 / 透明珐琅 / 水纹雕刻",
     storyLine: "失去不是沉没，是等待下一次涨潮。",
@@ -309,9 +329,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0503",
+    title: "Tender Armor Softlock Bracelet",
     seriesId: "tender-armor",
     category: "bracelet",
     zhTitle: "温柔盔甲柔锋手环",
+    image: "/assets/products/n-0503-tender-armor-bracelet.png",
+    startPrice: 5288,
     materialLine: "碳纤维 / 雾面钛 / 粉玉髓 / 钢琴烤漆",
     craftLine: "碳纤维层压 / 钛金属拉丝 / 玉髓包镶",
     storyLine: "我柔软，但不会再被轻易打碎。",
@@ -320,9 +343,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0504",
+    title: "Moon Archive Hidden Phase Brooch",
     seriesId: "moon-archive",
     category: "brooch",
     zhTitle: "月相档案藏月胸针",
+    image: "/assets/products/n-0504-moon-archive-brooch.png",
+    startPrice: 4588,
     materialLine: "黑贝母 / 月光石 / 白水晶 / 浅色珐琅",
     craftLine: "半透明珐琅 / 水晶切面 / 微刻封存线",
     storyLine: "不是忘记了，只是被月光保存。",
@@ -331,9 +357,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0505",
+    title: "Awaiting Star Paraiba Necklace",
     seriesId: "unclaimed-star",
     category: "necklace",
     zhTitle: "待归之星帕拉伊巴项链",
+    image: "/assets/products/n-0505-awaiting-star-necklace.png",
+    startPrice: 3988,
     materialLine: "铂金 / 帕拉伊巴碧玺 / 珍珠母贝 / 天然白钻",
     craftLine: "隐秘式镶嵌 / 贝母薄片镶嵌 / 半透明珐琅",
     storyLine: "有些光不属于人群，只等待唯一能读懂它的人。",
@@ -342,9 +371,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0506",
+    title: "Justice of One Verdict Green Brooch",
     seriesId: "justice-of-one",
     category: "brooch",
     zhTitle: "唯一的证明裁决绿胸针",
+    image: "/assets/products/n-0506-justice-proof-brooch.png",
+    startPrice: 5688,
     materialLine: "雕金 / 孔雀石 / 沙弗莱石 / 天然白钻",
     craftLine: "手工錾刻 / 景泰蓝 / 错金银 / 微密镶",
     storyLine: "真正的价值，不需要多数人举手。",
@@ -353,9 +385,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0507",
+    title: "Still Here Black Rhodium Riftlight Ring",
     seriesId: "still-here",
     category: "ring",
     zhTitle: "仍在这里黑铑裂光戒",
+    image: "/assets/products/n-0507-still-here-ring.png",
+    startPrice: 4288,
     materialLine: "黑铑铂金 / 玫瑰金 / 烟晶 / 天然白钻",
     craftLine: "钢琴烤漆 / 半透明珐琅 / 微密镶",
     storyLine: "裂痕不是终点，是光经过的地方。",
@@ -364,9 +399,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0508",
+    title: "Seventh Light Ruby Watch",
     seriesId: "seventh-light",
     category: "watch",
     zhTitle: "第七日红曜腕表",
+    image: "/assets/products/n-0508-seventh-light-watch.png",
+    startPrice: 5999,
     materialLine: "黄金 / 玫瑰金 / 红宝石 / 贝母盘面",
     craftLine: "玑镂雕纹 / 鎏彩 / 雪花镶 / 微刻时标",
     storyLine: "最后一小时，光有了心跳。",
@@ -375,9 +413,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0509",
+    title: "Tide Return Opal Echo Bracelet",
     seriesId: "tide-return",
     category: "bracelet",
     zhTitle: "归潮欧泊回声手环",
+    image: "/assets/products/n-0509-tide-return-bracelet.png",
+    startPrice: 5388,
     materialLine: "欧泊 / 海蓝宝 / 雾面钛 / 青金石",
     craftLine: "水纹雕刻 / 冷色鎏彩 / 隐秘式镶嵌",
     storyLine: "回来不是重复旧路，是以另一种光抵达。",
@@ -386,9 +427,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0510",
+    title: "Tender Armor Palladium Guard Ring",
     seriesId: "tender-armor",
     category: "ring",
     zhTitle: "温柔盔甲钯金守戒",
+    image: "/assets/products/n-0510-tender-armor-ring.png",
+    startPrice: 4688,
     materialLine: "钯金 / 白玛瑙 / 粉玉髓 / 天然白钻",
     craftLine: "拉丝雾面 / 玉髓包镶 / 微密镶 / 钢琴烤漆",
     storyLine: "温柔不是退让，是选择不再被击碎。",
@@ -397,9 +441,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0511",
+    title: "Moon Archive Tanzanite Studs",
     seriesId: "moon-archive",
     category: "stud",
     zhTitle: "月相档案坦桑耳钉",
+    image: "/assets/products/n-0511-moon-archive-studs.png",
+    startPrice: 3888,
     materialLine: "坦桑石 / 黑贝母 / 月光石 / 白水晶",
     craftLine: "玑镂雕纹 / 半透明珐琅 / 微刻封存线",
     storyLine: "月光不替你遗忘，只替你保存。",
@@ -408,9 +455,12 @@ export const dailyProductSeeds = [
   },
   {
     serial: "N-0512",
+    title: "Ash Garden Meteorite Earrings",
     seriesId: "ash-garden",
     category: "earring",
     zhTitle: "灰烬花园陨铁耳环",
+    image: "/assets/products/n-0512-ash-garden-earrings.png",
+    startPrice: 4988,
     materialLine: "陨铁 / 黑陶瓷 / 红宝石 / 暗红珐琅",
     craftLine: "陶瓷烧结 / 手工錾刻 / 局部鎏彩 / 冷珐琅",
     storyLine: "废墟里的第一朵花，不需要被允许。",
@@ -419,7 +469,69 @@ export const dailyProductSeeds = [
   },
 ];
 
-export const products: Product[] = [
+const seedAuctionEndsAt = [
+  "2026-05-27T20:00:00+08:00",
+  "2026-05-27T20:30:00+08:00",
+  "2026-05-28T20:00:00+08:00",
+  "2026-05-28T20:30:00+08:00",
+  "2026-05-29T20:00:00+08:00",
+  "2026-05-29T20:30:00+08:00",
+  "2026-05-30T20:00:00+08:00",
+  "2026-05-30T20:30:00+08:00",
+  "2026-06-01T20:00:00+08:00",
+  "2026-06-01T20:30:00+08:00",
+  "2026-06-02T20:00:00+08:00",
+  "2026-06-02T20:30:00+08:00",
+];
+
+function splitSeedLine(line: string) {
+  return line
+    .split("/")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function seedSizing(category: Product["category"]) {
+  if (category === "ring") return "开放式戒臂，可按佩戴者手寸微调，内侧保留舒适弧面。";
+  if (category === "bracelet") return "开放式手环结构，可按腕围微调，交付前确认佩戴弧度。";
+  if (category === "watch") return "腕表链节或表带支持多档调节，交付前按腕围确认孔位。";
+  if (category === "necklace") return "链长可调节，支持锁骨链与常规项链两档佩戴。";
+  if (category === "brooch") return "胸针安全锁结构，可佩戴于西装、丝巾或礼服。";
+  return "标准耳针结构，可按需要提供耳夹改造咨询。";
+}
+
+function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
+  const premiumCategory = seed.category === "watch" || seed.category === "bracelet" || seed.category === "brooch";
+  const bidIncrement = premiumCategory ? 220 : 140;
+  const bids = index % 4 === 0 ? 1 : 0;
+
+  return {
+    id: seed.serial.toLowerCase(),
+    slug: `${seed.seriesId}-${seed.serial.toLowerCase()}`,
+    serial: seed.serial,
+    title: seed.title,
+    zhTitle: seed.zhTitle,
+    seriesId: seed.seriesId,
+    category: seed.category,
+    inspiration: seed.storyLine,
+    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，进入七日拍卖后只归属一位主人。`,
+    materials: splitSeedLine(seed.materialLine),
+    craft: splitSeedLine(seed.craftLine),
+    startPrice: seed.startPrice,
+    currentPrice: seed.startPrice + bids * bidIncrement,
+    depositAmount: Math.max(220, Math.round((seed.startPrice * 0.08) / 10) * 10),
+    bidIncrement,
+    bids,
+    endsAt: seedAuctionEndsAt[index] ?? seedAuctionEndsAt[0],
+    status: bids > 0 ? "live" : "waiting",
+    image: seed.image,
+    sizing: seedSizing(seed.category),
+    engraving: `内侧或背面微刻 ${seed.serial}，作为 Noirven 唯一编号印记。`,
+    pricingBasis: "起拍价依据作品体量、首饰部位、主石稀缺度、材质组合和工艺复杂度自动落在 1888-5999 USD 区间。",
+  };
+}
+
+const curatedProducts: Product[] = [
   {
     id: "n-0101",
     slug: "still-here-ring-n-0101",
@@ -726,14 +838,16 @@ export const products: Product[] = [
   },
 ];
 
+export const products: Product[] = [...dailyProductSeeds.map(createProductFromSeed), ...curatedProducts];
+
 export const liveProducts = products.filter((product) => product.status !== "sold");
 export const soldProducts = products.filter((product) => product.status === "sold");
 
 export const adminMetrics: AdminMetric[] = [
-  { label: "Live Auctions", value: "10", detail: "6 active bids, 4 waiting for first bid" },
+  { label: "Live Auctions", value: "22", detail: "New story-backed product images are listed first" },
   { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
   { label: "Pending Settlement", value: "$18.4k", detail: "Stripe deposit plus USDT balance review" },
-  { label: "Generated Drafts", value: "24", detail: "Story seeds with image-generation briefs awaiting curator selection" },
+  { label: "Generated Drafts", value: "12", detail: "Seed prompts stay internal; only finished product images are public" },
 ];
 
 export function getSeries(seriesId: string) {

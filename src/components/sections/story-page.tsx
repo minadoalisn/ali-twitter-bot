@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
@@ -78,15 +79,29 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               <div className="grid gap-5 md:grid-cols-2">
                 {storyChapters.map((chapter) => {
                   const series = getSeries(chapter.seriesId);
+                  const chapterSeed = dailyProductSeeds.find((seed) => seed.seriesId === chapter.seriesId);
 
                   return (
-                    <article key={chapter.code} className="border border-black/10 p-5">
-                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
-                        {chapter.code} / {series?.name}
-                      </p>
-                      <h3 className="mt-4 text-2xl">{chapter.title}</h3>
-                      <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{chapter.summary}</p>
-                      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--antique-gold)]">{chapter.emotion}</p>
+                    <article key={chapter.code} className="overflow-hidden border border-black/10">
+                      {chapterSeed ? (
+                        <div className="relative aspect-[16/10] bg-[var(--ivory)]">
+                          <Image
+                            src={chapterSeed.image}
+                            alt={`${chapterSeed.serial} ${chapterSeed.zhTitle}`}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="p-5">
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+                          {chapter.code} / {series?.name}
+                        </p>
+                        <h3 className="mt-4 text-2xl">{chapter.title}</h3>
+                        <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{chapter.summary}</p>
+                        <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--antique-gold)]">{chapter.emotion}</p>
+                      </div>
                     </article>
                   );
                 })}
@@ -133,23 +148,34 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 const series = getSeries(seed.seriesId);
 
                 return (
-                  <article key={seed.serial} className="grid min-h-[320px] border border-black/10 p-5">
-                    <div>
-                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
-                        {seed.serial} / {series?.name}
-                      </p>
-                      <h3 className="mt-4 text-2xl leading-tight">{seed.zhTitle}</h3>
+                  <article key={seed.serial} className="overflow-hidden border border-black/10">
+                    <div className="relative aspect-[4/5] bg-[var(--ivory)]">
+                      <Image
+                        src={seed.image}
+                        alt={`${seed.serial} ${seed.zhTitle}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                        className="object-cover"
+                      />
                     </div>
-                    <div className="mt-8 space-y-5 self-end text-sm leading-7 text-[var(--graphite)]">
-                      <p>{seed.storyLine}</p>
-                      <p>
-                        <span className="text-black">{locale === "zh" ? "材质：" : "Materials: "}</span>
-                        {seed.materialLine}
-                      </p>
-                      <p>
-                        <span className="text-black">{locale === "zh" ? "工艺：" : "Craft: "}</span>
-                        {seed.craftLine}
-                      </p>
+                    <div className="grid min-h-[280px] p-5">
+                      <div>
+                        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+                          {seed.serial} / {series?.name}
+                        </p>
+                        <h3 className="mt-4 text-2xl leading-tight">{seed.zhTitle}</h3>
+                      </div>
+                      <div className="mt-8 space-y-5 self-end text-sm leading-7 text-[var(--graphite)]">
+                        <p>{seed.storyLine}</p>
+                        <p>
+                          <span className="text-black">{locale === "zh" ? "材质：" : "Materials: "}</span>
+                          {seed.materialLine}
+                        </p>
+                        <p>
+                          <span className="text-black">{locale === "zh" ? "工艺：" : "Craft: "}</span>
+                          {seed.craftLine}
+                        </p>
+                      </div>
                     </div>
                   </article>
                 );

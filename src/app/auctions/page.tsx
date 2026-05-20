@@ -7,6 +7,8 @@ export const metadata = createMetadata({
   path: "/auctions",
 });
 
-export default function Page() {
-  return <AuctionPage locale="zh" />;
+type PageSearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+export default async function Page({ searchParams }: { searchParams?: PageSearchParams }) {
+  return <AuctionPage locale="zh" searchParams={searchParams ? await searchParams : {}} />;
 }
