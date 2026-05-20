@@ -13,7 +13,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ payment?: string; minimumBid?: string }>;
+}) {
   const { slug } = await params;
-  return <ProductDetail slug={slug} locale="zh" />;
+  const query = await searchParams;
+  return <ProductDetail slug={slug} locale="zh" paymentStatus={query?.payment} minimumBid={query?.minimumBid} />;
 }

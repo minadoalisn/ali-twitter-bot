@@ -12,6 +12,11 @@ export const depositSchema = z.object({
   nickname: z.string().min(2).max(48),
 });
 
+export const bidCheckoutSchema = bidSchema.extend({
+  locale: z.enum(["zh", "en"]),
+  returnPath: z.string().min(1).max(180),
+});
+
 export const usdtSettlementSchema = z.object({
   productId: z.string().min(1),
   amountUsd: z.number().positive(),

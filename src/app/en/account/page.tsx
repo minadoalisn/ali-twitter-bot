@@ -7,6 +7,7 @@ export const metadata = createMetadata({
   path: "/en/account",
 });
 
-export default function Page() {
-  return <AccountPage locale="en" />;
+export default async function Page({ searchParams }: { searchParams?: Promise<{ payment?: string }> }) {
+  const params = await searchParams;
+  return <AccountPage locale="en" paymentStatus={params?.payment} />;
 }

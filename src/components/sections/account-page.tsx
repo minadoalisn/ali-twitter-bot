@@ -2,7 +2,19 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import type { Locale } from "@/lib/types";
 
-export function AccountPage({ locale = "zh" }: { locale?: Locale }) {
+function accountNotice(locale: Locale, paymentStatus?: string) {
+  if (paymentStatus === "deposit_success") {
+    return locale === "zh"
+      ? "保证金支付成功，出价已随支付记录进入 Noirven 后台。成交后将联系你确认尾款与交付信息。"
+      : "Deposit paid. Your bid is attached to the Noirven payment record; balance and delivery follow after winning.";
+  }
+
+  return "";
+}
+
+export function AccountPage({ locale = "zh", paymentStatus }: { locale?: Locale; paymentStatus?: string }) {
+  const notice = accountNotice(locale, paymentStatus);
+
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
       <SiteHeader locale={locale} />
@@ -25,6 +37,7 @@ export function AccountPage({ locale = "zh" }: { locale?: Locale }) {
               ? "MVP 会接入 Supabase Auth。当前页面展示账户能力和支付流程边界。"
               : "The MVP will use Supabase Auth. This page shows the account and payment flow boundary."}
           </p>
+          {notice ? <p className="mt-6 border border-[var(--champagne)]/60 px-4 py-3 text-sm leading-6 text-black">{notice}</p> : null}
         </div>
         <div className="grid gap-6">
           {[
