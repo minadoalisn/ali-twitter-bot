@@ -39,12 +39,11 @@ export async function POST(request: Request) {
       size: "1024x1024",
     });
 
-    return NextResponse.json({ prompt, images: result.data });
+    return NextResponse.json({ images: result.data });
   } catch (error) {
     return NextResponse.json(
       {
         error: "OpenAI image generation is not configured for this environment",
-        prompt,
         detail: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 503 },
