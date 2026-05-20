@@ -175,8 +175,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid }
               {product.status === "sold"
                 ? `${locale === "zh" ? "此件已归于" : "Belongs to"} ${product.ownerNickname} / ${formatDate(product.soldAt ?? product.endsAt)}`
                 : locale === "zh"
-                  ? "若无人认领，它将进入下一轮七日等待。"
-                  : "If unclaimed, it will enter another seven-day wait."}
+                  ? "若尚未遇见唯一主人，它将进入下一轮七日等待。"
+                  : "If its one owner has not arrived, it will enter another seven-day wait."}
             </p>
           </div>
           <div className="border-t border-black/12 pt-6">

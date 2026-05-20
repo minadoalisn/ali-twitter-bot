@@ -16,8 +16,8 @@ export function AuctionPage({ locale = "zh" }: { locale?: Locale }) {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--graphite)]">
             {locale === "zh"
-              ? "若无人认领，作品将继续等待。Noirven 不让任何独一无二的作品被系统放弃。"
-              : "If unclaimed, the work waits again. Noirven does not let a one-of-one piece be discarded by the system."}
+              ? "若尚未遇见唯一主人，作品将继续等待。Noirven 不让任何独一无二的作品被系统放弃。"
+              : "If its one owner has not arrived, the work waits again. Noirven does not let a one-of-one piece be discarded by the system."}
           </p>
         </section>
         <section className="section-shell pb-24">

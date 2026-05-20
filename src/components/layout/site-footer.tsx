@@ -13,8 +13,8 @@ export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
           <BrandMark href={`${prefix}/`} compact light />
           <p className="max-w-md text-sm leading-7 text-white/62">
             {locale === "zh"
-              ? "每件作品都有编号。无人认领，它继续等待；有人认领，它从此只归一人。"
-              : "Every work is numbered. If unclaimed, it waits again. Once recognized, it belongs to one person only."}
+              ? "每件作品都有编号。尚未归属，它继续等待；一旦被确认，它从此只归一人。"
+              : "Every work is numbered. If still awaiting belonging, it waits again. Once recognized, it belongs to one person only."}
           </p>
           <div className="flex items-center gap-3">
             <NMark light />

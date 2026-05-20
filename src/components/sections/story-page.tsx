@@ -17,7 +17,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
           </h1>
           <p className="mt-8 max-w-3xl text-xl leading-10 text-[var(--graphite)]">
             {locale === "zh"
-              ? "Noirven 讲述的是：世界上有些人和有些作品，都曾经被忽略、被错过、被误解，甚至被认为不值得被选择。但真正独一无二的存在，不会因为一时无人出价就失去价值。"
+              ? "Noirven 讲述的是：世界上有些人和有些作品，都曾经被忽略、被错过、被误解，甚至被认为不值得被选择。但真正独一无二的存在，不会因为一时尚未被确认就失去价值。"
               : "Noirven tells a story about people and works that have been overlooked, missed, or misunderstood. A one-of-one presence does not lose value because it was not chosen at first."}
           </p>
         </section>
@@ -26,7 +26,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">N-0007 / Still Here</p>
               <h2 className="mt-5 font-serif text-5xl font-normal text-white">
-                {locale === "zh" ? "有一件作品，连续三轮无人出价。" : "One work went unclaimed for three rounds."}
+                {locale === "zh" ? "有一件作品，连续三轮仍在等待。" : "One work waited through three rounds."}
               </h2>
             </div>
             <div className="space-y-6 text-lg leading-9 text-white/68">
@@ -42,8 +42,8 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               </p>
               <p>
                 {locale === "zh"
-                  ? "从那一刻起，Noirven 确定了一条规则：没有作品会因为无人出价而被放弃。它会继续等待，直到遇见唯一的主人。"
-                  : "From that moment, Noirven set a rule: no work will be abandoned because it was unclaimed. It will wait until it meets its one owner."}
+                  ? "从那一刻起，Noirven 确定了一条规则：没有作品会因为尚未归属而被放弃。它会继续等待，直到与唯一的主人互相确认。"
+                  : "From that moment, Noirven set a rule: no work will be abandoned because its owner has not arrived. It will wait until it meets its one owner."}
               </p>
             </div>
           </div>
