@@ -150,10 +150,6 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                         <span className="text-black">{locale === "zh" ? "工艺：" : "Craft: "}</span>
                         {seed.craftLine}
                       </p>
-                      <p>
-                        <span className="text-black">{locale === "zh" ? "图像方向：" : "Image brief: "}</span>
-                        {seed.imagePrompt}
-                      </p>
                     </div>
                   </article>
                 );
