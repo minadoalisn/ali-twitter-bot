@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Gem, Users } from "lucide-react";
+import { Product360Viewer } from "@/components/ui/product-360-viewer";
 import { categoryLabel, formatCurrency, getTimeLeft } from "@/lib/format";
 import { getSeries } from "@/lib/noirven-data";
 import type { Locale, Product } from "@/lib/types";
@@ -13,8 +14,8 @@ export function ProductCard({ product, locale = "zh" }: { product: Product; loca
 
   return (
     <article className="group border-t border-black/12 pt-5">
-      <Link href={href} className="focus-ring block">
-        <div className="relative aspect-[4/5] overflow-hidden bg-[var(--ivory)]">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[var(--ivory)]">
+        <Link href={href} className="focus-ring block h-full">
           <Image
             src={product.image}
             alt={`${product.serial} ${product.zhTitle}`}
@@ -30,8 +31,15 @@ export function ProductCard({ product, locale = "zh" }: { product: Product; loca
               {locale === "zh" ? "此件已归于" : "Belongs to"} - {product.ownerNickname}
             </div>
           ) : null}
-        </div>
-      </Link>
+        </Link>
+        <Product360Viewer
+          image={product.image}
+          title={locale === "zh" ? product.zhTitle : product.title}
+          serial={product.serial}
+          spinVideo={product.spinVideo}
+          locale={locale}
+        />
+      </div>
       <div className="mt-5 space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div>

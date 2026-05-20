@@ -47,6 +47,7 @@ export type Product = {
   ownerNickname?: string;
   soldAt?: string;
   image: string;
+  spinVideo?: string;
   sizing: string;
   engraving: string;
   pricingBasis: string;

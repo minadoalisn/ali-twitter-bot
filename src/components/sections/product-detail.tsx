@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
+import { Product360Viewer } from "@/components/ui/product-360-viewer";
 import { categoryLabel, formatCurrency, formatDate, getTimeLeft } from "@/lib/format";
 import { getProduct, getSeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
@@ -68,6 +69,13 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid }
         <section className="section-shell grid gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="relative aspect-[4/5] overflow-hidden bg-[var(--ivory)]">
             <Image src={product.image} alt={`${product.serial} ${product.zhTitle}`} fill priority className="object-cover" />
+            <Product360Viewer
+              image={product.image}
+              title={locale === "zh" ? product.zhTitle : product.title}
+              serial={product.serial}
+              spinVideo={product.spinVideo}
+              locale={locale}
+            />
           </div>
           <div className="lg:pt-8">
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">

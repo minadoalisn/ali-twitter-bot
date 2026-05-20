@@ -2,6 +2,7 @@ import Image from "next/image";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
+import { Product360Viewer } from "@/components/ui/product-360-viewer";
 import { dailyProductSeeds, getSeries, materialNarratives, storyChapters, storySeries } from "@/lib/noirven-data";
 import { withLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
@@ -79,7 +80,9 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               <div className="grid gap-5 md:grid-cols-2">
                 {storyChapters.map((chapter) => {
                   const series = getSeries(chapter.seriesId);
-                  const chapterSeed = dailyProductSeeds.find((seed) => seed.seriesId === chapter.seriesId);
+                  const chapterSeed =
+                    dailyProductSeeds.find((seed) => seed.serial === chapter.productSerial) ??
+                    dailyProductSeeds.find((seed) => seed.seriesId === chapter.seriesId);
 
                   return (
                     <article key={chapter.code} className="overflow-hidden border border-black/10">
@@ -92,6 +95,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                             sizes="(max-width: 768px) 100vw, 50vw"
                             className="object-cover"
                           />
+                          <Product360Viewer image={chapterSeed.image} title={chapterSeed.zhTitle} serial={chapterSeed.serial} locale={locale} />
                         </div>
                       ) : null}
                       <div className="p-5">
@@ -157,6 +161,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                         sizes="(max-width: 768px) 100vw, 25vw"
                         className="object-cover"
                       />
+                      <Product360Viewer image={seed.image} title={seed.zhTitle} serial={seed.serial} locale={locale} />
                     </div>
                     <div className="grid min-h-[280px] p-5">
                       <div>

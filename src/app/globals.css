@@ -112,3 +112,53 @@ select {
 .noir-primary-button * {
   color: inherit;
 }
+
+.noir-360-stage {
+  perspective: 1600px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.96), rgba(247, 243, 234, 0.68) 52%, rgba(226, 215, 196, 0.42) 100%),
+    var(--ivory);
+}
+
+.noir-360-stage::after {
+  position: absolute;
+  right: 8%;
+  bottom: 12%;
+  left: 8%;
+  height: 20%;
+  background: radial-gradient(ellipse at center, rgba(21, 21, 21, 0.16), rgba(21, 21, 21, 0) 68%);
+  content: "";
+  filter: blur(12px);
+}
+
+.noir-360-object {
+  z-index: 1;
+  transform-style: preserve-3d;
+  animation: noir-360-one-turn 5.8s cubic-bezier(0.72, 0, 0.18, 1) 1 both;
+  filter: drop-shadow(0 28px 40px rgba(15, 12, 8, 0.2));
+}
+
+@keyframes noir-360-one-turn {
+  0% {
+    opacity: 0;
+    transform: rotateY(-38deg) rotateX(2deg) scale(0.92);
+  }
+  12% {
+    opacity: 1;
+  }
+  34% {
+    transform: rotateY(72deg) rotateX(1deg) scale(1);
+  }
+  52% {
+    opacity: 0.72;
+    transform: rotateY(178deg) rotateX(0deg) scale(0.88);
+  }
+  70% {
+    opacity: 1;
+    transform: rotateY(252deg) rotateX(1deg) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(322deg) rotateX(2deg) scale(0.96);
+  }
+}
