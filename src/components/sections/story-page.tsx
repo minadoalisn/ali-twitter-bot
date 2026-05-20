@@ -1,7 +1,7 @@
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
-import { storySeries } from "@/lib/noirven-data";
+import { dailyProductSeeds, getSeries, storyChapters, storySeries } from "@/lib/noirven-data";
 import { withLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
 
@@ -62,6 +62,77 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               </article>
             ))}
           </div>
+          <section className="mt-20 border-t border-black/12 pt-10">
+            <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Daily Story Growth</p>
+                <h2 className="mt-4 font-serif text-5xl font-normal">
+                  {locale === "zh" ? "故事会继续生长。" : "The story keeps growing."}
+                </h2>
+                <p className="mt-5 text-sm leading-7 text-[var(--graphite)]">
+                  {locale === "zh"
+                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质和起拍价后再上架拍卖。"
+                    : "New chapters and product directions enter curation daily, then move to auction after imagery, serials, materials, and pricing are confirmed."}
+                </p>
+              </div>
+              <div className="grid gap-5 md:grid-cols-2">
+                {storyChapters.map((chapter) => {
+                  const series = getSeries(chapter.seriesId);
+
+                  return (
+                    <article key={chapter.code} className="border border-black/10 p-5">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+                        {chapter.code} / {series?.name}
+                      </p>
+                      <h3 className="mt-4 text-2xl">{chapter.title}</h3>
+                      <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{chapter.summary}</p>
+                      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--antique-gold)]">{chapter.emotion}</p>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+          <section className="mt-20 border-t border-black/12 pt-10">
+            <div className="mb-10 max-w-3xl">
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Next Product Seeds</p>
+              <h2 className="mt-4 font-serif text-5xl font-normal">
+                {locale === "zh" ? "下一批产品不再只依赖金银。" : "The next products move beyond gold and silver."}
+              </h2>
+              <p className="mt-5 text-sm leading-7 text-[var(--graphite)]">
+                {locale === "zh"
+                  ? "黑陶瓷、雾面钛、碳纤维、贝母、月光石、海蓝宝、黑贝母、烟晶与珐琅会成为新的材质记忆，让 Noirven 的产品语言更容易被辨认。"
+                  : "Black ceramic, matte titanium, carbon fiber, mother-of-pearl, moonstone, aquamarine, black nacre, smoky quartz, and enamel become new material memories."}
+              </p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {dailyProductSeeds.map((seed) => {
+                const series = getSeries(seed.seriesId);
+
+                return (
+                  <article key={seed.serial} className="grid min-h-[320px] border border-black/10 p-5">
+                    <div>
+                      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+                        {seed.serial} / {series?.name}
+                      </p>
+                      <h3 className="mt-4 text-2xl leading-tight">{seed.zhTitle}</h3>
+                    </div>
+                    <div className="mt-8 space-y-5 self-end text-sm leading-7 text-[var(--graphite)]">
+                      <p>{seed.storyLine}</p>
+                      <p>
+                        <span className="text-black">{locale === "zh" ? "材质：" : "Materials: "}</span>
+                        {seed.materialLine}
+                      </p>
+                      <p>
+                        <span className="text-black">{locale === "zh" ? "工艺：" : "Craft: "}</span>
+                        {seed.craftLine}
+                      </p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
           <div className="mt-12">
             <LinkButton href={withLocale(locale, "/series")} variant="outline">
               {locale === "zh" ? "查看故事系列" : "View Story Series"}

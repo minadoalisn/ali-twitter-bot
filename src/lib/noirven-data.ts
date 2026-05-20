@@ -74,6 +74,136 @@ export const storySeries: StorySeries[] = [
     visualMemory: ["平衡线", "偏心结构", "锋利转折", "单颗宝石证据"],
     ipHook: "作品像一份无声证词，不需要多数投票来证明自己的价值。",
   },
+  {
+    id: "ash-garden",
+    name: "Ash Garden",
+    zhName: "灰烬花园",
+    theme: "从被烧毁的地方，重新长出不需要许可的花。",
+    emotionalLine: "灰烬不是结束，是另一种盛开。",
+    description:
+      "为经历过崩塌、失去、沉默重建的人而生。作品不以明亮金属为主，而用黑陶瓷、烟晶、黑曜石、暗红珐琅和钛金属形成冷静的生命感；花不是柔弱符号，而是从裂面里长出的证据。",
+    categories: ["ring", "brooch", "earring"],
+    materials: ["黑陶瓷", "钛金属", "烟晶", "黑曜石", "暗红珐琅"],
+    craft: ["微雕", "冷珐琅", "哑光陶瓷烧结", "局部鎏彩"],
+    visualMemory: ["焦黑裂面", "细小花芽", "暗红光点", "非对称重生线"],
+    ipHook: "Ash Garden 可以延展成废墟、幸存者、秘密花园与重建城市的长线叙事，每一件作品都是灾后第一朵花。",
+  },
+  {
+    id: "tide-return",
+    name: "Tide Return",
+    zhName: "归潮",
+    theme: "被海带走的东西，会以另一种光回来。",
+    emotionalLine: "失去不是沉没，是等待下一次涨潮。",
+    description:
+      "为离开、迁徙、远行后重新回到自我的人而生。作品以贝母、海蓝宝、青金石、珍珠母贝与透明树脂水纹为记忆，弱化金属存在，让材质像潮汐一样包裹身体。",
+    categories: ["necklace", "bracelet", "stud"],
+    materials: ["贝母", "海蓝宝", "青金石", "透明水晶", "雾面钛"],
+    craft: ["贝母镶嵌", "透明珐琅", "水纹雕刻", "冷色鎏彩"],
+    visualMemory: ["潮汐弧线", "半透明水纹", "漂流编号", "内侧回声线"],
+    ipHook: "Tide Return 可以延展为漂流瓶、失物招领、海边旧信和归来的旅人，适合后续小说与短剧支线。",
+  },
+  {
+    id: "tender-armor",
+    name: "Tender Armor",
+    zhName: "温柔盔甲",
+    theme: "温柔不是退让，是选择不被击碎。",
+    emotionalLine: "我柔软，但不会再被轻易打碎。",
+    description:
+      "为外表温和、内里坚定的人而生。作品使用碳纤维、雾面钛、粉玉髓、白玛瑙与钢琴烤漆，形成轻而坚固的护甲语言；结构可贴合身体，却保留清晰边界。",
+    categories: ["bracelet", "ring", "watch"],
+    materials: ["碳纤维", "雾面钛", "粉玉髓", "白玛瑙", "钢琴烤漆"],
+    craft: ["碳纤维层压", "钛金属拉丝", "钢琴烤漆", "玉髓包镶"],
+    visualMemory: ["柔弧护甲", "隐藏铰链", "粉白内光", "边界切线"],
+    ipHook: "Tender Armor 可以发展为女性守护、边界感、自我修复与城市战衣的 IP 线，适合未来游戏装备系统。",
+  },
+  {
+    id: "moon-archive",
+    name: "Moon Archive",
+    zhName: "月相档案",
+    theme: "月亮记得你没有说出口的每一次告别。",
+    emotionalLine: "不是忘记了，只是被月光保存。",
+    description:
+      "为不愿公开伤口、却仍然保存记忆的人而生。作品以月光石、黑贝母、青金石、白水晶和浅色珐琅构成档案页般的层次，强调半透明、留白与编号封存。",
+    categories: ["necklace", "stud", "brooch"],
+    materials: ["月光石", "黑贝母", "青金石", "白水晶", "浅色珐琅"],
+    craft: ["半透明珐琅", "贝母薄片镶嵌", "水晶切面", "微刻封存线"],
+    visualMemory: ["月相切片", "档案封条", "半透明留白", "低声编号"],
+    ipHook: "Moon Archive 可以沉淀为秘密档案馆、月相日记、失物记忆和角色过往支线，为后续小说和短剧提供情感线索。",
+  },
+];
+
+export const storyChapters = [
+  {
+    code: "CH-01",
+    seriesId: "ash-garden",
+    title: "灰烬花园的第一封信",
+    summary:
+      "一位买家没有留下真名，只写下：我不是想回到从前，我只是想证明废墟也能开花。于是 Ash Garden 成为 Noirven 第一条非明亮金属主导的故事线。",
+    emotion: "重建、幸存、反转",
+  },
+  {
+    code: "CH-02",
+    seriesId: "tide-return",
+    title: "归潮的蓝色收据",
+    summary:
+      "N-0520 曾经无人出价，直到一位远行多年的人在涨潮日拍下它。她说：我不是回来找谁，我是回来认领自己。",
+    emotion: "离开、回归、救赎",
+  },
+  {
+    code: "CH-03",
+    seriesId: "tender-armor",
+    title: "温柔盔甲的边界",
+    summary:
+      "它看起来轻，实际很难被折断。买家把它戴在手腕内侧，像把一句没有说出口的“不”刻进身体。",
+    emotion: "边界、保护、清醒",
+  },
+  {
+    code: "CH-04",
+    seriesId: "moon-archive",
+    title: "月相档案馆",
+    summary:
+      "每一件 Moon Archive 都像一页被月光封存的档案。它不替人遗忘，只负责把无法说出口的部分保存到被理解那天。",
+    emotion: "记忆、告别、保存",
+  },
+];
+
+export const dailyProductSeeds = [
+  {
+    serial: "N-0501",
+    seriesId: "ash-garden",
+    category: "ring",
+    zhTitle: "灰烬花园黑陶活口戒",
+    materialLine: "黑陶瓷 / 烟晶 / 暗红珐琅 / 雾面钛",
+    craftLine: "哑光陶瓷烧结 / 冷珐琅 / 微雕花芽",
+    storyLine: "从裂面里长出的花，不需要春天批准。",
+  },
+  {
+    serial: "N-0502",
+    seriesId: "tide-return",
+    category: "necklace",
+    zhTitle: "归潮贝母水纹项链",
+    materialLine: "贝母 / 海蓝宝 / 透明水晶 / 青金石",
+    craftLine: "贝母薄片镶嵌 / 透明珐琅 / 水纹雕刻",
+    storyLine: "失去不是沉没，是等待下一次涨潮。",
+  },
+  {
+    serial: "N-0503",
+    seriesId: "tender-armor",
+    category: "bracelet",
+    zhTitle: "温柔盔甲碳纤维手环",
+    materialLine: "碳纤维 / 雾面钛 / 粉玉髓 / 钢琴烤漆",
+    craftLine: "碳纤维层压 / 钛金属拉丝 / 玉髓包镶",
+    storyLine: "我柔软，但不会再被轻易打碎。",
+  },
+  {
+    serial: "N-0504",
+    seriesId: "moon-archive",
+    category: "brooch",
+    zhTitle: "月相档案黑贝母胸针",
+    materialLine: "黑贝母 / 月光石 / 白水晶 / 浅色珐琅",
+    craftLine: "半透明珐琅 / 水晶切面 / 微刻封存线",
+    storyLine: "不是忘记了，只是被月光保存。",
+  },
 ];
 
 export const products: Product[] = [
@@ -388,9 +518,9 @@ export const soldProducts = products.filter((product) => product.status === "sol
 
 export const adminMetrics: AdminMetric[] = [
   { label: "Live Auctions", value: "10", detail: "6 active bids, 4 waiting for first bid" },
-  { label: "Story Series", value: "04", detail: "Ready for IP, short drama, game extension" },
+  { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
   { label: "Pending Settlement", value: "$18.4k", detail: "Stripe deposit plus USDT balance review" },
-  { label: "Generated Drafts", value: "12", detail: "Awaiting curator selection" },
+  { label: "Generated Drafts", value: "16", detail: "Awaiting curator selection" },
 ];
 
 export function getSeries(seriesId: string) {
