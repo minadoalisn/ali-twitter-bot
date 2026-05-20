@@ -138,7 +138,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
             {[
               { icon: Clock3, label: locale === "zh" ? "七日拍卖" : "Seven Days", text: locale === "zh" ? "无人认领则进入下一轮等待。" : "If unclaimed, the work waits again." },
               { icon: Archive, label: locale === "zh" ? "唯一编号" : "One Serial", text: locale === "zh" ? "每件作品内侧或背面刻入 N+编号。" : "Every work carries an N+serial engraving." },
-              { icon: ShieldCheck, label: locale === "zh" ? "活口规格" : "Adjustable Fit", text: locale === "zh" ? "戒指与手环默认以活口结构降低尺码风险。" : "Rings and cuffs prioritize adjustable open structures." },
+              { icon: ShieldCheck, label: locale === "zh" ? "灵活佩戴" : "Adaptive Fit", text: locale === "zh" ? "戒指与手环可在交付前按佩戴者微调，降低尺码风险。" : "Rings and bracelets can be adjusted before delivery to reduce sizing risk." },
             ].map((item) => (
               <div key={item.label} className="flex gap-4">
                 <item.icon size={20} className="mt-1 text-[var(--antique-gold)]" />
