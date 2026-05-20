@@ -8,12 +8,14 @@ import { categoryLabel, formatCurrency, formatDate, getTimeLeft } from "@/lib/fo
 import { getProduct, getSeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
+import type { AuthSession } from "@/lib/auth";
 
 type ProductDetailProps = {
   slug: string;
   locale?: Locale;
   paymentStatus?: string;
   minimumBid?: string;
+  session?: Pick<AuthSession, "email" | "nickname" | "role"> | null;
 };
 
 function paymentMessage(locale: Locale, status?: string, minimumBid?: string) {
@@ -54,13 +56,15 @@ function paymentMessage(locale: Locale, status?: string, minimumBid?: string) {
   return copy[status]?.[locale] || "";
 }
 
-export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid }: ProductDetailProps) {
+export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, session }: ProductDetailProps) {
   const product = getProduct(slug);
   if (!product) notFound();
   const series = getSeries(product.seriesId);
   const nextBid = product.currentPrice + product.bidIncrement;
   const auctionPath = withLocale(locale, `/auctions/${product.slug}`);
   const notice = paymentMessage(locale, paymentStatus, minimumBid);
+  const loginHref = `${withLocale(locale, "/account/login")}?error=auth&next=${encodeURIComponent(auctionPath)}`;
+  const bidderNickname = session?.nickname || session?.email?.split("@")[0] || "Private Collector";
 
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
@@ -115,11 +119,34 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid }
                     : "This work has completed belonging registration; materials, story, and engraving remain visible."}
                 </p>
               </div>
+            ) : !session ? (
+              <div className="mt-8 border-y border-black/12 py-6">
+                <p className="text-sm leading-7 text-[var(--graphite)]">
+                  {locale === "zh"
+                    ? `登录或注册后才能出价并支付保证金 ${formatCurrency(product.depositAmount)}。完成登录后会自动回到这件作品。`
+                    : `Sign in or create an account before bidding and paying the ${formatCurrency(product.depositAmount)} deposit. You will return to this work after login.`}
+                </p>
+                <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <LinkButton href={loginHref}>
+                    {locale === "zh" ? "登录/注册后出价" : "Sign In To Bid"}
+                  </LinkButton>
+                  <p className="text-xs leading-6 text-[var(--ash)]">
+                    {locale === "zh"
+                      ? "拍卖浏览保持公开；出价、保证金、订单与尾款只对登录用户开放。"
+                      : "Browsing stays public; bidding, deposits, orders, and balances require an account."}
+                  </p>
+                </div>
+              </div>
             ) : (
               <form className="mt-8 border-y border-black/12 py-6" action="/api/payments/stripe/checkout" method="post">
                 <input type="hidden" name="productId" value={product.id} />
                 <input type="hidden" name="locale" value={locale} />
                 <input type="hidden" name="returnPath" value={auctionPath} />
+                <p className="mb-5 text-xs leading-6 text-[var(--ash)]">
+                  {locale === "zh"
+                    ? `已登录为 ${session.email || bidderNickname}，保证金支付后出价会进入账户档案。`
+                    : `Signed in as ${session.email || bidderNickname}. Your paid deposit will be attached to your account archive.`}
+                </p>
                 <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
                   <label className="block">
                     <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
@@ -128,7 +155,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid }
                     <input
                       className="mt-3 h-12 w-full border border-black/14 bg-transparent px-4 text-sm outline-none transition focus:border-[var(--champagne)]"
                       name="nickname"
-                      defaultValue="Private Collector"
+                      defaultValue={bidderNickname}
                       minLength={2}
                       maxLength={48}
                       required
