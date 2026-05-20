@@ -12,10 +12,95 @@ export const brand = {
 };
 
 export const materialLibrary = {
-  metals: ["玫瑰金", "雕金", "黄金", "铂金"],
-  stones: ["天然白钻", "彩色宝石", "青金石", "贝母", "孔雀石"],
-  craft: ["珐琅彩", "钢琴烤漆", "鎏金", "鎏彩", "景泰蓝"],
+  metals: ["玫瑰金", "雕金", "黄金", "铂金", "钯金", "钛金属", "黑铑铂金", "陨铁", "黑陶瓷", "锆陶瓷"],
+  stones: [
+    "天然白钻",
+    "彩色宝石",
+    "青金石",
+    "贝母",
+    "孔雀石",
+    "蓝宝石",
+    "祖母绿",
+    "红宝石",
+    "帕拉伊巴碧玺",
+    "沙弗莱石",
+    "尖晶石",
+    "坦桑石",
+    "欧泊",
+    "月光石",
+    "黑贝母",
+    "海蓝宝",
+    "烟晶",
+    "白水晶",
+    "玉髓",
+    "珍珠母贝",
+  ],
+  craft: [
+    "珐琅彩",
+    "钢琴烤漆",
+    "鎏金",
+    "鎏彩",
+    "景泰蓝",
+    "玑镂雕纹",
+    "微密镶",
+    "隐秘式镶嵌",
+    "雪花镶",
+    "手工錾刻",
+    "错金银",
+    "冷珐琅",
+    "半透明珐琅",
+    "贝母薄片镶嵌",
+    "钛金属阳极氧化",
+    "陶瓷烧结",
+    "镜面抛光",
+    "拉丝雾面",
+  ],
 };
+
+export const materialNarratives = [
+  {
+    title: "Night Metal",
+    zhTitle: "夜色金属",
+    story: "黑铑铂金、钛金属与陨铁承载低声、克制和反转，不负责闪耀，只负责留下无法复制的轮廓。",
+    materials: ["黑铑铂金", "钛金属", "陨铁"],
+    craft: ["拉丝雾面", "镜面抛光", "钛金属阳极氧化"],
+  },
+  {
+    title: "Living Blue",
+    zhTitle: "会呼吸的蓝",
+    story: "青金石、海蓝宝与帕拉伊巴碧玺用于等待、归潮和远行，让蓝色不只是颜色，而是一种被重新认出的方向。",
+    materials: ["青金石", "海蓝宝", "帕拉伊巴碧玺"],
+    craft: ["隐秘式镶嵌", "半透明珐琅", "水纹雕刻"],
+  },
+  {
+    title: "Archive Light",
+    zhTitle: "档案之光",
+    story: "贝母、黑贝母、月光石和欧泊像被保存的记忆，适合月相、告别、秘密与迟来的理解。",
+    materials: ["贝母", "黑贝母", "月光石", "欧泊"],
+    craft: ["贝母薄片镶嵌", "玑镂雕纹", "微刻封存线"],
+  },
+  {
+    title: "Verdict Green",
+    zhTitle: "裁决之绿",
+    story: "孔雀石、沙弗莱石与祖母绿为 Justice of One 建立证据感，像一道安静但不可反驳的判定。",
+    materials: ["孔雀石", "沙弗莱石", "祖母绿"],
+    craft: ["景泰蓝", "手工錾刻", "错金银"],
+  },
+  {
+    title: "Burned Bloom",
+    zhTitle: "灰烬盛开",
+    story: "黑陶瓷、烟晶、暗红珐琅和红宝石表达重建之后的生命感，让花不是柔弱符号，而是废墟里的证词。",
+    materials: ["黑陶瓷", "烟晶", "红宝石"],
+    craft: ["陶瓷烧结", "冷珐琅", "局部鎏彩"],
+  },
+  {
+    title: "Soft Armor",
+    zhTitle: "柔性盔甲",
+    story: "钯金、碳纤维、粉玉髓和白玛瑙服务于温柔盔甲：柔软不是退让，而是带边界的保护。",
+    materials: ["钯金", "碳纤维", "粉玉髓", "白玛瑙"],
+    craft: ["碳纤维层压", "微密镶", "钢琴烤漆"],
+  },
+];
 
 export const storySeries: StorySeries[] = [
   {
@@ -27,8 +112,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为从低谷中重新认领自己的人而生。作品常带有不完全闭合的曲线、克制的裂隙和一个微小光点，像证明：伤口之后，仍有形态。",
     categories: ["ring", "bracelet", "brooch"],
-    materials: ["铂金", "玫瑰金", "天然白钻", "钢琴烤漆"],
-    craft: ["珐琅彩", "钢琴烤漆"],
+    materials: ["铂金", "玫瑰金", "黑铑铂金", "天然白钻", "烟晶"],
+    craft: ["珐琅彩", "钢琴烤漆", "半透明珐琅", "微密镶"],
     visualMemory: ["不完全闭合曲线", "小面积光点", "隐藏编号", "克制裂隙"],
     ipHook: "一位匿名买家 Still Here 拍下 N-0007 后，Noirven 确定了尚未归属的作品继续等待的规则。",
   },
@@ -41,8 +126,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为长期等待、最终与唯一主人互相确认的存在而生。作品避免直接星形，而用单颗宝石、悬浮细线和大面积留白表达命定归属之前的安静光芒。",
     categories: ["necklace", "stud", "earring"],
-    materials: ["铂金", "青金石", "贝母", "天然白钻"],
-    craft: ["珐琅彩", "鎏彩"],
+    materials: ["铂金", "青金石", "珍珠母贝", "帕拉伊巴碧玺", "天然白钻"],
+    craft: ["珐琅彩", "鎏彩", "隐秘式镶嵌", "贝母薄片镶嵌"],
     visualMemory: ["单颗宝石", "悬浮细线", "大面积留白", "非具象星点"],
     ipHook: "每一轮尚未归属都会成为作品档案的一部分：它不是被遗忘，而是在等一个能与它互相确认的人。",
   },
@@ -55,8 +140,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为七日拍卖机制而生的核心系列。七段细线、偏移亮点和倒计时刻度构成隐性记忆，表达归属发生在最后一刻。",
     categories: ["ring", "earring", "watch"],
-    materials: ["黄金", "玫瑰金", "彩色宝石", "天然白钻"],
-    craft: ["鎏金", "鎏彩", "景泰蓝"],
+    materials: ["黄金", "玫瑰金", "彩色宝石", "尖晶石", "天然白钻"],
+    craft: ["鎏金", "鎏彩", "景泰蓝", "雪花镶"],
     visualMemory: ["七段细线", "倒计时刻度", "偏移亮点", "不对称结构"],
     ipHook: "每一件 Seventh Light 都有一段最后一小时的命运反转。",
   },
@@ -69,8 +154,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为被低估、被误读、但仍然锋利完整的存在而生。作品强调平衡线、偏心宝石和一处像证据一样的光。",
     categories: ["brooch", "bracelet", "ring"],
-    materials: ["雕金", "孔雀石", "景泰蓝", "彩色宝石"],
-    craft: ["景泰蓝", "鎏金", "雕金"],
+    materials: ["雕金", "孔雀石", "沙弗莱石", "祖母绿", "天然白钻"],
+    craft: ["景泰蓝", "鎏金", "手工錾刻", "错金银"],
     visualMemory: ["平衡线", "偏心结构", "锋利转折", "单颗宝石证据"],
     ipHook: "作品像一份无声证词，不需要多数投票来证明自己的价值。",
   },
@@ -83,8 +168,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为经历过崩塌、失去、沉默重建的人而生。作品不以明亮金属为主，而用黑陶瓷、烟晶、黑曜石、暗红珐琅和钛金属形成冷静的生命感；花不是柔弱符号，而是从裂面里长出的证据。",
     categories: ["ring", "brooch", "earring"],
-    materials: ["黑陶瓷", "钛金属", "烟晶", "黑曜石", "暗红珐琅"],
-    craft: ["微雕", "冷珐琅", "哑光陶瓷烧结", "局部鎏彩"],
+    materials: ["黑陶瓷", "钛金属", "烟晶", "黑曜石", "暗红珐琅", "陨铁"],
+    craft: ["微雕", "冷珐琅", "陶瓷烧结", "局部鎏彩", "黑铑封层"],
     visualMemory: ["焦黑裂面", "细小花芽", "暗红光点", "非对称重生线"],
     ipHook: "Ash Garden 可以延展成废墟、幸存者、秘密花园与重建城市的长线叙事，每一件作品都是灾后第一朵花。",
   },
@@ -97,8 +182,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为离开、迁徙、远行后重新回到自我的人而生。作品以贝母、海蓝宝、青金石、珍珠母贝与透明树脂水纹为记忆，弱化金属存在，让材质像潮汐一样包裹身体。",
     categories: ["necklace", "bracelet", "stud"],
-    materials: ["贝母", "海蓝宝", "青金石", "透明水晶", "雾面钛"],
-    craft: ["贝母镶嵌", "透明珐琅", "水纹雕刻", "冷色鎏彩"],
+    materials: ["贝母", "海蓝宝", "青金石", "欧泊", "珍珠母贝", "雾面钛"],
+    craft: ["贝母薄片镶嵌", "透明珐琅", "水纹雕刻", "冷色鎏彩", "隐秘式镶嵌"],
     visualMemory: ["潮汐弧线", "半透明水纹", "漂流编号", "内侧回声线"],
     ipHook: "Tide Return 可以延展为漂流瓶、失物招领、海边旧信和归来的旅人，适合后续小说与短剧支线。",
   },
@@ -111,8 +196,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为外表温和、内里坚定的人而生。作品使用碳纤维、雾面钛、粉玉髓、白玛瑙与钢琴烤漆，形成轻而坚固的护甲语言；结构可贴合身体，却保留清晰边界。",
     categories: ["bracelet", "ring", "watch"],
-    materials: ["碳纤维", "雾面钛", "粉玉髓", "白玛瑙", "钢琴烤漆"],
-    craft: ["碳纤维层压", "钛金属拉丝", "钢琴烤漆", "玉髓包镶"],
+    materials: ["碳纤维", "雾面钛", "钯金", "粉玉髓", "白玛瑙", "钢琴烤漆"],
+    craft: ["碳纤维层压", "钛金属拉丝", "钢琴烤漆", "玉髓包镶", "微密镶"],
     visualMemory: ["柔弧护甲", "隐藏铰链", "粉白内光", "边界切线"],
     ipHook: "Tender Armor 可以发展为女性守护、边界感、自我修复与城市战衣的 IP 线，适合未来游戏装备系统。",
   },
@@ -125,8 +210,8 @@ export const storySeries: StorySeries[] = [
     description:
       "为不愿公开伤口、却仍然保存记忆的人而生。作品以月光石、黑贝母、青金石、白水晶和浅色珐琅构成档案页般的层次，强调半透明、留白与编号封存。",
     categories: ["necklace", "stud", "brooch"],
-    materials: ["月光石", "黑贝母", "青金石", "白水晶", "浅色珐琅"],
-    craft: ["半透明珐琅", "贝母薄片镶嵌", "水晶切面", "微刻封存线"],
+    materials: ["月光石", "黑贝母", "青金石", "白水晶", "坦桑石", "浅色珐琅"],
+    craft: ["半透明珐琅", "贝母薄片镶嵌", "玑镂雕纹", "水晶切面", "微刻封存线"],
     visualMemory: ["月相切片", "档案封条", "半透明留白", "低声编号"],
     ipHook: "Moon Archive 可以沉淀为秘密档案馆、月相日记、失物记忆和角色过往支线，为后续小说和短剧提供情感线索。",
   },
@@ -165,6 +250,38 @@ export const storyChapters = [
       "每一件 Moon Archive 都像一页被月光封存的档案。它不替人遗忘，只负责把无法说出口的部分保存到被理解那天。",
     emotion: "记忆、告别、保存",
   },
+  {
+    code: "CH-05",
+    seriesId: "unclaimed-star",
+    title: "待归之星的静默轨道",
+    summary:
+      "它没有寻找所有人的目光，只在自己的轨道上发亮。直到某个夜晚，一个人停下来，说：这不是等待我购买，它像是在等待我承认自己。",
+    emotion: "等待、命定、唯一确认",
+  },
+  {
+    code: "CH-06",
+    seriesId: "justice-of-one",
+    title: "裁决之绿的证词",
+    summary:
+      "孔雀石的纹路像一份没有签名的证词，沙弗莱石在偏心处发光。它提醒佩戴者：真正的价值不需要多数人举手。",
+    emotion: "正义、证明、反转",
+  },
+  {
+    code: "CH-07",
+    seriesId: "still-here",
+    title: "黑铑裂隙里的白钻",
+    summary:
+      "一枚白钻被放在最克制的裂隙旁，不像装饰，更像一句仍然活着的回答。Still Here 从不掩饰裂痕，它把裂痕变成光经过的地方。",
+    emotion: "存活、修复、微光",
+  },
+  {
+    code: "CH-08",
+    seriesId: "seventh-light",
+    title: "最后一小时的红色指针",
+    summary:
+      "第七日最后一小时，红宝石像被推迟的心跳。它不催促任何人，只把归属发生前的紧张与温柔固定在金线之间。",
+    emotion: "倒计时、归属、命运",
+  },
 ];
 
 export const dailyProductSeeds = [
@@ -176,6 +293,8 @@ export const dailyProductSeeds = [
     materialLine: "黑陶瓷 / 烟晶 / 暗红珐琅 / 雾面钛",
     craftLine: "哑光陶瓷烧结 / 冷珐琅 / 微雕花芽",
     storyLine: "从裂面里长出的花，不需要春天批准。",
+    imagePrompt:
+      "Noirven one-of-one luxury open ring, black ceramic and smoky quartz, dark red enamel flower bud growing from a cracked matte titanium surface, minimal high jewelry render, porcelain background, no logo, museum lighting",
   },
   {
     serial: "N-0502",
@@ -185,6 +304,8 @@ export const dailyProductSeeds = [
     materialLine: "贝母 / 海蓝宝 / 透明水晶 / 青金石",
     craftLine: "贝母薄片镶嵌 / 透明珐琅 / 水纹雕刻",
     storyLine: "失去不是沉没，是等待下一次涨潮。",
+    imagePrompt:
+      "Noirven one-of-one luxury necklace, mother of pearl and aquamarine waterline pendant with lapis lazuli inlay, translucent enamel tide pattern, asymmetric poetic high jewelry, porcelain background, no logo",
   },
   {
     serial: "N-0503",
@@ -194,6 +315,8 @@ export const dailyProductSeeds = [
     materialLine: "碳纤维 / 雾面钛 / 粉玉髓 / 钢琴烤漆",
     craftLine: "碳纤维层压 / 钛金属拉丝 / 玉髓包镶",
     storyLine: "我柔软，但不会再被轻易打碎。",
+    imagePrompt:
+      "Noirven one-of-one luxury bracelet, soft armor language, carbon fiber layered cuff with matte titanium, pale pink chalcedony and piano lacquer, protective but elegant silhouette, porcelain background, no logo",
   },
   {
     serial: "N-0504",
@@ -203,6 +326,96 @@ export const dailyProductSeeds = [
     materialLine: "黑贝母 / 月光石 / 白水晶 / 浅色珐琅",
     craftLine: "半透明珐琅 / 水晶切面 / 微刻封存线",
     storyLine: "不是忘记了，只是被月光保存。",
+    imagePrompt:
+      "Noirven one-of-one luxury brooch, moon archive concept, black mother of pearl, moonstone and white crystal, translucent enamel archive seals, quiet poetic high jewelry, porcelain background, no logo",
+  },
+  {
+    serial: "N-0505",
+    seriesId: "unclaimed-star",
+    category: "necklace",
+    zhTitle: "待归之星帕拉伊巴项链",
+    materialLine: "铂金 / 帕拉伊巴碧玺 / 珍珠母贝 / 天然白钻",
+    craftLine: "隐秘式镶嵌 / 贝母薄片镶嵌 / 半透明珐琅",
+    storyLine: "有些光不属于人群，只等待唯一能读懂它的人。",
+    imagePrompt:
+      "Noirven one-of-one luxury necklace, awaiting star concept, platinum, paraiba tourmaline, pearl mother-of-pearl and white diamond, floating single-gem composition, vast negative space, porcelain background, no logo",
+  },
+  {
+    serial: "N-0506",
+    seriesId: "justice-of-one",
+    category: "brooch",
+    zhTitle: "唯一的证明裁决绿胸针",
+    materialLine: "雕金 / 孔雀石 / 沙弗莱石 / 天然白钻",
+    craftLine: "手工錾刻 / 景泰蓝 / 错金银 / 微密镶",
+    storyLine: "真正的价值，不需要多数人举手。",
+    imagePrompt:
+      "Noirven one-of-one luxury brooch, justice of one concept, carved gold, malachite and tsavorite, cloisonne-inspired blue line, evidence-like green gem offset, high jewelry render, porcelain background, no logo",
+  },
+  {
+    serial: "N-0507",
+    seriesId: "still-here",
+    category: "ring",
+    zhTitle: "仍在这里黑铑裂光戒",
+    materialLine: "黑铑铂金 / 玫瑰金 / 烟晶 / 天然白钻",
+    craftLine: "钢琴烤漆 / 半透明珐琅 / 微密镶",
+    storyLine: "裂痕不是终点，是光经过的地方。",
+    imagePrompt:
+      "Noirven one-of-one luxury open ring, still here concept, black rhodium platinum and rose gold, smoky quartz, tiny white diamond beside a lacquer rift, restrained emotional high jewelry, porcelain background, no logo",
+  },
+  {
+    serial: "N-0508",
+    seriesId: "seventh-light",
+    category: "watch",
+    zhTitle: "第七日红曜腕表",
+    materialLine: "黄金 / 玫瑰金 / 红宝石 / 贝母盘面",
+    craftLine: "玑镂雕纹 / 鎏彩 / 雪花镶 / 微刻时标",
+    storyLine: "最后一小时，光有了心跳。",
+    imagePrompt:
+      "Noirven one-of-one luxury jewelry watch, seventh light concept, gold and rose gold, ruby crown, mother of pearl dial, seven fine markers, guilloche texture, poetic countdown feeling, porcelain background, no logo",
+  },
+  {
+    serial: "N-0509",
+    seriesId: "tide-return",
+    category: "bracelet",
+    zhTitle: "归潮欧泊回声手环",
+    materialLine: "欧泊 / 海蓝宝 / 雾面钛 / 青金石",
+    craftLine: "水纹雕刻 / 冷色鎏彩 / 隐秘式镶嵌",
+    storyLine: "回来不是重复旧路，是以另一种光抵达。",
+    imagePrompt:
+      "Noirven one-of-one luxury bracelet, tide return concept, opal, aquamarine, matte titanium and lapis lazuli, wave echo shape, translucent enamel water texture, high jewelry render, porcelain background, no logo",
+  },
+  {
+    serial: "N-0510",
+    seriesId: "tender-armor",
+    category: "ring",
+    zhTitle: "温柔盔甲钯金守戒",
+    materialLine: "钯金 / 白玛瑙 / 粉玉髓 / 天然白钻",
+    craftLine: "拉丝雾面 / 玉髓包镶 / 微密镶 / 钢琴烤漆",
+    storyLine: "温柔不是退让，是选择不再被击碎。",
+    imagePrompt:
+      "Noirven one-of-one luxury ring, tender armor concept, palladium, white agate, pink chalcedony and tiny white diamonds, soft protective silhouette with clear boundary lines, porcelain background, no logo",
+  },
+  {
+    serial: "N-0511",
+    seriesId: "moon-archive",
+    category: "stud",
+    zhTitle: "月相档案坦桑耳钉",
+    materialLine: "坦桑石 / 黑贝母 / 月光石 / 白水晶",
+    craftLine: "玑镂雕纹 / 半透明珐琅 / 微刻封存线",
+    storyLine: "月光不替你遗忘，只替你保存。",
+    imagePrompt:
+      "Noirven one-of-one luxury stud earrings, moon archive concept, tanzanite, black mother of pearl, moonstone and white crystal, archive seal geometry, translucent enamel, porcelain background, no logo",
+  },
+  {
+    serial: "N-0512",
+    seriesId: "ash-garden",
+    category: "earring",
+    zhTitle: "灰烬花园陨铁耳环",
+    materialLine: "陨铁 / 黑陶瓷 / 红宝石 / 暗红珐琅",
+    craftLine: "陶瓷烧结 / 手工錾刻 / 局部鎏彩 / 冷珐琅",
+    storyLine: "废墟里的第一朵花，不需要被允许。",
+    imagePrompt:
+      "Noirven one-of-one luxury earring, ash garden concept, meteorite, black ceramic, ruby and dark red enamel, burned flower emerging from fractured surface, asymmetrical high jewelry render, porcelain background, no logo",
   },
 ];
 
@@ -520,7 +733,7 @@ export const adminMetrics: AdminMetric[] = [
   { label: "Live Auctions", value: "10", detail: "6 active bids, 4 waiting for first bid" },
   { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
   { label: "Pending Settlement", value: "$18.4k", detail: "Stripe deposit plus USDT balance review" },
-  { label: "Generated Drafts", value: "16", detail: "Awaiting curator selection" },
+  { label: "Generated Drafts", value: "24", detail: "Story seeds with image-generation briefs awaiting curator selection" },
 ];
 
 export function getSeries(seriesId: string) {

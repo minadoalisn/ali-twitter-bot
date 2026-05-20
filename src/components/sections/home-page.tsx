@@ -7,7 +7,7 @@ import { Countdown } from "@/components/ui/countdown";
 import { ProductCard } from "@/components/sections/product-card";
 import { SeriesGrid } from "@/components/sections/series-grid";
 import { homeCopy, navCopy, withLocale } from "@/lib/i18n";
-import { liveProducts, soldProducts, storySeries } from "@/lib/noirven-data";
+import { liveProducts, materialNarratives, soldProducts, storySeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 
 function HeroNav({ locale }: { locale: Locale }) {
@@ -189,9 +189,18 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
             </h2>
             <p className="mt-6 text-lg leading-8 text-[var(--graphite)]">
               {locale === "zh"
-                ? "玫瑰金、雕金、黄金、铂金、天然白钻、彩宝、青金石、贝母、孔雀石，以及珐琅彩、钢琴烤漆、鎏金鎏彩、景泰蓝等工艺，会按故事线选择。"
-                : "Rose gold, carved gold, platinum, natural diamonds, colored gemstones, lapis lazuli, mother-of-pearl, malachite, enamel, piano lacquer, gilded color, and cloisonne-inspired craft are chosen by story."}
+                ? "从玫瑰金、雕金、黄金、铂金，到黑铑铂金、钯金、钛金属、陨铁与黑陶瓷；从天然白钻、帕拉伊巴碧玺、沙弗莱石、欧泊、月光石、黑贝母，到珐琅彩、玑镂雕纹、隐秘式镶嵌、雪花镶、错金银与景泰蓝，都会按故事线选择。"
+                : "From rose gold, carved gold, platinum, black rhodium platinum, palladium, titanium, meteorite, and black ceramic to diamonds, paraiba tourmaline, tsavorite, opal, moonstone, black nacre, enamel, guilloche, invisible setting, snow setting, damascening, and cloisonne-inspired craft, every choice follows the story."}
             </p>
+            <div className="mt-8 grid gap-4">
+              {materialNarratives.slice(0, 3).map((item) => (
+                <div key={item.title} className="border-t border-black/12 pt-4">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">{item.title}</p>
+                  <h3 className="mt-2 text-xl">{locale === "zh" ? item.zhTitle : item.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">{locale === "zh" ? item.story : item.materials.join(" / ")}</p>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             {storySeries.map((series) => (
