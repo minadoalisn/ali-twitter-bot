@@ -8,6 +8,39 @@ import ts from "typescript";
 const root = process.cwd();
 const requireFromScript = createRequire(import.meta.url);
 const dataFile = path.join(root, "src", "lib", "noirven-data.ts");
+
+function loadTsModule(file) {
+  const source = readFileSync(file, "utf8");
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022,
+      esModuleInterop: true,
+    },
+  }).outputText;
+  const commonJsModule = { exports: {} };
+  vm.runInNewContext(
+    compiled,
+    { exports: commonJsModule.exports, module: commonJsModule, require: createTsRequire(file), console },
+    { filename: file },
+  );
+  return commonJsModule.exports;
+}
+
+function createTsRequire(fromFile) {
+  return (id) => {
+    if (id.startsWith("@/")) {
+      return loadTsModule(path.join(root, "src", `${id.slice(2)}.ts`));
+    }
+
+    if (id.startsWith(".")) {
+      return loadTsModule(path.join(path.dirname(fromFile), `${id}.ts`));
+    }
+
+    return requireFromScript(id);
+  };
+}
+
 const source = readFileSync(dataFile, "utf8");
 const compiled = ts.transpileModule(source, {
   compilerOptions: {
@@ -20,7 +53,7 @@ const compiled = ts.transpileModule(source, {
 const commonJsModule = { exports: {} };
 vm.runInNewContext(
   compiled,
-  { exports: commonJsModule.exports, module: commonJsModule, require: requireFromScript, console },
+  { exports: commonJsModule.exports, module: commonJsModule, require: createTsRequire(dataFile), console },
   { filename: dataFile },
 );
 
@@ -86,8 +119,24 @@ allProducts.forEach((product) => {
     fail(`${product.serial} image is missing: ${product.image}`);
   }
 
-  if (product.startPrice < 1888 || product.startPrice > 5999) {
-    fail(`${product.serial} startPrice must stay in 1888-5999 USD: ${product.startPrice}`);
+  if (product.startPrice < 18800 || product.startPrice > 188000) {
+    fail(`${product.serial} startPrice must stay in 18800-188000 USD: ${product.startPrice}`);
+  }
+
+  if (product.currentPrice < product.startPrice) {
+    fail(`${product.serial} currentPrice cannot be below startPrice: ${product.currentPrice}`);
+  }
+
+  if (product.bidIncrement < 500) {
+    fail(`${product.serial} bidIncrement must fit luxury bidding: ${product.bidIncrement}`);
+  }
+
+  if (product.depositAmount < 1500) {
+    fail(`${product.serial} depositAmount must fit luxury bidding: ${product.depositAmount}`);
+  }
+
+  if (typeof product.pricingBasis === "string" && product.pricingBasis.includes("1888-5999")) {
+    fail(`${product.serial} pricingBasis still references the old MVP range`);
   }
 
   if (!product.image && !product.spinVideo) {
