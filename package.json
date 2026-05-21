@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "verify:catalog": "node scripts/verify-noirven-content.mjs"
+    "verify:catalog": "node scripts/verify-noirven-content.mjs",
+    "verify:admin": "node scripts/verify-admin-security.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.0",
