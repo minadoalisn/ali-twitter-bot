@@ -34,7 +34,8 @@ export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
         <div>
           <h2 className="text-xs uppercase tracking-[0.22em] text-white/46">Paths</h2>
           <div className="mt-5 grid gap-3 text-sm text-white/66">
-            <Link href={`${prefix}/auctions`}>{locale === "zh" ? "七日拍卖" : "Auctions"}</Link>
+            <Link href={`${prefix}/custom`}>{locale === "zh" ? "定制" : "Custom"}</Link>
+            <Link href={`${prefix}/auctions`}>{locale === "zh" ? "七日归属" : "Seven-Day Belonging"}</Link>
             <Link href={`${prefix}/series`}>{locale === "zh" ? "故事系列" : "Story Series"}</Link>
             <Link href={`${prefix}/sold`}>{locale === "zh" ? "已售档案" : "Archive"}</Link>
             <Link href={`${prefix}/admin`}>{locale === "zh" ? "后台入口" : "Admin"}</Link>

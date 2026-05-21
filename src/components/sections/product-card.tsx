@@ -51,6 +51,12 @@ export function ProductCard({ product, locale = "zh" }: { product: Product; loca
           <p className="font-mono text-sm text-black">{formatCurrency(product.currentPrice)}</p>
         </div>
         <p className="text-sm leading-6 text-[var(--graphite)]">{locale === "zh" ? product.inspiration : series?.emotionalLine}</p>
+        <Link
+          href={href}
+          className="focus-ring inline-flex min-h-10 items-center justify-center border border-black/14 px-4 py-2 text-center text-[11px] uppercase tracking-[0.14em] text-black transition hover:border-black hover:bg-black hover:text-white"
+        >
+          {locale === "zh" ? "查看归属详情" : "View Details"}
+        </Link>
         <div className="grid grid-cols-3 gap-2 border-t border-black/10 pt-4 text-[11px] text-[var(--graphite)]">
           <span className="inline-flex items-center gap-1.5">
             <Clock3 size={13} /> {isSold ? "Sold" : getTimeLeft(product.endsAt)}

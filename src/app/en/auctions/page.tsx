@@ -2,8 +2,8 @@ import { AuctionPage } from "@/components/sections/auction-page";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Seven-Day Auctions",
-  description: "Noirven seven-day auctions present numbered one-of-one jewelry works still waiting to be recognized.",
+  title: "Seven-Day Belonging",
+  description: "Noirven seven-day belonging presents numbered one-of-one jewelry works still waiting to be recognized.",
   path: "/en/auctions",
 });
 

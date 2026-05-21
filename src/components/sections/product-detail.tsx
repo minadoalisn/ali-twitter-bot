@@ -36,7 +36,7 @@ function paymentMessage(locale: Locale, status?: string, minimumBid?: string) {
       en: "Bid details are incomplete. Please check nickname and amount.",
     },
     missing: {
-      zh: "没有找到对应作品，请从拍卖页重新进入。",
+      zh: "没有找到对应作品，请从七日归属页重新进入。",
       en: "The auction work was not found. Please enter again from Auctions.",
     },
     sold: {
@@ -62,12 +62,39 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
   const series = getSeries(product.seriesId);
   const nextBid = product.currentPrice + product.bidIncrement;
   const auctionPath = withLocale(locale, `/auctions/${product.slug}`);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
+  const pageUrl = `${baseUrl}${auctionPath}`;
+  const imageUrl = product.image.startsWith("/") ? `${baseUrl}${product.image}` : product.image;
+  const productName = locale === "zh" ? `${product.zhTitle} ${product.serial}` : `${product.title} ${product.serial}`;
+  const productDescription = product.concept || product.inspiration || "";
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: productName,
+    description: productDescription,
+    image: [imageUrl],
+    sku: product.serial,
+    brand: { "@type": "Brand", name: "Noirven" },
+    category: categoryLabel(product.category),
+    material: product.materials.join(" / "),
+    url: pageUrl,
+    offers: {
+      "@type": "Offer",
+      url: pageUrl,
+      priceCurrency: "USD",
+      price: String(product.currentPrice),
+      availability: product.status === "sold" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
+      priceValidUntil: new Date(product.endsAt).toISOString(),
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  } as const;
   const notice = paymentMessage(locale, paymentStatus, minimumBid);
   const loginHref = `${withLocale(locale, "/account/login")}?error=auth&next=${encodeURIComponent(auctionPath)}`;
   const bidderNickname = session?.nickname || session?.email?.split("@")[0] || "Private Collector";
 
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <SiteHeader locale={locale} />
       <main>
         <section className="section-shell grid gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr]">
@@ -132,7 +159,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
                   </LinkButton>
                   <p className="text-xs leading-6 text-[var(--ash)]">
                     {locale === "zh"
-                      ? "拍卖浏览保持公开；出价、保证金、订单与尾款只对登录用户开放。"
+                      ? "作品浏览保持公开；归属确认、保证金、订单与尾款只对登录用户开放。"
                       : "Browsing stays public; bidding, deposits, orders, and balances require an account."}
                   </p>
                 </div>

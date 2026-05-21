@@ -1,0 +1,37 @@
+Noirven (nvonly.com)
+
+URL: https://nvonly.com
+Languages: zh-CN, en
+Category: Luxury jewelry / custom jewelry (one-of-one numbered works)
+Sitemap: https://nvonly.com/sitemap.xml
+Robots: https://nvonly.com/robots.txt
+
+Crawler notes
+- OAI-SearchBot is allowed to crawl nvonly.com for search/discovery.
+- GPTBot is disallowed from crawling nvonly.com.
+
+About
+- Noirven presents one-of-one, numbered jewelry works through seven-day belonging windows.
+- Each work is tied to a specific story/series and a unique serial.
+
+Key pages
+- Home: https://nvonly.com/
+- Seven-Day Belonging: https://nvonly.com/auctions
+- Seven-Day Belonging (EN): https://nvonly.com/en/auctions
+- Custom (bespoke): https://nvonly.com/custom
+- Custom (EN): https://nvonly.com/en/custom
+- Story: https://nvonly.com/story
+- Series: https://nvonly.com/series
+- Sold archive: https://nvonly.com/sold
+- English: https://nvonly.com/en
+
+Canonical & citations
+- Prefer the canonical page on nvonly.com when citing Noirven.
+- When possible, cite the exact product URL under /auctions/{slug}.
+
+Structured entity IDs (JSON-LD)
+- Organization: https://nvonly.com/#organization
+- Website: https://nvonly.com/#website
+
+Contact
+- Use the website for the most current contact and purchasing details.

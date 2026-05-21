@@ -20,8 +20,8 @@ export const brand = {
   proposition: "每一次归属，都是一次拯救。",
   secondary: "不由多数定义，只由唯一确认。",
   story:
-    "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。每一件作品都有自己的编号，进入七日拍卖。一旦被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
-  cta: "进入七日拍卖",
+    "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。每一件作品都有自己的编号，进入七日归属。一旦被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
+  cta: "进入七日归属",
   storyCta: "品牌故事",
 };
 
@@ -152,7 +152,7 @@ export const storySeries: StorySeries[] = [
     theme: "七日之后，光没有消失，而是归于某个人。",
     emotionalLine: "第七日，光有了归属。",
     description:
-      "为七日拍卖机制而生的核心系列。七段细线、偏移亮点和倒计时刻度构成隐性记忆，表达归属发生在最后一刻。",
+      "为七日归属机制而生的核心系列。七段细线、偏移亮点和倒计时刻度构成隐性记忆，表达归属发生在最后一刻。",
     categories: ["ring", "earring", "watch"],
     materials: ["黄金", "玫瑰金", "彩色宝石", "尖晶石", "天然白钻"],
     craft: ["鎏金", "鎏彩", "景泰蓝", "雪花镶"],
@@ -303,6 +303,15 @@ export const storyChapters = [
       "第七日最后一小时，红宝石像被推迟的心跳。它不催促任何人，只把归属发生前的紧张与温柔固定在金线之间。",
     emotion: "倒计时、归属、命运",
     productSerial: "N-0508",
+  },
+  {
+    code: "CH-09",
+    seriesId: "ash-garden",
+    title: "灰烬花园的陨铁证词",
+    summary:
+      "N-0519 的陨铁切片不是装饰，更像一份由天外落进废墟的证据。它记得灰烬的呼吸，也记得被抛下后的沉默。买家把它别在内衬里，说：我不需要任何人的同情宣告，我只需要一个可以善待自己的证明。",
+    emotion: "重建、证据、反转",
+    productSerial: "N-0519",
   },
 ];
 
@@ -475,6 +484,68 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     imagePrompt:
       "Noirven one-of-one luxury phoenix earrings, rose gold, ruby, spinel and warm enamel, ash garden rebirth language, original high jewelry render, porcelain background, no logo",
   },
+  {
+    serial: "N-0519",
+    title: "Ash Garden Meteorite Witness Brooch",
+    seriesId: "ash-garden",
+    category: "brooch",
+    zhTitle: "灰烬花园陨铁证词胸针",
+    image: "/assets/products/n-0519-ash-garden-meteorite-brooch.png",
+    startPrice: 5588,
+    materialLine: "钛金属 / 陨铁 / 烟晶 / 暗红珐琅 / 天然白钻 / 黑陶瓷",
+    craftLine: "陶瓷烧结 / 局部氧化 / 雪花镶 / 微密镶",
+    storyLine: "一块陨铁是灰烬后的证据，它不说话，但它从不撤销。",
+    imagePrompt:
+      "Noirven one-of-one luxury brooch, ash garden concept, meteorite slice, titanium frame, black ceramic and smoky quartz, dark red enamel bloom, tiny white diamonds like ash sparks, minimalist high jewelry render, porcelain background, no logo, no text",
+  },
+];
+
+export const internalProductConceptSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0516",
+    title: "Justice of One Palimpsest Verdict Brooch",
+    seriesId: "justice-of-one",
+    category: "brooch",
+    zhTitle: "唯一的证明·覆写判决胸针",
+    image: "/assets/product-concepts/n-0516-justice-palimpsest-brooch.png",
+    startPrice: 5988,
+    materialLine: "黑铑铂金 / 钯金 / 陨石 / 天然白钻 / 帕拉伊巴碧玺",
+    craftLine: "错金银 / 手工錾刻 / 玑镂雕纹 / 雪花镶 / 隐秘式镶嵌",
+    storyLine:
+      "被涂黑的判决不是结案，而是证据改变了出现的方式：黑铑的低声把愤怒收进结构里；陨石的纹路像无法伪造的时间戳，把被抹去的名字重新压印出来。雪花镶让白钻像冷静的目击者，而错金银与錾刻把“真相曾被覆盖”这一事实，变成无法再被覆盖的纹理。",
+    imagePrompt:
+      "Noirven one-of-one high jewelry brooch, black-rhodium platinum and palladium with meteorite inlay, guilloche field and hand-chased lines, snow-set natural white diamonds, palimpsest verdict document geometry, porcelain background, ultra-detailed studio render, no logo, no text",
+  },
+  {
+    serial: "N-0517",
+    title: "Still Here Anodized Titanium Rift Ring",
+    seriesId: "still-here",
+    category: "ring",
+    zhTitle: "仍在这里·钛蓝裂光开口戒",
+    image: "/assets/product-concepts/n-0517-still-here-titanium-rift-ring.png",
+    startPrice: 4688,
+    materialLine: "钛金属 / 碳纤维 / 黑陶瓷 / 红色尖晶石 / 天然白钻",
+    craftLine: "钛金属阳极氧化 / 陶瓷烧结 / 隐秘式镶嵌 / 拉丝雾面 / 微密镶",
+    storyLine:
+      "Still Here 从不把裂痕刻掉，但会把它放在能呼吸、能发光的位置：钛金属阳极氧化出的蓝像“重新能说话”的气息；碳纤维和黑陶瓷把脆弱变成支撑；红尖晶石被隐秘式镶嵌在缺口边缘，像一句低声但坚定的“我还在”。",
+    imagePrompt:
+      "Noirven one-of-one luxury open ring, anodized titanium gradient blue with carbon fiber core and black ceramic edges, invisible-set red spinel accent and micro pavé natural white diamonds, riftlight gap silhouette, ultra-clean porcelain background, studio macro render, no logo, no text",
+  },
+  {
+    serial: "N-0518",
+    title: "Seventh Light Lacquered Cloisonne Watch",
+    seriesId: "seventh-light",
+    category: "watch",
+    zhTitle: "第七日·墨彩珐琅漆面腕表",
+    image: "/assets/product-concepts/n-0518-seventh-light-lacquer-cloisonne-watch.png",
+    startPrice: 5999,
+    materialLine: "黑陶瓷 / 黑贝母 / 天然白钻 / 帕拉伊巴碧玺 / 坦桑石",
+    craftLine: "钢琴烤漆 / 透光珐琅 / 景泰蓝灵感配色 / 玑镂雕纹 / 隐秘式镶嵌",
+    storyLine:
+      "第七日最后一小时，归属像一只不可撤回的秒针：黑陶瓷让时间更沉稳，黑贝母把“说不出口”的部分藏进内光；透光珐琅与漆面层层叠加，把等待做成可被看见的深度；帕拉伊巴与坦桑石像两束不同方向的光，提醒你——不是所有迟到都是错过，有些迟到是清算后的回归。",
+    imagePrompt:
+      "Noirven one-of-one luxury watch, black ceramic case, black mother-of-pearl dial with translucent enamel + cloisonne-inspired color segments, piano lacquer depth, guilloche sunburst under enamel, paraiba tourmaline and tanzanite accents with natural white diamonds, seventh-light countdown mood, porcelain background, studio render, no logo, no text",
+  },
 ];
 
 const seedAuctionEndsAt = [
@@ -490,6 +561,10 @@ const seedAuctionEndsAt = [
   "2026-06-01T20:30:00+08:00",
   "2026-06-02T20:00:00+08:00",
   "2026-06-02T20:30:00+08:00",
+  "2026-06-03T20:00:00+08:00",
+  "2026-06-03T20:30:00+08:00",
+  "2026-06-04T20:00:00+08:00",
+  "2026-06-04T20:30:00+08:00",
 ];
 
 function splitSeedLine(line: string) {
@@ -522,7 +597,7 @@ function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
     seriesId: seed.seriesId,
     category: seed.category,
     inspiration: seed.storyLine,
-    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，进入七日拍卖后只归属一位主人。`,
+    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，进入七日归属后只归属一位主人。`,
     materials: splitSeedLine(seed.materialLine),
     craft: splitSeedLine(seed.craftLine),
     startPrice: seed.startPrice,
@@ -852,7 +927,7 @@ export const liveProducts = products.filter((product) => product.status !== "sol
 export const soldProducts = products.filter((product) => product.status === "sold");
 
 export const adminMetrics: AdminMetric[] = [
-  { label: "Live Auctions", value: "22", detail: "New story-backed product images are listed first" },
+  { label: "Live Belonging", value: "22", detail: "New story-backed product images are listed first" },
   { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
   { label: "Pending Settlement", value: "$18.4k", detail: "Stripe deposit plus USDT balance review" },
   { label: "Generated Drafts", value: "12", detail: "Seed prompts stay internal; only finished product images are public" },

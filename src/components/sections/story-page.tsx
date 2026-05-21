@@ -8,9 +8,85 @@ import { withLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
 
 export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity:
+      locale === "zh"
+        ? [
+            {
+              "@type": "Question",
+              name: "Noirven 的「七日归属」是什么？",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Noirven 以七日为一个归属窗口展示作品：每件作品带有唯一编号，进入为期七天的确认期，等待被唯一主人认出。",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "「唯一编号」意味着什么？",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "每件作品都有独立的编号与页面信息，用于区分与记录作品的系列、故事线与归属状态。",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "如果七天内没有归属，会发生什么？",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "若作品尚未被确认归属，它不会被下架或放弃，而会进入下一轮等待与展示。",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "页面里的 360° 视图是什么？",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "部分作品页面提供 360° 视图，用于从多个角度观察外观细节（基于图片序列/旋转展示）。",
+              },
+            },
+          ]
+        : [
+            {
+              "@type": "Question",
+              name: "What is Noirven’s seven-day belonging window?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Noirven presents each work in a seven-day belonging window. Every piece carries a unique serial and waits seven days to be recognized by its owner.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What does “unique serial” mean?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Each work has its own serial and dedicated page information to distinguish and record its series, storyline, and belonging status.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What if a piece doesn’t find an owner in seven days?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "If a work has not been confirmed to an owner, it remains available and can enter another round of waiting and display.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What is the 360° view on product pages?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Some pages provide a 360° view to help you inspect visual details from multiple angles (via an image sequence / rotation view).",
+              },
+            },
+          ],
+  } as const;
+
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
       <SiteHeader locale={locale} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <main>
         <section className="section-shell py-20">
           <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Final Brand Story</p>
@@ -73,8 +149,8 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 </h2>
                 <p className="mt-5 text-sm leading-7 text-[var(--graphite)]">
                   {locale === "zh"
-                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质和起拍价后再上架拍卖。"
-                    : "New chapters and product directions enter curation daily, then move to auction after imagery, serials, materials, and pricing are confirmed."}
+                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质和起拍价后再进入七日归属。"
+                    : "New chapters and product directions enter curation daily, then move into a seven-day belonging window after imagery, serials, materials, and pricing are confirmed."}
                 </p>
               </div>
               <div className="grid gap-5 md:grid-cols-2">

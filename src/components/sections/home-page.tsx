@@ -10,6 +10,14 @@ import { homeCopy, navCopy, withLocale } from "@/lib/i18n";
 import { liveProducts, materialNarratives, soldProducts, storySeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 
+function serialNumber(serial: string) {
+  return Number(serial.replace(/\D/g, "")) || 0;
+}
+
+function newestLiveProducts() {
+  return [...liveProducts].sort((a, b) => serialNumber(b.serial) - serialNumber(a.serial));
+}
+
 function HeroNav({ locale }: { locale: Locale }) {
   const copy = navCopy[locale];
 
@@ -17,6 +25,7 @@ function HeroNav({ locale }: { locale: Locale }) {
     <header className="section-shell flex min-h-16 items-center justify-between gap-4 py-4">
       <nav className="hidden items-center gap-7 text-[11px] text-[var(--graphite)] md:flex">
         <Link href={withLocale(locale, "/")}>{locale === "zh" ? "首页" : "Home"}</Link>
+        <Link href={withLocale(locale, "/custom")}>{copy.custom}</Link>
         <Link href={withLocale(locale, "/series")}>{copy.series}</Link>
         <Link href={withLocale(locale, "/story")}>{copy.story}</Link>
         <Link href={withLocale(locale, "/auctions")}>{copy.auctions}</Link>
@@ -35,26 +44,33 @@ function HeroNav({ locale }: { locale: Locale }) {
 }
 
 function HeroAuctionStrip({ locale }: { locale: Locale }) {
-  const featured = liveProducts[0];
+  const featured = newestLiveProducts()[0];
 
   return (
     <section className="section-shell pb-8">
       <div className="grid items-center border border-black/12 bg-[rgba(251,250,246,0.72)] md:grid-cols-[0.95fr_1.2fr_0.75fr_0.5fr]">
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
-          <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "当前拍品" : "Current Lot"} · {featured.serial}</p>
+          <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "最新待归之作" : "Latest One-of-One"} · {featured.serial}</p>
           <p className="mt-2 text-sm text-black">{locale === "zh" ? featured.zhTitle : featured.title}</p>
         </div>
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
           <Countdown target={featured.endsAt} />
         </div>
         <div className="relative hidden h-28 md:block">
-          <Image src="/assets/noirven-hero-necklace.png" alt="Noirven current auction pendant" fill sizes="220px" className="object-contain" />
+          <Image
+            src={featured.image}
+            alt={`${featured.serial} ${locale === "zh" ? featured.zhTitle : featured.title}`}
+            fill
+            sizes="220px"
+            className="object-contain"
+            priority
+          />
         </div>
         <Link
           href={withLocale(locale, `/auctions/${featured.slug}`)}
           className="focus-ring flex h-full min-h-20 items-center justify-center gap-2 p-5 text-sm transition hover:bg-black hover:text-white"
         >
-          {locale === "zh" ? "查看拍品" : "View lot"} <ArrowRight size={15} />
+          {locale === "zh" ? "查看此作" : "View Work"} <ArrowRight size={15} />
         </Link>
       </div>
     </section>
@@ -62,13 +78,13 @@ function HeroAuctionStrip({ locale }: { locale: Locale }) {
 }
 
 function MobileHeroAuction({ locale }: { locale: Locale }) {
-  const featured = liveProducts[0];
+  const featured = newestLiveProducts()[0];
 
   return (
     <div className="mx-auto mt-8 max-w-sm border border-black/12 p-4 md:hidden">
-      <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "当前拍品" : "Current Lot"} · {featured.serial}</p>
+      <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "最新待归之作" : "Latest One-of-One"} · {featured.serial}</p>
       <Countdown target={featured.endsAt} compact />
-      <LinkButton href={withLocale(locale, `/auctions/${featured.slug}`)}>{locale === "zh" ? "进入七日拍卖" : "Enter Auction"}</LinkButton>
+      <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "进入七日归属" : "Enter Belonging"}</LinkButton>
       <div className="mt-3">
         <LinkButton href={withLocale(locale, "/story")} variant="outline">
           {locale === "zh" ? "品牌故事" : "Story"}
@@ -80,7 +96,8 @@ function MobileHeroAuction({ locale }: { locale: Locale }) {
 
 export function HomePage({ locale = "zh" }: { locale?: Locale }) {
   const copy = homeCopy[locale];
-  const live = liveProducts.slice(0, 6);
+  const live = newestLiveProducts().slice(0, 6);
+  const featured = live[0];
   const sold = soldProducts.slice(0, 2);
 
   return (
@@ -106,7 +123,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
             </h1>
             <p className="mt-6 max-w-md text-sm leading-7 text-[var(--graphite)]">
               {locale === "zh"
-                ? "每件作品都有一个编号、一句心事、进入七日拍卖，等待被唯一确认。"
+                ? "每件作品都有一个编号、一句心事、进入七日归属，等待被唯一确认。"
                 : "Every work carries a serial, a hidden feeling, and a seven-day wait to be recognized by one."}
             </p>
             <div className="mt-8 hidden gap-4 md:flex">
@@ -118,8 +135,8 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
           </div>
           <div className="relative mx-auto aspect-[1.18/1] w-full max-w-[720px]">
             <Image
-              src="/assets/noirven-hero-ring.png"
-              alt="Noirven Still Here open ring"
+              src={featured.image}
+              alt={`${featured.serial} ${locale === "zh" ? featured.zhTitle : featured.title}`}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 56vw"
@@ -136,7 +153,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
         <section className="border-y border-black/10 bg-[var(--ivory)]">
           <div className="section-shell grid gap-8 py-12 md:grid-cols-3">
             {[
-              { icon: Clock3, label: locale === "zh" ? "七日拍卖" : "Seven Days", text: locale === "zh" ? "尚未遇见唯一主人，则进入下一轮等待。" : "If its one owner has not arrived, the work waits again." },
+              { icon: Clock3, label: locale === "zh" ? "七日归属" : "Seven Days", text: locale === "zh" ? "尚未遇见唯一主人，则进入下一轮等待。" : "If its one owner has not arrived, the work waits again." },
               { icon: Archive, label: locale === "zh" ? "唯一编号" : "One Serial", text: locale === "zh" ? "每件作品内侧或背面刻入 N+编号。" : "Every work carries an N+serial engraving." },
               { icon: ShieldCheck, label: locale === "zh" ? "灵活佩戴" : "Adaptive Fit", text: locale === "zh" ? "戒指与手环可在交付前按佩戴者微调，降低尺码风险。" : "Rings and bracelets can be adjusted before delivery to reduce sizing risk." },
             ].map((item) => (
@@ -164,7 +181,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
           <div className="section-shell">
             <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">Seven-Day Auction</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">Seven-Day Belonging</p>
                 <h2 className="mt-4 font-serif text-5xl font-normal text-white">{copy.auctionTitle}</h2>
               </div>
               <LinkButton href={withLocale(locale, "/auctions")} variant="light">

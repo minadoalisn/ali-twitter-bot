@@ -16,10 +16,12 @@ export const navCopy: Record<
     story: string;
     account: string;
     admin: string;
+    custom: string;
   }
 > = {
   zh: {
-    auctions: "七日拍卖",
+    custom: "定制",
+    auctions: "七日归属",
     series: "故事系列",
     sold: "已售档案",
     story: "品牌故事",
@@ -27,7 +29,8 @@ export const navCopy: Record<
     admin: "后台",
   },
   en: {
-    auctions: "Auctions",
+    custom: "Custom",
+    auctions: "Seven-Day Belonging",
     series: "Story Series",
     sold: "Archive",
     story: "Story",
@@ -51,27 +54,27 @@ export const homeCopy: Record<
   }
 > = {
   zh: {
-    eyebrow: "七日拍卖 / 唯一编号 / 轻奢艺术首饰",
+    eyebrow: "七日归属 / 唯一编号 / 轻奢艺术首饰",
     headline: "每一次归属，都是一次拯救。",
     subhead:
       "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。无人认领，它继续等待；有人认领，它从此只归一人。",
-    primaryCta: "进入七日拍卖",
+    primaryCta: "进入七日归属",
     secondaryCta: "品牌故事",
     seriesTitle: "故事系列",
     seriesIntro: "每个系列是一条故事线，每件作品是一章等待被认出的档案。",
-    auctionTitle: "正在等待的作品",
+    auctionTitle: "正在等待归属的作品",
     archiveTitle: "已被认出的作品",
   },
   en: {
-    eyebrow: "Seven-day auctions / One serial / Light-luxury art jewelry",
+    eyebrow: "Seven-day belonging / One serial / Light-luxury art jewelry",
     headline: "Every belonging is a quiet rescue.",
     subhead:
       "Noirven believes a one-of-one work should not be judged by trends. If unclaimed, it waits again. Once recognized, it belongs to one person only.",
-    primaryCta: "Enter Auctions",
+    primaryCta: "Enter Belonging",
     secondaryCta: "Brand Story",
     seriesTitle: "Story Series",
     seriesIntro: "Each series is a storyline. Each piece is a numbered archive waiting to be recognized.",
-    auctionTitle: "Works Still Waiting",
+    auctionTitle: "Works Awaiting Belonging",
     archiveTitle: "Recognized Archive",
   },
 };

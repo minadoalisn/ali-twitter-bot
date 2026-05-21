@@ -89,7 +89,7 @@ export function AuthPage({ locale = "zh", mode, nextPath, error }: AuthPageProps
                 ? "后台入口已改为服务端权限保护，不再公开展示管理界面。"
                 : "The admin area is now protected by server-side session checks."
               : locale === "zh"
-                ? "拍卖浏览可以公开，涉及账户、保证金、支付、订单的操作需要登录。"
+                ? "作品浏览可以公开，涉及账户、保证金、支付、订单的操作需要登录。"
                 : "Auction browsing stays public; account, deposit, payment, and order actions require authentication."}
           </p>
           {message ? <p className="mt-6 border border-[var(--signature-red)]/30 px-4 py-3 text-sm text-[var(--signature-red)]">{message}</p> : null}

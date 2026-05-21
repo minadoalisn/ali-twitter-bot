@@ -44,14 +44,14 @@ export function AuctionPage({ locale = "zh", searchParams = {} }: { locale?: Loc
       <SiteHeader locale={locale} />
       <main>
         <section className="section-shell py-20">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Seven-Day Auction</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Seven-Day Belonging</p>
           <h1 className="mt-5 max-w-3xl font-serif text-6xl font-normal leading-tight">
             {locale === "zh" ? "七日期限，等待唯一的主人。" : "Seven days, waiting for the one owner."}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--graphite)]">
             {locale === "zh"
-              ? "新品按编号优先展示。每件作品绑定一条故事线，满页后进入下一页；后续可以按故事线直接筛选。"
-              : "New pieces are shown first by serial. Each work belongs to a storyline, paginates after a full page, and can be filtered by series."}
+              ? "这里不是普通拍卖场，而是独一作品的七日归属窗口。新品按编号优先展示，满页后进入下一页，也可以按故事线筛选。"
+              : "This is not a commodity auction room; it is a seven-day belonging window for one-of-one works. New pieces appear first, paginate after a full page, and can be filtered by series."}
           </p>
         </section>
         <section className="section-shell pb-24">

@@ -36,7 +36,7 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
               <li>01. {locale === "zh" ? "选择故事系列、品类、材质和灵感词。" : "Choose story series, category, materials, and inspiration."}</li>
               <li>02. {locale === "zh" ? "组合 Story Lock、Style Lock 和禁止仿牌规则。" : "Combine Story Lock, Style Lock, and anti-imitation rules."}</li>
               <li>03. {locale === "zh" ? "生成四张概念图，管理员精选一张。" : "Generate four concepts and curate one."}</li>
-              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述，上架七日拍卖。" : "Create title, serial, SEO copy, and start seven-day auction."}</li>
+              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述，进入七日归属。" : "Create title, serial, SEO copy, and start the seven-day belonging window."}</li>
             </ol>
           </div>
           <div className="border-t border-black/12 pt-6">

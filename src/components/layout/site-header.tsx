@@ -14,6 +14,9 @@ export function SiteHeader({ locale = "zh" }: { locale?: Locale }) {
           <Link className="focus-ring" href={withLocale(locale, "/auctions")}>
             {copy.auctions}
           </Link>
+          <Link className="focus-ring" href={withLocale(locale, "/custom")}>
+            {copy.custom}
+          </Link>
           <Link className="focus-ring" href={withLocale(locale, "/series")}>
             {copy.series}
           </Link>
@@ -38,7 +41,7 @@ export function SiteHeader({ locale = "zh" }: { locale?: Locale }) {
             href={withLocale(locale, "/auctions")}
             className="focus-ring rounded-full border border-black/14 px-4 py-3 text-[10px] text-black transition hover:border-[var(--champagne)]"
           >
-            Bid
+            {locale === "zh" ? "归属" : "Belong"}
           </Link>
         </div>
       </div>
