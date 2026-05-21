@@ -35,7 +35,7 @@ function paymentMessage(locale: Locale, status?: string, expectedAmount?: string
       en: "Payment proof is incomplete. Check the payer wallet and transaction hash.",
     },
     missing: {
-      zh: "没有找到对应作品，请从现售孤品页重新进入。",
+      zh: "没有找到对应作品，请从顶奢作品页重新进入。",
       en: "The work was not found. Please enter again from the collection page.",
     },
     sold: {
@@ -43,8 +43,8 @@ function paymentMessage(locale: Locale, status?: string, expectedAmount?: string
       en: "This work already belongs to someone and cannot receive another payment proof.",
     },
     amount: {
-      zh: `付款金额必须等于固定归属价${expected ? `：${expected}` : "。"}。`,
-      en: `Payment amount must match the fixed price${expected ? `: ${expected}` : "."}`,
+      zh: `付款金额必须等于顶奢定价${expected ? `：${expected}` : "。"}。`,
+      en: `Payment amount must match the ultra-luxury fixed price${expected ? `: ${expected}` : "."}`,
     },
     usdt_submitted: {
       zh: "付款凭证已提交。后台确认到账后，将登记拥有者并安排发货。",
@@ -113,7 +113,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
             <p className="mt-6 text-xl leading-9 text-[var(--graphite)]">{product.inspiration}</p>
             <div className="mt-10 grid grid-cols-2 gap-4 border-y border-black/10 py-6">
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "固定归属价" : "Fixed Price"}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "顶奢定价" : "Ultra-Luxury Price"}</p>
                 <p className="mt-2 font-mono text-2xl">{formatCurrency(product.currentPrice)}</p>
               </div>
               <div>
@@ -169,8 +169,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
                 <input type="hidden" name="returnPath" value={productPath} />
                 <p className="mb-5 text-xs leading-6 text-[var(--ash)]">
                   {locale === "zh"
-                    ? `已登录为 ${session.email || session.nickname || "Private Collector"}。请按固定归属价支付 USDT，并提交链上交易哈希。`
-                    : `Signed in as ${session.email || session.nickname || "Private Collector"}. Send USDT for the fixed price, then submit the transaction hash.`}
+                    ? `已登录为 ${session.email || session.nickname || "Private Collector"}。请按顶奢定价支付 USDT，并提交链上交易哈希。`
+                    : `Signed in as ${session.email || session.nickname || "Private Collector"}. Send USDT for the ultra-luxury fixed price, then submit the transaction hash.`}
                 </p>
                 <div className="mb-5 border border-black/12 bg-[var(--ivory)] p-4">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
@@ -232,8 +232,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
               {product.status === "sold"
                 ? `${locale === "zh" ? "此件已归于" : "Belongs to"} ${product.ownerNickname} / ${formatDate(product.soldAt ?? product.endsAt)}`
                 : locale === "zh"
-                  ? "固定归属价直接出售。收到 USDT 并经后台确认后，作品只登记给一位主人。"
-                  : "Sold at a fixed direct price. After USDT receipt is manually confirmed, the work is registered to one owner only."}
+                  ? "顶奢定价直接出售。收到 USDT 并经后台确认后，作品只登记给一位主人，不复制、不复刻。"
+                  : "Sold at an ultra-luxury fixed price. After USDT receipt is manually confirmed, the work is registered to one owner only and is never reproduced."}
             </p>
           </div>
           <div className="border-t border-black/12 pt-6">

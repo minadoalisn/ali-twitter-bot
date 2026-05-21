@@ -2,8 +2,8 @@ import { AuctionPage } from "@/components/sections/auction-page";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "现售孤品",
-  description: "Noirven 诺梵现售孤品展示仍在等待唯一主人确认的编号高珠宝作品。",
+  title: "顶奢作品",
+  description: "Noirven 诺梵顶奢作品：举世无双、仅此一件、不复制不复刻的编号顶级奢侈品级高珠宝作品。",
   path: "/auctions",
 });
 

@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 const siteName = "Noirven 诺梵高奢";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
 
-const baseTitle = "Noirven 诺梵高奢｜现售孤品·轻奢艺术珠宝";
+const baseTitle = "Noirven 诺梵高奢｜顶级奢侈品级艺术珠宝";
 const baseDescription =
-  "Noirven 诺梵高奢以故事系列、唯一编号与固定归属价呈现独一无二的轻奢艺术珠宝。每一次归属，都是一次收藏。";
+  "Noirven 诺梵高奢只发布举世无双的编号顶级奢侈品级作品：每件仅此一件，不复制、不复刻、不再生产，付款确认后只归一位主人。";
 
 export function createMetadata({
   title,

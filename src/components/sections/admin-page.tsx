@@ -36,7 +36,8 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
               <li>01. {locale === "zh" ? "选择故事系列、品类、材质和灵感词。" : "Choose story series, category, materials, and inspiration."}</li>
               <li>02. {locale === "zh" ? "组合 Story Lock、Style Lock 和禁止仿牌规则。" : "Combine Story Lock, Style Lock, and anti-imitation rules."}</li>
               <li>03. {locale === "zh" ? "生成四张概念图，管理员精选一张。" : "Generate four concepts and curate one."}</li>
-              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述、固定归属价，进入现售孤品。" : "Create title, serial, SEO copy, fixed price, and publish as one-of-one."}</li>
+              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述、顶奢定价，进入顶奢作品库。" : "Create title, serial, SEO copy, ultra-luxury fixed price, and publish as an unrepeatable work."}</li>
+              <li>05. {locale === "zh" ? "每个故事章节必须绑定一个产品、一件饰品和一个唯一编号，为影视剧、游戏与角色 IP 留档。" : "Each story chapter must bind one product, one jewel, and one serial for future film, drama, game, and character IP archives."}</li>
               <li>05. {locale === "zh" ? "用户提交 USDT 凭证，后台确认到账后登记拥有者并安排发货。" : "User submits USDT proof; admin confirms receipt, registers owner, and handles delivery."}</li>
             </ol>
           </div>

@@ -40,10 +40,10 @@ export default function Page() {
       },
       {
         "@type": "Question",
-        name: "How does this relate to one-of-one works?",
+        name: "How does this relate to ultra-luxury works?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "The collection presents numbered one-of-one works at fixed ownership prices; custom is for building a dedicated plan under clear requirements. Both emphasize traceability, clarity, and one-to-one narrative intent.",
+          text: "The collection presents numbered ultra-luxury one-of-one works at fixed ownership prices; custom is for building a dedicated plan under clear requirements. Both emphasize traceability, clarity, and one-to-one narrative intent.",
         },
       },
     ],

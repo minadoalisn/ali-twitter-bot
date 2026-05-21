@@ -44,14 +44,14 @@ export function AuctionPage({ locale = "zh", searchParams = {} }: { locale?: Loc
       <SiteHeader locale={locale} />
       <main>
         <section className="section-shell py-20">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">One-of-One Collection</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Ultra-Luxury Works</p>
           <h1 className="mt-5 max-w-3xl font-serif text-6xl font-normal leading-tight">
-            {locale === "zh" ? "独一作品，固定归属价。" : "One-of-one works, fixed ownership prices."}
+            {locale === "zh" ? "顶级奢侈品级作品，仅此一件。" : "Ultra-luxury works, one physical piece only."}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--graphite)]">
             {locale === "zh"
-              ? "新品按编号优先展示，满页后进入下一页，也可以按故事线筛选。每件作品以高珠宝唯一件价值直接出售，USDT 到账确认后登记拥有者并安排发货。"
-              : "New pieces appear first and paginate after a full page. Filter by storyline; each work is sold directly at a fixed one-of-one high-jewelry price. Ownership and delivery follow USDT receipt confirmation."}
+              ? "新品按编号优先展示，满页后进入下一页，也可以按故事线筛选。每个故事章节对应一个产品、一件饰品、一个编号；每件作品按顶级奢侈品级材质、工艺与唯一实体价值直接出售，USDT 到账确认后登记拥有者并安排发货。"
+              : "New pieces appear first and paginate after a full page. Filter by storyline; each story chapter maps to one product, one jewel, and one serial. Each work is sold directly at an ultra-luxury fixed price shaped by materials, craft, and one-physical-piece value."}
           </p>
         </section>
         <section className="section-shell pb-24">

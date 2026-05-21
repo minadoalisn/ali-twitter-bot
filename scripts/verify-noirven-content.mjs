@@ -71,6 +71,10 @@ const forbiddenFiles = [
 
 const walletConnectFile = path.join(root, "src", "components", "ui", "wallet-connect-panel.tsx");
 const productDetailFile = path.join(root, "src", "components", "sections", "product-detail.tsx");
+const usdtRouteFile = path.join(root, "src", "app", "api", "payments", "usdt", "route.ts");
+const envExampleFile = path.join(root, ".env.example");
+const expectedBnbReceivingAddress = "0xbd00c3d12dB5840A403D2880039Cb1c86155F8cC";
+const jewelryCategories = new Set(["ring", "necklace", "earring", "bracelet", "watch", "stud", "brooch"]);
 
 function fail(message) {
   failures.push(message);
@@ -148,6 +152,17 @@ if (!productDetailSource.includes("WalletConnectPanel")) {
   fail("product detail must render the wallet connect panel in the USDT payment form");
 }
 
+[
+  ["product detail receiving address", productDetailFile],
+  ["USDT payment route receiving address", usdtRouteFile],
+  ["environment example receiving address", envExampleFile],
+].forEach(([label, file]) => {
+  const fileSource = readFileSync(file, "utf8");
+  if (!fileSource.includes(expectedBnbReceivingAddress)) {
+    fail(`${label} must use the official BNB receiving address`);
+  }
+});
+
 checkUnique(allProducts, "product serial", (product) => product.serial);
 checkUnique(allProducts, "product slug", (product) => product.slug);
 checkUnique(allProducts, "product id", (product) => product.id);
@@ -214,6 +229,10 @@ chapters.forEach((chapter) => {
     fail(`${chapter.code} series mismatch: story=${chapter.seriesId}, product=${product.seriesId}`);
   }
 
+  if (!jewelryCategories.has(product.category)) {
+    fail(`${chapter.code} must map to one jewelry product category: ${chapter.productSerial}`);
+  }
+
   const imagePath = publicPathFromImage(product.image);
   if (!imagePath || !existsSync(imagePath)) {
     fail(`${chapter.code} product has no existing image: ${chapter.productSerial}`);
@@ -236,7 +255,7 @@ allProducts.forEach((product) => {
 
 const productsWith360Fallback = allProducts.filter((product) => product.image || product.spinVideo).length;
 notes.push(`${allProducts.length} products checked`);
-notes.push(`${chapters.length} story chapters checked`);
+notes.push(`${chapters.length} story chapters checked with one product and one jewelry category each`);
 notes.push(`${productsWith360Fallback} products have a 360 display source`);
 
 if (failures.length > 0) {

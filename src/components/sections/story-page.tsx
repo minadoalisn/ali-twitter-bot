@@ -16,10 +16,10 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
         ? [
             {
               "@type": "Question",
-              name: "Noirven 的固定归属价是什么？",
+              name: "Noirven 的顶奢定价是什么？",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Noirven 为每件编号孤品设定固定归属价。用户完成 USDT 付款并提交凭证后，后台确认到账，再登记拥有者与发货信息。",
+                text: "Noirven 为每件编号顶级奢侈品级作品设定顶奢定价。用户完成 USDT 付款并提交凭证后，后台确认到账，再登记拥有者与发货信息。",
               },
             },
             {
@@ -42,10 +42,10 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
         : [
             {
               "@type": "Question",
-              name: "What is Noirven’s fixed ownership price?",
+              name: "What is Noirven’s ultra-luxury fixed price?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Each numbered one-of-one work has a fixed ownership price. After a user sends USDT and submits proof, admin confirms receipt and registers ownership and delivery.",
+                text: "Each numbered ultra-luxury work has a fixed ownership price. After a user sends USDT and submits proof, admin confirms receipt and registers ownership and delivery.",
               },
             },
             {
@@ -80,7 +80,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
           <p className="mt-8 max-w-3xl text-xl leading-10 text-[var(--graphite)]">
             {locale === "zh"
               ? "Noirven 讲述的是：世界上有些人和有些作品，都曾经被忽略、被错过、被误解，甚至被认为不值得被选择。但真正独一无二的存在，不会因为一时尚未被确认就失去价值。"
-              : "Noirven tells a story about people and works that have been overlooked, missed, or misunderstood. A one-of-one presence does not lose value because it was not chosen at first."}
+              : "Noirven tells a story about people and works that have been overlooked, missed, or misunderstood. An unrepeatable ultra-luxury presence does not lose value because it was not chosen at first."}
           </p>
         </section>
         <section className="noir-surface py-20">
@@ -113,7 +113,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
         <section className="section-shell py-20">
           <div className="mb-12 max-w-2xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--ash)]">Series As IP</p>
-            <h2 className="mt-4 font-serif text-5xl font-normal">{locale === "zh" ? "每个系列是一条可延展故事线。" : "Each series is an expandable storyline."}</h2>
+            <h2 className="mt-4 font-serif text-5xl font-normal">{locale === "zh" ? "每个故事，对应一件顶奢饰品。" : "Each story maps to one ultra-luxury jewel."}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2">
             {storySeries.map((series) => (
@@ -133,8 +133,8 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 </h2>
                 <p className="mt-5 text-sm leading-7 text-[var(--graphite)]">
                   {locale === "zh"
-                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质、固定归属价与 360 展示后再进入现售孤品。"
-                    : "New chapters and product directions enter curation daily, then move into the one-of-one collection after imagery, serials, materials, fixed pricing, and 360 display are confirmed."}
+                    ? "每天新增故事章节和产品方向，先进入策展草案。确认配图、编号、材质、顶奢定价与 360 展示后，才进入顶奢作品库。每个故事章节只绑定一个产品、一件饰品和一个唯一编号，为未来影视剧、短剧、游戏与角色 IP 留档。"
+                    : "New chapters and product directions enter curation daily, then move into the ultra-luxury collection after imagery, serials, materials, fixed pricing, and 360 display are confirmed. Each story chapter binds one product, one jewel, and one serial for future film, short-drama, game, and character IP archives."}
                 </p>
               </div>
               <div className="grid gap-5 md:grid-cols-2">

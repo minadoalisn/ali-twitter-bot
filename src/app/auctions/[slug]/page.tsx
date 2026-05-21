@@ -8,7 +8,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = getProduct(slug);
   return createMetadata({
-    title: product ? `${product.zhTitle} ${product.serial}` : "现售孤品",
+    title: product ? `${product.zhTitle} ${product.serial}` : "顶奢作品",
     description: product?.concept,
     path: `/auctions/${slug}`,
     image: product?.image,

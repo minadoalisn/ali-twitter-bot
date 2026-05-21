@@ -2,8 +2,8 @@ import { AuctionPage } from "@/components/sections/auction-page";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "One-of-One Works",
-  description: "Noirven presents numbered one-of-one high-jewelry works available at fixed ownership prices.",
+  title: "Ultra-Luxury Works",
+  description: "Noirven presents numbered ultra-luxury high-jewelry works: one physical piece, never copied, never reissued, and sold at fixed ownership prices.",
   path: "/en/auctions",
 });
 

@@ -21,7 +21,7 @@ export const navCopy: Record<
 > = {
   zh: {
     custom: "定制",
-    auctions: "现售孤品",
+    auctions: "顶奢作品",
     series: "故事系列",
     sold: "已售档案",
     story: "品牌故事",
@@ -30,7 +30,7 @@ export const navCopy: Record<
   },
   en: {
     custom: "Custom",
-    auctions: "One-of-One",
+    auctions: "Ultra-Luxury",
     series: "Story Series",
     sold: "Archive",
     story: "Story",
@@ -54,26 +54,26 @@ export const homeCopy: Record<
   }
 > = {
   zh: {
-    eyebrow: "固定归属价 / 唯一编号 / 轻奢艺术首饰",
+    eyebrow: "举世无双 / 仅此一件 / 不复制不复刻",
     headline: "每一次归属，都是一次拯救。",
-    subhead: "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。付款确认后，它从此只归一人。",
-    primaryCta: "查看现售孤品",
+    subhead: "每件 Noirven 只存在一个实体：一个编号、一条故事、一组材质记忆。不复制，不复刻，不再生产；付款确认后，从此只归一人。",
+    primaryCta: "查看顶奢作品",
     secondaryCta: "品牌故事",
     seriesTitle: "故事系列",
-    seriesIntro: "每个系列是一条故事线，每件作品是一章等待被认出的档案。",
-    auctionTitle: "正在等待归属的作品",
+    seriesIntro: "每个系列可以延展成故事宇宙，但每一件作品都只制作一次，不会再有第二件。",
+    auctionTitle: "举世无双的顶奢作品",
     archiveTitle: "已被认出的作品",
   },
   en: {
-    eyebrow: "Fixed ownership price / One serial / Light-luxury art jewelry",
+    eyebrow: "Unrepeatable / One Physical Piece / Never Reproduced",
     headline: "Every belonging is a quiet rescue.",
     subhead:
-      "Noirven believes a one-of-one work should not be judged by trends. Once payment is confirmed, it belongs to one person only.",
-    primaryCta: "Shop One-of-One",
+      "Every Noirven work exists as one physical piece: one serial, one story, one material memory. Never copied, never reissued; after confirmation, it belongs to one collector only.",
+    primaryCta: "Shop Ultra-Luxury",
     secondaryCta: "Brand Story",
     seriesTitle: "Story Series",
-    seriesIntro: "Each series is a storyline. Each piece is a numbered archive waiting to be recognized.",
-    auctionTitle: "Works Awaiting Belonging",
+    seriesIntro: "Each series can expand into a story universe, but every finished work is made once and never repeated.",
+    auctionTitle: "Unrepeatable Ultra-Luxury Works",
     archiveTitle: "Recognized Archive",
   },
 };

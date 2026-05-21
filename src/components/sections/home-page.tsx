@@ -51,7 +51,7 @@ function HeroSaleStrip({ locale }: { locale: Locale }) {
       <div className="grid items-center border border-black/12 bg-[rgba(251,250,246,0.72)] md:grid-cols-[0.95fr_1.2fr_0.75fr_0.5fr]">
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
           <p className="font-mono text-[11px] text-[var(--ash)]">
-            {locale === "zh" ? "最新上线孤品" : "Latest One-of-One"} · {featured.serial}
+            {locale === "zh" ? "最新上线顶奢作品" : "Latest Ultra-Luxury Work"} · {featured.serial}
           </p>
           <p className="mt-2 text-sm text-black">{locale === "zh" ? featured.zhTitle : featured.title}</p>
         </div>
@@ -86,11 +86,11 @@ function MobileHeroSale({ locale }: { locale: Locale }) {
   return (
     <div className="mx-auto mt-8 max-w-sm border border-black/12 p-4 md:hidden">
       <p className="font-mono text-[11px] text-[var(--ash)]">
-        {locale === "zh" ? "最新上线孤品" : "Latest One-of-One"} · {featured.serial}
+        {locale === "zh" ? "最新上线顶奢作品" : "Latest Ultra-Luxury Work"} · {featured.serial}
       </p>
       <p className="mt-2 font-mono text-2xl">{formatCurrency(featured.currentPrice)}</p>
       <p className="mb-4 mt-2 text-sm leading-6 text-[var(--graphite)]">{locale === "zh" ? featured.zhTitle : featured.title}</p>
-      <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "查看现售孤品" : "Shop One-of-One"}</LinkButton>
+      <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "查看顶奢作品" : "Shop Ultra-Luxury"}</LinkButton>
       <div className="mt-3">
         <LinkButton href={withLocale(locale, "/story")} variant="outline">
           {locale === "zh" ? "品牌故事" : "Story"}
@@ -129,8 +129,8 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
             </h1>
             <p className="mt-6 max-w-md text-sm leading-7 text-[var(--graphite)]">
               {locale === "zh"
-                ? "每件作品都有一个编号、一句心事与固定归属价。付款确认后，它从此只属于一位主人。"
-                : "Every work carries a serial, a hidden feeling, and a fixed ownership price. After payment is confirmed, it belongs to one collector only."}
+                ? "每件作品都是顶级奢侈品级的唯一实体：一个编号、一句心事、一件饰品，不复制、不复刻。付款确认后，它从此只属于一位主人。"
+                : "Every work is an ultra-luxury one-physical-piece creation: one serial, one feeling, one jewel. Never copied, never reissued; after confirmation, it belongs to one collector only."}
             </p>
             <div className="mt-8 hidden gap-4 md:flex">
               <LinkButton href={withLocale(locale, "/auctions")}>{copy.primaryCta}</LinkButton>
@@ -159,7 +159,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
         <section className="border-y border-black/10 bg-[var(--ivory)]">
           <div className="section-shell grid gap-8 py-12 md:grid-cols-3">
             {[
-              { icon: Gem, label: locale === "zh" ? "固定归属价" : "Fixed Price", text: locale === "zh" ? "按高珠宝唯一件价值直接出售，确认后只归一人。" : "Each work is sold by its high-jewelry one-of-one value and belongs to one collector after confirmation." },
+              { icon: Gem, label: locale === "zh" ? "顶奢定价" : "Ultra-Luxury Price", text: locale === "zh" ? "按顶级奢侈品级材质、工艺与唯一实体价值直接出售，确认后只归一人。" : "Each work is priced by ultra-luxury materials, craft, and one-physical-piece value, then belongs to one collector after confirmation." },
               { icon: Archive, label: locale === "zh" ? "唯一编号" : "One Serial", text: locale === "zh" ? "每件作品内侧或背面刻入 N+编号。" : "Every work carries an N+serial engraving." },
               { icon: ShieldCheck, label: locale === "zh" ? "到账确认" : "Receipt Review", text: locale === "zh" ? "USDT 到账后后台登记拥有者并安排发货。" : "After USDT receipt is confirmed, ownership and delivery are registered." },
             ].map((item) => (
@@ -187,7 +187,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
           <div className="section-shell">
             <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">One-of-One Collection</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">Ultra-Luxury Works</p>
                 <h2 className="mt-4 font-serif text-5xl font-normal text-white">{copy.auctionTitle}</h2>
               </div>
               <LinkButton href={withLocale(locale, "/auctions")} variant="light">

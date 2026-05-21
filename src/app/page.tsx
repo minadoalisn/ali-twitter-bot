@@ -2,8 +2,8 @@ import { HomePage } from "@/components/sections/home-page";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "现售孤品·轻奢艺术珠宝",
-  description: "Noirven 诺梵以故事系列、唯一编号与固定归属价呈现独一无二的轻奢艺术珠宝。",
+  title: "顶级奢侈品级艺术珠宝",
+  description: "Noirven 诺梵只发布举世无双的编号顶级奢侈品级作品：每件仅此一件，不复制、不复刻、不再生产。",
   path: "/",
 });
 

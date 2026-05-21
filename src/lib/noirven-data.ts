@@ -18,10 +18,10 @@ export const brand = {
   name: "NOIRVEN",
   cnName: "诺梵",
   proposition: "每一次归属，都是一次拯救。",
-  secondary: "不由多数定义，只由唯一确认。",
+  secondary: "举世无双，只由唯一确认。",
   story:
-    "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。每一件作品都有自己的编号与固定归属价。一旦付款被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
-  cta: "查看现售孤品",
+    "Noirven 诺梵相信，真正独一无二的顶级奢侈品级作品，不该被流行审判。每一件作品都只有一个实体、一个编号和一段不可复制的故事；不复制，不复刻，不再生产。一旦付款被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
+  cta: "查看顶奢作品",
   storyCta: "品牌故事",
 };
 
@@ -586,7 +586,7 @@ function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
     seriesId: seed.seriesId,
     category: seed.category,
     inspiration: seed.storyLine,
-    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，完成 USDT 到账确认后只归属一位主人。`,
+    concept: `${seed.storyLine} 这一件以顶级奢侈品级材质、工艺和故事线共同构成唯一记忆，只制作一个实体，不复制、不复刻；完成 USDT 到账确认后只归属一位主人。`,
     materials,
     craft,
     startPrice,
