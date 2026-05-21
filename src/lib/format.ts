@@ -18,30 +18,27 @@ export function formatDate(date: string) {
 }
 
 const sevenDayCycleMs = 7 * 86_400_000;
+const maxVisibleSevenDayCycleMs = sevenDayCycleMs - 1000;
 
 export function getSevenDayCycleEnd(date: string, nowMs = Date.now()) {
-  const originalEndMs = new Date(date).getTime();
-
-  if (!Number.isFinite(originalEndMs)) {
-    return new Date(nowMs + sevenDayCycleMs);
-  }
-
-  let endMs = originalEndMs;
-  const diff = endMs - nowMs;
-
-  if (diff <= 0) {
-    const missedCycles = Math.floor(Math.abs(diff) / sevenDayCycleMs) + 1;
-    endMs += missedCycles * sevenDayCycleMs;
-  } else if (diff > sevenDayCycleMs) {
-    const futureCycles = Math.floor((diff - 1) / sevenDayCycleMs);
-    endMs -= futureCycles * sevenDayCycleMs;
-  }
-
-  return new Date(endMs);
+  return new Date(nowMs + getSevenDayCycleDiffMs(date, nowMs));
 }
 
 export function getSevenDayCycleDiffMs(date: string, nowMs = Date.now()) {
-  return Math.max(0, getSevenDayCycleEnd(date, nowMs).getTime() - nowMs);
+  const endMs = new Date(date).getTime();
+
+  if (!Number.isFinite(endMs)) {
+    return maxVisibleSevenDayCycleMs;
+  }
+
+  const rawDiff = endMs - nowMs;
+  const cycleDiff = ((rawDiff % sevenDayCycleMs) + sevenDayCycleMs) % sevenDayCycleMs;
+
+  if (cycleDiff === 0) {
+    return maxVisibleSevenDayCycleMs;
+  }
+
+  return Math.min(cycleDiff, maxVisibleSevenDayCycleMs);
 }
 
 export function getTimeLeft(date: string) {
