@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { getSevenDayCycleDiffMs } from "@/lib/format";
 
 function getParts(target: string) {
-  const diff = Math.max(0, new Date(target).getTime() - Date.now());
+  const diff = getSevenDayCycleDiffMs(target);
   const days = Math.floor(diff / 86_400_000);
   const hours = Math.floor((diff % 86_400_000) / 3_600_000);
   const minutes = Math.floor((diff % 3_600_000) / 60_000);

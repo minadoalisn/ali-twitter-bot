@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
 import { Product360Viewer } from "@/components/ui/product-360-viewer";
-import { categoryLabel, formatCurrency, formatDate, getTimeLeft } from "@/lib/format";
+import { categoryLabel, formatCurrency, formatDate, getSevenDayCycleEnd, getTimeLeft } from "@/lib/format";
 import { getProduct, getSeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
@@ -67,6 +67,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
   const imageUrl = product.image.startsWith("/") ? `${baseUrl}${product.image}` : product.image;
   const productName = locale === "zh" ? `${product.zhTitle} ${product.serial}` : `${product.title} ${product.serial}`;
   const productDescription = product.concept || product.inspiration || "";
+  const cycleEnd = getSevenDayCycleEnd(product.endsAt);
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -84,7 +85,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
       priceCurrency: "USD",
       price: String(product.currentPrice),
       availability: product.status === "sold" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-      priceValidUntil: new Date(product.endsAt).toISOString(),
+      priceValidUntil: cycleEnd.toISOString(),
       itemCondition: "https://schema.org/NewCondition",
     },
   } as const;
