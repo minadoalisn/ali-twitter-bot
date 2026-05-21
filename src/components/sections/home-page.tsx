@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Archive, Clock3, Menu, ShieldCheck } from "lucide-react";
+import { ArrowRight, Archive, Gem, Menu, ShieldCheck } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { LinkButton } from "@/components/ui/link-button";
-import { Countdown } from "@/components/ui/countdown";
 import { ProductCard } from "@/components/sections/product-card";
 import { SeriesGrid } from "@/components/sections/series-grid";
 import { homeCopy, navCopy, withLocale } from "@/lib/i18n";
 import { liveProducts, materialNarratives, soldProducts, storySeries } from "@/lib/noirven-data";
+import { formatCurrency } from "@/lib/format";
 import type { Locale } from "@/lib/types";
 
 function serialNumber(serial: string) {
@@ -43,18 +43,21 @@ function HeroNav({ locale }: { locale: Locale }) {
   );
 }
 
-function HeroAuctionStrip({ locale }: { locale: Locale }) {
+function HeroSaleStrip({ locale }: { locale: Locale }) {
   const featured = newestLiveProducts()[0];
 
   return (
     <section className="section-shell pb-8">
       <div className="grid items-center border border-black/12 bg-[rgba(251,250,246,0.72)] md:grid-cols-[0.95fr_1.2fr_0.75fr_0.5fr]">
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
-          <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "最新待归之作" : "Latest One-of-One"} · {featured.serial}</p>
+          <p className="font-mono text-[11px] text-[var(--ash)]">
+            {locale === "zh" ? "最新上线孤品" : "Latest One-of-One"} · {featured.serial}
+          </p>
           <p className="mt-2 text-sm text-black">{locale === "zh" ? featured.zhTitle : featured.title}</p>
         </div>
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
-          <Countdown target={featured.endsAt} />
+          <p className="font-mono text-2xl text-black">{formatCurrency(featured.currentPrice)}</p>
+          <p className="mt-2 text-xs uppercase tracking-[0.16em] text-[var(--ash)]">Fixed Ownership Price / USDT</p>
         </div>
         <div className="relative hidden h-28 md:block">
           <Image
@@ -70,21 +73,24 @@ function HeroAuctionStrip({ locale }: { locale: Locale }) {
           href={withLocale(locale, `/auctions/${featured.slug}`)}
           className="focus-ring flex h-full min-h-20 items-center justify-center gap-2 p-5 text-sm transition hover:bg-black hover:text-white"
         >
-          {locale === "zh" ? "查看此作" : "View Work"} <ArrowRight size={15} />
+          {locale === "zh" ? "查看并购买" : "View Work"} <ArrowRight size={15} />
         </Link>
       </div>
     </section>
   );
 }
 
-function MobileHeroAuction({ locale }: { locale: Locale }) {
+function MobileHeroSale({ locale }: { locale: Locale }) {
   const featured = newestLiveProducts()[0];
 
   return (
     <div className="mx-auto mt-8 max-w-sm border border-black/12 p-4 md:hidden">
-      <p className="font-mono text-[11px] text-[var(--ash)]">{locale === "zh" ? "最新待归之作" : "Latest One-of-One"} · {featured.serial}</p>
-      <Countdown target={featured.endsAt} compact />
-      <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "进入七日归属" : "Enter Belonging"}</LinkButton>
+      <p className="font-mono text-[11px] text-[var(--ash)]">
+        {locale === "zh" ? "最新上线孤品" : "Latest One-of-One"} · {featured.serial}
+      </p>
+      <p className="mt-2 font-mono text-2xl">{formatCurrency(featured.currentPrice)}</p>
+      <p className="mb-4 mt-2 text-sm leading-6 text-[var(--graphite)]">{locale === "zh" ? featured.zhTitle : featured.title}</p>
+      <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "查看现售孤品" : "Shop One-of-One"}</LinkButton>
       <div className="mt-3">
         <LinkButton href={withLocale(locale, "/story")} variant="outline">
           {locale === "zh" ? "品牌故事" : "Story"}
@@ -123,8 +129,8 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
             </h1>
             <p className="mt-6 max-w-md text-sm leading-7 text-[var(--graphite)]">
               {locale === "zh"
-                ? "每件作品都有一个编号、一句心事、进入七日归属，等待被唯一确认。"
-                : "Every work carries a serial, a hidden feeling, and a seven-day wait to be recognized by one."}
+                ? "每件作品都有一个编号、一句心事与固定归属价。付款确认后，它从此只属于一位主人。"
+                : "Every work carries a serial, a hidden feeling, and a fixed ownership price. After payment is confirmed, it belongs to one collector only."}
             </p>
             <div className="mt-8 hidden gap-4 md:flex">
               <LinkButton href={withLocale(locale, "/auctions")}>{copy.primaryCta}</LinkButton>
@@ -143,19 +149,19 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
               className="object-contain"
             />
           </div>
-          <MobileHeroAuction locale={locale} />
+          <MobileHeroSale locale={locale} />
         </section>
 
         <div className="hidden md:block">
-          <HeroAuctionStrip locale={locale} />
+          <HeroSaleStrip locale={locale} />
         </div>
 
         <section className="border-y border-black/10 bg-[var(--ivory)]">
           <div className="section-shell grid gap-8 py-12 md:grid-cols-3">
             {[
-              { icon: Clock3, label: locale === "zh" ? "七日归属" : "Seven Days", text: locale === "zh" ? "尚未遇见唯一主人，则进入下一轮等待。" : "If its one owner has not arrived, the work waits again." },
+              { icon: Gem, label: locale === "zh" ? "固定归属价" : "Fixed Price", text: locale === "zh" ? "按高珠宝唯一件价值直接出售，确认后只归一人。" : "Each work is sold by its high-jewelry one-of-one value and belongs to one collector after confirmation." },
               { icon: Archive, label: locale === "zh" ? "唯一编号" : "One Serial", text: locale === "zh" ? "每件作品内侧或背面刻入 N+编号。" : "Every work carries an N+serial engraving." },
-              { icon: ShieldCheck, label: locale === "zh" ? "灵活佩戴" : "Adaptive Fit", text: locale === "zh" ? "戒指与手环可在交付前按佩戴者微调，降低尺码风险。" : "Rings and bracelets can be adjusted before delivery to reduce sizing risk." },
+              { icon: ShieldCheck, label: locale === "zh" ? "到账确认" : "Receipt Review", text: locale === "zh" ? "USDT 到账后后台登记拥有者并安排发货。" : "After USDT receipt is confirmed, ownership and delivery are registered." },
             ].map((item) => (
               <div key={item.label} className="flex gap-4">
                 <item.icon size={20} className="mt-1 text-[var(--antique-gold)]" />
@@ -181,7 +187,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
           <div className="section-shell">
             <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">Seven-Day Belonging</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">One-of-One Collection</p>
                 <h2 className="mt-4 font-serif text-5xl font-normal text-white">{copy.auctionTitle}</h2>
               </div>
               <LinkButton href={withLocale(locale, "/auctions")} variant="light">

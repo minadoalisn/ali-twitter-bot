@@ -13,8 +13,8 @@ export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
           <BrandMark href={`${prefix}/`} compact light />
           <p className="max-w-md text-sm leading-7 text-white/62">
             {locale === "zh"
-              ? "每件作品都有编号。尚未归属，它继续等待；一旦被确认，它从此只归一人。"
-              : "Every work is numbered. If still awaiting belonging, it waits again. Once recognized, it belongs to one person only."}
+              ? "每件作品都有编号。确认付款后，它从此只归一人，并进入拥有者档案。"
+              : "Every work is numbered. Once payment is confirmed, it belongs to one person only and enters the owner archive."}
           </p>
           <div className="flex items-center gap-3">
             <NMark light />
@@ -35,7 +35,7 @@ export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
           <h2 className="text-xs uppercase tracking-[0.22em] text-white/46">Paths</h2>
           <div className="mt-5 grid gap-3 text-sm text-white/66">
             <Link href={`${prefix}/custom`}>{locale === "zh" ? "定制" : "Custom"}</Link>
-            <Link href={`${prefix}/auctions`}>{locale === "zh" ? "七日归属" : "Seven-Day Belonging"}</Link>
+            <Link href={`${prefix}/auctions`}>{locale === "zh" ? "现售孤品" : "One-of-One"}</Link>
             <Link href={`${prefix}/series`}>{locale === "zh" ? "故事系列" : "Story Series"}</Link>
             <Link href={`${prefix}/sold`}>{locale === "zh" ? "已售档案" : "Archive"}</Link>
             <Link href={`${prefix}/admin`}>{locale === "zh" ? "后台入口" : "Admin"}</Link>

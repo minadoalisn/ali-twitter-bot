@@ -16,26 +16,18 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
         ? [
             {
               "@type": "Question",
-              name: "Noirven 的「七日归属」是什么？",
+              name: "Noirven 的固定归属价是什么？",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Noirven 以七日为一个归属窗口展示作品：每件作品带有唯一编号，进入为期七天的确认期，等待被唯一主人认出。",
+                text: "Noirven 为每件编号孤品设定固定归属价。用户完成 USDT 付款并提交凭证后，后台确认到账，再登记拥有者与发货信息。",
               },
             },
             {
               "@type": "Question",
-              name: "「唯一编号」意味着什么？",
+              name: "唯一编号意味着什么？",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "每件作品都有独立的编号与页面信息，用于区分与记录作品的系列、故事线与归属状态。",
-              },
-            },
-            {
-              "@type": "Question",
-              name: "如果七天内没有归属，会发生什么？",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "若作品尚未被确认归属，它不会被下架或放弃，而会进入下一轮等待与展示。",
+                text: "每件作品都有独立编号与页面信息，用于区分并记录作品的系列、故事线、材质、工艺与归属状态。",
               },
             },
             {
@@ -43,33 +35,25 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               name: "页面里的 360° 视图是什么？",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "部分作品页面提供 360° 视图，用于从多个角度观察外观细节（基于图片序列/旋转展示）。",
+                text: "部分作品页面提供 360° 视图，用于从多个角度观察外观细节。",
               },
             },
           ]
         : [
             {
               "@type": "Question",
-              name: "What is Noirven’s seven-day belonging window?",
+              name: "What is Noirven’s fixed ownership price?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Noirven presents each work in a seven-day belonging window. Every piece carries a unique serial and waits seven days to be recognized by its owner.",
+                text: "Each numbered one-of-one work has a fixed ownership price. After a user sends USDT and submits proof, admin confirms receipt and registers ownership and delivery.",
               },
             },
             {
               "@type": "Question",
-              name: "What does “unique serial” mean?",
+              name: "What does unique serial mean?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Each work has its own serial and dedicated page information to distinguish and record its series, storyline, and belonging status.",
-              },
-            },
-            {
-              "@type": "Question",
-              name: "What if a piece doesn’t find an owner in seven days?",
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: "If a work has not been confirmed to an owner, it remains available and can enter another round of waiting and display.",
+                text: "Each work has its own serial and dedicated page information to record its series, storyline, materials, craft, and ownership status.",
               },
             },
             {
@@ -77,7 +61,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               name: "What is the 360° view on product pages?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Some pages provide a 360° view to help you inspect visual details from multiple angles (via an image sequence / rotation view).",
+                text: "Some pages provide a 360° view to help inspect visual details from multiple angles.",
               },
             },
           ],
@@ -104,7 +88,7 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/46">N-0007 / Still Here</p>
               <h2 className="mt-5 font-serif text-5xl font-normal text-white">
-                {locale === "zh" ? "有一件作品，连续三轮仍在等待。" : "One work waited through three rounds."}
+                {locale === "zh" ? "有一件作品，一直安静地等在那里。" : "One work kept waiting quietly."}
               </h2>
             </div>
             <div className="space-y-6 text-lg leading-9 text-white/68">
@@ -115,8 +99,8 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               </p>
               <p>
                 {locale === "zh"
-                  ? "直到最后一小时，一个匿名用户出价。她留下昵称 Still Here，并写道：我也曾经以为，自己不会再被选择。"
-                  : "In the final hour, an anonymous user placed a bid. She left the nickname Still Here and wrote: I once thought I would never be chosen again."}
+                  ? "后来，一个匿名用户确认了它。她留下昵称 Still Here，并写道：我也曾经以为，自己不会再被选择。"
+                  : "Later, an anonymous collector confirmed it. She left the nickname Still Here and wrote: I once thought I would never be chosen again."}
               </p>
               <p>
                 {locale === "zh"
@@ -149,8 +133,8 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 </h2>
                 <p className="mt-5 text-sm leading-7 text-[var(--graphite)]">
                   {locale === "zh"
-                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质和起拍价后再进入七日归属。"
-                    : "New chapters and product directions enter curation daily, then move into a seven-day belonging window after imagery, serials, materials, and pricing are confirmed."}
+                    ? "每天新增故事章节和产品方向，先进入策展草案，确认配图、编号、材质、固定归属价与 360 展示后再进入现售孤品。"
+                    : "New chapters and product directions enter curation daily, then move into the one-of-one collection after imagery, serials, materials, fixed pricing, and 360 display are confirmed."}
                 </p>
               </div>
               <div className="grid gap-5 md:grid-cols-2">

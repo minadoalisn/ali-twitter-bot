@@ -4,70 +4,68 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
 import { Product360Viewer } from "@/components/ui/product-360-viewer";
-import { categoryLabel, formatCurrency, formatDate, getSevenDayCycleEnd, getTimeLeft } from "@/lib/format";
+import { WalletConnectPanel } from "@/components/ui/wallet-connect-panel";
+import { categoryLabel, formatCurrency, formatDate } from "@/lib/format";
 import { getProduct, getSeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
 import type { AuthSession } from "@/lib/auth";
 
+const defaultReceivingAddress = "0xbd00c3d12dB5840A403D2880039Cb1c86155F8cC";
+
 type ProductDetailProps = {
   slug: string;
   locale?: Locale;
   paymentStatus?: string;
-  minimumBid?: string;
+  expectedAmount?: string;
   session?: Pick<AuthSession, "email" | "nickname" | "role"> | null;
 };
 
-function paymentMessage(locale: Locale, status?: string, minimumBid?: string) {
+function paymentMessage(locale: Locale, status?: string, expectedAmount?: string) {
   if (!status) return "";
 
-  const minimum = minimumBid ? formatCurrency(Number(minimumBid)) : "";
+  const expected = expectedAmount ? formatCurrency(Number(expectedAmount)) : "";
   const copy: Record<string, { zh: string; en: string }> = {
-    cancelled: {
-      zh: "支付已取消，作品仍在等待。你可以重新确认出价并支付保证金。",
-      en: "Payment was cancelled. The work is still waiting; you can submit the bid again.",
-    },
-    minimum: {
-      zh: `出价需要达到最低加价${minimum ? `：${minimum}` : "要求"}。`,
-      en: `Bid must meet the minimum increment${minimum ? `: ${minimum}` : ""}.`,
+    auth: {
+      zh: "请先登录或注册，再提交 USDT 付款凭证。",
+      en: "Please sign in or create an account before submitting a USDT payment proof.",
     },
     invalid: {
-      zh: "出价信息不完整，请重新填写昵称与金额。",
-      en: "Bid details are incomplete. Please check nickname and amount.",
+      zh: "付款凭证信息不完整，请检查付款钱包地址与交易哈希。",
+      en: "Payment proof is incomplete. Check the payer wallet and transaction hash.",
     },
     missing: {
-      zh: "没有找到对应作品，请从七日归属页重新进入。",
-      en: "The auction work was not found. Please enter again from Auctions.",
+      zh: "没有找到对应作品，请从现售孤品页重新进入。",
+      en: "The work was not found. Please enter again from the collection page.",
     },
     sold: {
-      zh: "此件已归属，不能继续出价。",
-      en: "This work already belongs to someone and cannot receive more bids.",
+      zh: "此件已归属，不能继续提交付款。",
+      en: "This work already belongs to someone and cannot receive another payment proof.",
     },
-    stripe_config: {
-      zh: "Stripe 支付环境还未配置完成，请先完成支付密钥配置。",
-      en: "Stripe payment is not configured yet. Add the payment keys before checkout.",
+    amount: {
+      zh: `付款金额必须等于固定归属价${expected ? `：${expected}` : "。"}。`,
+      en: `Payment amount must match the fixed price${expected ? `: ${expected}` : "."}`,
     },
-    stripe_error: {
-      zh: "Stripe 暂时无法创建支付，请稍后重试。",
-      en: "Stripe could not create the checkout session. Please try again later.",
+    usdt_submitted: {
+      zh: "付款凭证已提交。后台确认到账后，将登记拥有者并安排发货。",
+      en: "Payment proof submitted. After manual confirmation, ownership and delivery will be registered.",
     },
   };
 
   return copy[status]?.[locale] || "";
 }
 
-export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, session }: ProductDetailProps) {
+export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmount, session }: ProductDetailProps) {
   const product = getProduct(slug);
   if (!product) notFound();
   const series = getSeries(product.seriesId);
-  const nextBid = product.currentPrice + product.bidIncrement;
-  const auctionPath = withLocale(locale, `/auctions/${product.slug}`);
+  const productPath = withLocale(locale, `/auctions/${product.slug}`);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
-  const pageUrl = `${baseUrl}${auctionPath}`;
+  const pageUrl = `${baseUrl}${productPath}`;
   const imageUrl = product.image.startsWith("/") ? `${baseUrl}${product.image}` : product.image;
   const productName = locale === "zh" ? `${product.zhTitle} ${product.serial}` : `${product.title} ${product.serial}`;
   const productDescription = product.concept || product.inspiration || "";
-  const cycleEnd = getSevenDayCycleEnd(product.endsAt);
+  const receivingAddress = process.env.BNB_USDT_RECEIVING_ADDRESS || defaultReceivingAddress;
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -85,13 +83,11 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
       priceCurrency: "USD",
       price: String(product.currentPrice),
       availability: product.status === "sold" ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
-      priceValidUntil: cycleEnd.toISOString(),
       itemCondition: "https://schema.org/NewCondition",
     },
   } as const;
-  const notice = paymentMessage(locale, paymentStatus, minimumBid);
-  const loginHref = `${withLocale(locale, "/account/login")}?error=auth&next=${encodeURIComponent(auctionPath)}`;
-  const bidderNickname = session?.nickname || session?.email?.split("@")[0] || "Private Collector";
+  const notice = paymentMessage(locale, paymentStatus, expectedAmount);
+  const loginHref = `${withLocale(locale, "/account/login")}?error=auth&next=${encodeURIComponent(productPath)}`;
 
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
@@ -117,20 +113,22 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
             <p className="mt-6 text-xl leading-9 text-[var(--graphite)]">{product.inspiration}</p>
             <div className="mt-10 grid grid-cols-2 gap-4 border-y border-black/10 py-6">
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "当前价" : "Current"}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "固定归属价" : "Fixed Price"}</p>
                 <p className="mt-2 font-mono text-2xl">{formatCurrency(product.currentPrice)}</p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "剩余" : "Left"}</p>
-                <p className="mt-2 font-mono text-2xl">{product.status === "sold" ? "Sold" : getTimeLeft(product.endsAt)}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "收款网络" : "Network"}</p>
+                <p className="mt-2 text-sm leading-7">BNB Smart Chain / BEP-20 USDT</p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "保证金" : "Deposit"}</p>
-                <p className="mt-2 font-mono text-xl">{formatCurrency(product.depositAmount)}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "确认方式" : "Confirmation"}</p>
+                <p className="mt-2 text-sm leading-7">{locale === "zh" ? "后台人工确认到账" : "Manual admin review"}</p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "加价幅度" : "Increment"}</p>
-                <p className="mt-2 font-mono text-xl">{formatCurrency(product.bidIncrement)}</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "归属状态" : "Status"}</p>
+                <p className="mt-2 text-sm leading-7">
+                  {product.status === "sold" ? (locale === "zh" ? `已归于 ${product.ownerNickname}` : `Belongs to ${product.ownerNickname}`) : locale === "zh" ? "等待确认" : "Available"}
+                </p>
               </div>
             </div>
             <p className="mt-8 text-base leading-8 text-[var(--graphite)]">{product.concept}</p>
@@ -143,63 +141,59 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
               <div className="mt-8 border-y border-black/12 py-6">
                 <p className="text-sm leading-7 text-[var(--graphite)]">
                   {locale === "zh"
-                    ? "此件已经完成归属登记，仍可浏览材质、故事与唯一刻印档案。"
-                    : "This work has completed belonging registration; materials, story, and engraving remain visible."}
+                    ? `此件已完成归属登记，拥有者：${product.ownerNickname}。仍可浏览材质、故事与唯一刻印档案。`
+                    : `This work has completed ownership registration for ${product.ownerNickname}. Materials, story, and engraving remain visible.`}
                 </p>
               </div>
             ) : !session ? (
               <div className="mt-8 border-y border-black/12 py-6">
                 <p className="text-sm leading-7 text-[var(--graphite)]">
                   {locale === "zh"
-                    ? `登录或注册后才能出价并支付保证金 ${formatCurrency(product.depositAmount)}。完成登录后会自动回到这件作品。`
-                    : `Sign in or create an account before bidding and paying the ${formatCurrency(product.depositAmount)} deposit. You will return to this work after login.`}
+                    ? "登录或注册后可提交 USDT 付款凭证。后台确认到账后，作品会显示你的拥有者昵称并进入发货流程。"
+                    : "Sign in or create an account to submit a USDT payment proof. After manual confirmation, ownership and delivery will be registered."}
                 </p>
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <LinkButton href={loginHref}>
-                    {locale === "zh" ? "登录/注册后出价" : "Sign In To Bid"}
-                  </LinkButton>
+                  <LinkButton href={loginHref}>{locale === "zh" ? "登录/注册后购买" : "Sign In To Purchase"}</LinkButton>
                   <p className="text-xs leading-6 text-[var(--ash)]">
                     {locale === "zh"
-                      ? "作品浏览保持公开；归属确认、保证金、订单与尾款只对登录用户开放。"
-                      : "Browsing stays public; bidding, deposits, orders, and balances require an account."}
+                      ? "作品浏览保持公开；付款凭证、订单与发货只对登录用户开放。"
+                      : "Browsing stays public; payment proofs, orders, and delivery require an account."}
                   </p>
                 </div>
               </div>
             ) : (
-              <form className="mt-8 border-y border-black/12 py-6" action="/api/payments/stripe/checkout" method="post">
+              <form className="mt-8 border-y border-black/12 py-6" action="/api/payments/usdt" method="post">
                 <input type="hidden" name="productId" value={product.id} />
+                <input type="hidden" name="amountUsd" value={product.currentPrice} />
                 <input type="hidden" name="locale" value={locale} />
-                <input type="hidden" name="returnPath" value={auctionPath} />
+                <input type="hidden" name="returnPath" value={productPath} />
                 <p className="mb-5 text-xs leading-6 text-[var(--ash)]">
                   {locale === "zh"
-                    ? `已登录为 ${session.email || bidderNickname}，保证金支付后出价会进入账户档案。`
-                    : `Signed in as ${session.email || bidderNickname}. Your paid deposit will be attached to your account archive.`}
+                    ? `已登录为 ${session.email || session.nickname || "Private Collector"}。请按固定归属价支付 USDT，并提交链上交易哈希。`
+                    : `Signed in as ${session.email || session.nickname || "Private Collector"}. Send USDT for the fixed price, then submit the transaction hash.`}
                 </p>
-                <div className="grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
+                <div className="mb-5 border border-black/12 bg-[var(--ivory)] p-4">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+                    {locale === "zh" ? "收款地址 / BEP-20 USDT" : "Receiving Address / BEP-20 USDT"}
+                  </p>
+                  <p className="mt-3 break-all font-mono text-sm text-black">{receivingAddress}</p>
+                  <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">
+                    {locale === "zh"
+                      ? `应付金额：${formatCurrency(product.currentPrice)}，按 1 USD = 1 USDT 提交。`
+                      : `Amount due: ${formatCurrency(product.currentPrice)}, submitted as 1 USD = 1 USDT.`}
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <WalletConnectPanel locale={locale} />
                   <label className="block">
                     <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
-                      {locale === "zh" ? "公开昵称" : "Public Nickname"}
-                    </span>
-                    <input
-                      className="mt-3 h-12 w-full border border-black/14 bg-transparent px-4 text-sm outline-none transition focus:border-[var(--champagne)]"
-                      name="nickname"
-                      defaultValue={bidderNickname}
-                      minLength={2}
-                      maxLength={48}
-                      required
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
-                      {locale === "zh" ? "你的出价 USD" : "Your Bid USD"}
+                      {locale === "zh" ? "交易哈希 TXID" : "Transaction Hash"}
                     </span>
                     <input
                       className="mt-3 h-12 w-full border border-black/14 bg-transparent px-4 font-mono text-sm outline-none transition focus:border-[var(--champagne)]"
-                      name="amount"
-                      type="number"
-                      min={nextBid}
-                      step={product.bidIncrement}
-                      defaultValue={nextBid}
+                      name="txHash"
+                      minLength={24}
+                      maxLength={120}
                       required
                     />
                   </label>
@@ -207,11 +201,11 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
                 <div className="mt-5 flex flex-col gap-3 text-sm leading-6 text-[var(--graphite)] sm:flex-row sm:items-center sm:justify-between">
                   <p>
                     {locale === "zh"
-                      ? `本次仅支付保证金 ${formatCurrency(product.depositAmount)}，成交后再结算尾款或 USDT。`
-                      : `Pay only the ${formatCurrency(product.depositAmount)} deposit now; final balance or USDT settles after winning.`}
+                      ? "后台确认到账后，这件作品会显示拥有者并进入订单发货。"
+                      : "After admin confirms receipt, this work will show its owner and move to delivery."}
                   </p>
                   <button className="noir-primary-button focus-ring inline-flex min-h-11 items-center justify-center rounded-full border px-6 py-3 text-center text-[12px] font-medium uppercase tracking-[0.12em] transition">
-                    {locale === "zh" ? "确认出价并支付保证金" : "Bid And Pay Deposit"}
+                    {locale === "zh" ? "提交付款凭证" : "Submit Proof"}
                   </button>
                 </div>
               </form>
@@ -238,8 +232,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
               {product.status === "sold"
                 ? `${locale === "zh" ? "此件已归于" : "Belongs to"} ${product.ownerNickname} / ${formatDate(product.soldAt ?? product.endsAt)}`
                 : locale === "zh"
-                  ? "若尚未遇见唯一主人，它将进入下一轮七日等待。"
-                  : "If its one owner has not arrived, it will enter another seven-day wait."}
+                  ? "固定归属价直接出售。收到 USDT 并经后台确认后，作品只登记给一位主人。"
+                  : "Sold at a fixed direct price. After USDT receipt is manually confirmed, the work is registered to one owner only."}
             </p>
           </div>
           <div className="border-t border-black/12 pt-6">
@@ -251,7 +245,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, minimumBid, 
             <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.engraving}</p>
           </div>
           <div className="border-t border-black/12 pt-6">
-            <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "起拍依据" : "Pricing Basis"}</h2>
+            <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "定价依据" : "Pricing Basis"}</h2>
             <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.pricingBasis}</p>
           </div>
         </section>

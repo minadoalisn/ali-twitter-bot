@@ -21,7 +21,7 @@ export const navCopy: Record<
 > = {
   zh: {
     custom: "定制",
-    auctions: "七日归属",
+    auctions: "现售孤品",
     series: "故事系列",
     sold: "已售档案",
     story: "品牌故事",
@@ -30,7 +30,7 @@ export const navCopy: Record<
   },
   en: {
     custom: "Custom",
-    auctions: "Seven-Day Belonging",
+    auctions: "One-of-One",
     series: "Story Series",
     sold: "Archive",
     story: "Story",
@@ -54,11 +54,10 @@ export const homeCopy: Record<
   }
 > = {
   zh: {
-    eyebrow: "七日归属 / 唯一编号 / 轻奢艺术首饰",
+    eyebrow: "固定归属价 / 唯一编号 / 轻奢艺术首饰",
     headline: "每一次归属，都是一次拯救。",
-    subhead:
-      "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。无人认领，它继续等待；有人认领，它从此只归一人。",
-    primaryCta: "进入七日归属",
+    subhead: "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。付款确认后，它从此只归一人。",
+    primaryCta: "查看现售孤品",
     secondaryCta: "品牌故事",
     seriesTitle: "故事系列",
     seriesIntro: "每个系列是一条故事线，每件作品是一章等待被认出的档案。",
@@ -66,11 +65,11 @@ export const homeCopy: Record<
     archiveTitle: "已被认出的作品",
   },
   en: {
-    eyebrow: "Seven-day belonging / One serial / Light-luxury art jewelry",
+    eyebrow: "Fixed ownership price / One serial / Light-luxury art jewelry",
     headline: "Every belonging is a quiet rescue.",
     subhead:
-      "Noirven believes a one-of-one work should not be judged by trends. If unclaimed, it waits again. Once recognized, it belongs to one person only.",
-    primaryCta: "Enter Belonging",
+      "Noirven believes a one-of-one work should not be judged by trends. Once payment is confirmed, it belongs to one person only.",
+    primaryCta: "Shop One-of-One",
     secondaryCta: "Brand Story",
     seriesTitle: "Story Series",
     seriesIntro: "Each series is a storyline. Each piece is a numbered archive waiting to be recognized.",

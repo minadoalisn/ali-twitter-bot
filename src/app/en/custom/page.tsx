@@ -19,7 +19,7 @@ export default function Page() {
         name: "Who is Noirven custom made for?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "For gifts, weddings/anniversaries, symbolic designs, or anyone who wants a specific material, size, or wearable detail. The goal is a restrained light-luxury language with confirmable, transparent specs.",
+          text: "For gifts, weddings, anniversaries, symbolic designs, or anyone who wants a specific material, size, or wearable detail. The goal is a restrained light-luxury language with confirmable, transparent specs.",
         },
       },
       {
@@ -27,7 +27,7 @@ export default function Page() {
         name: "What is the custom process?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Typically: intent chat (use, style, budget, date) → proposal confirmation (materials, stones, key details) → payment and production → delivery and archive. Steps may vary by complexity.",
+          text: "Typically: intent chat, proposal confirmation, payment and production, then delivery and archive. Steps may vary by complexity.",
         },
       },
       {
@@ -35,23 +35,15 @@ export default function Page() {
         name: "How long does it take?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Timing depends on complexity (e.g., enamel, specialty setting) and material sourcing. After confirmation, we provide an executable schedule and share key milestones during production.",
+          text: "Timing depends on complexity and material sourcing. After confirmation, we provide an executable schedule and share key milestones during production.",
         },
       },
       {
         "@type": "Question",
-        name: "What materials and stones are possible?",
+        name: "How does this relate to one-of-one works?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "We can propose options across gold/platinum families and common colored stones and diamond combinations, based on your budget and story tone. We prioritize long-term wearability and cohesive visual language.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does this relate to seven-day belonging?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Seven-day belonging presents numbered one-of-one works in a timed window; custom is for building a dedicated plan under clear requirements. Both emphasize traceability, clarity, and one-to-one narrative intent.",
+          text: "The collection presents numbered one-of-one works at fixed ownership prices; custom is for building a dedicated plan under clear requirements. Both emphasize traceability, clarity, and one-to-one narrative intent.",
         },
       },
     ],
@@ -93,15 +85,15 @@ export default function Page() {
 
         <section className="mt-12 grid gap-6 lg:grid-cols-3">
           <div className="border border-black/10 bg-white/50 p-6">
-            <h2 className="text-lg">1) Intent</h2>
+            <h2 className="text-lg">1. Intent</h2>
             <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">Share your use case, preferred series tone, budget range, and target delivery date.</p>
           </div>
           <div className="border border-black/10 bg-white/50 p-6">
-            <h2 className="text-lg">2) Confirmation</h2>
-            <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">We confirm materials, main/secondary stones, proportions, sizing, and key craft choices.</p>
+            <h2 className="text-lg">2. Confirmation</h2>
+            <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">We confirm materials, main and secondary stones, proportions, sizing, and key craft choices.</p>
           </div>
           <div className="border border-black/10 bg-white/50 p-6">
-            <h2 className="text-lg">3) Production</h2>
+            <h2 className="text-lg">3. Production</h2>
             <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">We set milestones, share progress at critical steps, and arrange delivery and archiving after completion.</p>
           </div>
         </section>

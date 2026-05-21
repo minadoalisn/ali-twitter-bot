@@ -108,15 +108,6 @@ export function suggestStartPrice({
   return Math.max(luxuryStartPriceRange.min, Math.min(luxuryStartPriceRange.max, rounded));
 }
 
-export function suggestBidIncrement(startPrice: number, category: Category) {
-  const rate = category === "watch" || category === "bracelet" || category === "brooch" ? 0.03 : 0.025;
-  return Math.max(500, Math.round((startPrice * rate) / 100) * 100);
-}
-
-export function suggestDepositAmount(startPrice: number) {
-  return Math.max(1500, Math.round((startPrice * 0.08) / 100) * 100);
-}
-
 export function luxuryPricingBasis() {
-  return "竞购起步价已按高珠宝唯一件重估：综合作品品类体量、主石稀缺度、贵金属结构、复合工艺难度、系列叙事价值与后续定制交付风险，当前高珠宝竞购区间为 18,800-188,000 USD。";
+  return "固定归属价按高珠宝唯一件重估：综合作品品类体量、主石稀缺度、贵金属结构、复合工艺难度、系列叙事价值与后续定制交付风险，当前现售区间为 18,800-188,000 USD。";
 }

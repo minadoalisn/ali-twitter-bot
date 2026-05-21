@@ -1,5 +1,5 @@
 import type { AdminMetric, Category, Product, StorySeries } from "@/lib/types";
-import { luxuryPricingBasis, suggestBidIncrement, suggestDepositAmount, suggestStartPrice } from "@/lib/pricing";
+import { luxuryPricingBasis, suggestStartPrice } from "@/lib/pricing";
 
 type DailyProductSeed = {
   serial: string;
@@ -20,8 +20,8 @@ export const brand = {
   proposition: "每一次归属，都是一次拯救。",
   secondary: "不由多数定义，只由唯一确认。",
   story:
-    "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。每一件作品都有自己的编号，进入七日归属。一旦被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
-  cta: "进入七日归属",
+    "Noirven 诺梵相信，真正独一无二的作品，不该被流行审判。每一件作品都有自己的编号与固定归属价。一旦付款被确认，它从此只归一人；若尚未归属，它不会被放弃，而是继续等待下一次被看见。",
+  cta: "查看现售孤品",
   storyCta: "品牌故事",
 };
 
@@ -152,11 +152,11 @@ export const storySeries: StorySeries[] = [
     theme: "七日之后，光没有消失，而是归于某个人。",
     emotionalLine: "第七日，光有了归属。",
     description:
-      "为七日归属机制而生的核心系列。七段细线、偏移亮点和倒计时刻度构成隐性记忆，表达归属发生在最后一刻。",
+      "围绕“被看见的那一刻”而生的核心系列。七段细线、偏移亮点和时间刻度构成隐性记忆，表达归属发生在命运转身处。",
     categories: ["ring", "earring", "watch"],
     materials: ["黄金", "玫瑰金", "彩色宝石", "尖晶石", "天然白钻"],
     craft: ["鎏金", "鎏彩", "景泰蓝", "雪花镶"],
-    visualMemory: ["七段细线", "倒计时刻度", "偏移亮点", "不对称结构"],
+    visualMemory: ["七段细线", "时间刻度", "偏移亮点", "不对称结构"],
     ipHook: "每一件 Seventh Light 都有一段最后一小时的命运反转。",
   },
   {
@@ -301,7 +301,7 @@ export const storyChapters = [
     title: "最后一小时的红色指针",
     summary:
       "第七日最后一小时，红宝石像被推迟的心跳。它不催促任何人，只把归属发生前的紧张与温柔固定在金线之间。",
-    emotion: "倒计时、归属、命运",
+    emotion: "时刻、归属、命运",
     productSerial: "N-0508",
   },
   {
@@ -568,7 +568,6 @@ function seedSizing(category: Product["category"]) {
 }
 
 function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
-  const bids = index % 4 === 0 ? 1 : 0;
   const materials = splitSeedLine(seed.materialLine);
   const craft = splitSeedLine(seed.craftLine);
   const startPrice = suggestStartPrice({
@@ -577,7 +576,6 @@ function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
     craft,
     seriesId: seed.seriesId,
   });
-  const bidIncrement = suggestBidIncrement(startPrice, seed.category);
 
   return {
     id: seed.serial.toLowerCase(),
@@ -588,16 +586,16 @@ function createProductFromSeed(seed: DailyProductSeed, index: number): Product {
     seriesId: seed.seriesId,
     category: seed.category,
     inspiration: seed.storyLine,
-    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，进入七日归属后只归属一位主人。`,
+    concept: `${seed.storyLine} 这一件以材质、工艺和故事线共同构成唯一记忆，完成 USDT 到账确认后只归属一位主人。`,
     materials,
     craft,
     startPrice,
-    currentPrice: startPrice + bids * bidIncrement,
-    depositAmount: suggestDepositAmount(startPrice),
-    bidIncrement,
-    bids,
+    currentPrice: startPrice,
+    depositAmount: 0,
+    bidIncrement: 0,
+    bids: 0,
     endsAt: seedAuctionEndsAt[index] ?? seedAuctionEndsAt[0],
-    status: bids > 0 ? "live" : "waiting",
+    status: "live",
     image: seed.image,
     sizing: seedSizing(seed.category),
     engraving: `内侧或背面微刻 ${seed.serial}，作为 Noirven 唯一编号印记。`,
@@ -795,7 +793,7 @@ const curatedProducts: Product[] = [
     category: "earring",
     inspiration: "最后一小时的归属反转。",
     concept:
-      "一对耳环以七段金线和偏移彩色宝石组成倒计时韵律，左右轻微不对称，仍然保持同一秩序。",
+      "一对耳环以七段金线和偏移彩色宝石组成时间韵律，左右轻微不对称，仍然保持同一秩序。",
     materials: ["玫瑰金", "黄金", "彩色宝石", "天然白钻"],
     craft: ["鎏金", "鎏彩"],
     startPrice: 92800,
@@ -820,7 +818,7 @@ const curatedProducts: Product[] = [
     category: "watch",
     inspiration: "时间让光有了归处。",
     concept:
-      "轻薄珠宝腕表以贝母盘面和七枚极细时标表达倒计时，表冠旁的偏移彩宝让时间不再只是计量，而是归属发生的瞬间。",
+      "轻薄珠宝腕表以贝母盘面和七枚极细时标表达归属时刻，表冠旁的偏移彩宝让时间不再只是计量，而是归属发生的瞬间。",
     materials: ["玫瑰金", "铂金", "贝母", "彩色宝石"],
     craft: ["鎏金", "鎏彩", "钢琴烤漆"],
     startPrice: 158800,
@@ -919,14 +917,15 @@ function repriceLuxuryProduct(product: Product): Product {
     craft: product.craft,
     seriesId: product.seriesId,
   });
-  const bidIncrement = suggestBidIncrement(startPrice, product.category);
 
   return {
     ...product,
     startPrice,
-    currentPrice: startPrice + product.bids * bidIncrement,
-    depositAmount: suggestDepositAmount(startPrice),
-    bidIncrement,
+    currentPrice: startPrice,
+    depositAmount: 0,
+    bidIncrement: 0,
+    bids: 0,
+    status: product.status === "sold" ? "sold" : "live",
     pricingBasis: luxuryPricingBasis(),
   };
 }
@@ -939,7 +938,7 @@ export const soldProducts = products.filter((product) => product.status === "sol
 export const adminMetrics: AdminMetric[] = [
   { label: "Live Belonging", value: "22", detail: "New story-backed product images are listed first" },
   { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
-  { label: "Pending Settlement", value: "$220k+", detail: "Luxury deposits plus USDT balance review" },
+  { label: "Pending Settlement", value: "$220k+", detail: "USDT transfer proofs waiting for admin confirmation" },
   { label: "Generated Drafts", value: "12", detail: "Seed prompts stay internal; only finished product images are public" },
 ];
 

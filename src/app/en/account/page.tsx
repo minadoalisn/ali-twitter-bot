@@ -1,11 +1,19 @@
 import { AccountPage } from "@/components/sections/account-page";
 import { createMetadata } from "@/lib/seo";
+import type { Metadata } from "next";
 
-export const metadata = createMetadata({
-  title: "Account",
-  description: "Noirven account center for bids, deposits, orders, and belonging archive.",
-  path: "/en/account",
-});
+export const metadata: Metadata = {
+  ...createMetadata({
+    title: "Account",
+    description: "Noirven account center for payment proofs, orders, and ownership archive.",
+    path: "/en/account",
+  }),
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ payment?: string }> }) {
   const params = await searchParams;

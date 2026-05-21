@@ -1,27 +1,12 @@
 import { z } from "zod";
 
-export const bidSchema = z.object({
-  productId: z.string().min(1),
-  amount: z.number().positive(),
-  nickname: z.string().min(2).max(48),
-});
-
-export const depositSchema = z.object({
-  productId: z.string().min(1),
-  amount: z.number().positive(),
-  nickname: z.string().min(2).max(48),
-});
-
-export const bidCheckoutSchema = bidSchema.extend({
-  locale: z.enum(["zh", "en"]),
-  returnPath: z.string().min(1).max(180),
-});
-
 export const usdtSettlementSchema = z.object({
   productId: z.string().min(1),
-  amountUsd: z.number().positive(),
+  amountUsd: z.coerce.number().positive(),
   txHash: z.string().min(24).max(120),
   walletAddress: z.string().min(24).max(120),
+  locale: z.enum(["zh", "en"]).default("zh"),
+  returnPath: z.string().min(1).max(180).optional(),
 });
 
 export const generateDesignSchema = z.object({

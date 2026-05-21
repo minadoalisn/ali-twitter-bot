@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Clock3, Gem, Users } from "lucide-react";
+import { BadgeCheck, Gem, Hash } from "lucide-react";
 import { Product360Viewer } from "@/components/ui/product-360-viewer";
-import { categoryLabel, formatCurrency, getTimeLeft } from "@/lib/format";
+import { categoryLabel, formatCurrency } from "@/lib/format";
 import { getSeries } from "@/lib/noirven-data";
 import type { Locale, Product } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
@@ -55,17 +55,17 @@ export function ProductCard({ product, locale = "zh" }: { product: Product; loca
           href={href}
           className="focus-ring inline-flex min-h-10 items-center justify-center border border-black/14 px-4 py-2 text-center text-[11px] uppercase tracking-[0.14em] text-black transition hover:border-black hover:bg-black hover:text-white"
         >
-          {locale === "zh" ? "查看归属详情" : "View Details"}
+          {isSold ? (locale === "zh" ? "查看归属档案" : "View Archive") : locale === "zh" ? "查看并购买" : "View And Purchase"}
         </Link>
         <div className="grid grid-cols-3 gap-2 border-t border-black/10 pt-4 text-[11px] text-[var(--graphite)]">
           <span className="inline-flex items-center gap-1.5">
-            <Clock3 size={13} /> {isSold ? "Sold" : getTimeLeft(product.endsAt)}
+            <BadgeCheck size={13} /> {isSold ? (locale === "zh" ? "已归属" : "Sold") : locale === "zh" ? "可购买" : "Available"}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Users size={13} /> {product.bids}
+            <Hash size={13} /> {product.serial}
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Gem size={13} /> {formatCurrency(product.depositAmount)}
+            <Gem size={13} /> USDT
           </span>
         </div>
       </div>

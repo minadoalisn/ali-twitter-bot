@@ -80,17 +80,17 @@ export function AuthPage({ locale = "zh", mode, nextPath, error }: AuthPageProps
                 ? "管理员登录后，才能进入后台。"
                 : "Admin access requires a password."
               : locale === "zh"
-                ? "登录后，才能出价、支付与查看订单。"
-                : "Sign in to bid, pay, and view orders."}
+                ? "登录后，才能提交付款凭证与查看订单。"
+                : "Sign in to submit payment proofs and view orders."}
           </h1>
           <p className="mt-6 max-w-xl text-sm leading-7 text-[var(--graphite)]">
             {isAdmin
               ? locale === "zh"
-                ? "后台入口已改为服务端权限保护，不再公开展示管理界面。"
-                : "The admin area is now protected by server-side session checks."
+                ? "后台入口由服务端权限保护，不再公开展示管理界面。"
+                : "The admin area is protected by server-side session checks."
               : locale === "zh"
-                ? "作品浏览可以公开，涉及账户、保证金、支付、订单的操作需要登录。"
-                : "Auction browsing stays public; account, deposit, payment, and order actions require authentication."}
+                ? "作品浏览可以公开，涉及账户、付款凭证、订单与发货的操作需要登录。"
+                : "Browsing stays public; account, payment proof, order, and delivery actions require authentication."}
           </p>
           {message ? <p className="mt-6 border border-[var(--signature-red)]/30 px-4 py-3 text-sm text-[var(--signature-red)]">{message}</p> : null}
         </section>

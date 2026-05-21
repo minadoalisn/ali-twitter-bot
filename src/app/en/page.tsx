@@ -2,9 +2,9 @@ import { HomePage } from "@/components/sections/home-page";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Seven-Day Belonging Light-Luxury Art Jewelry",
+  title: "One-of-One Light-Luxury Art Jewelry",
   description:
-    "Noirven presents numbered one-of-one jewelry works through seven-day belonging windows. Every belonging is a quiet rescue.",
+    "Noirven presents numbered one-of-one jewelry works at fixed ownership prices. Every belonging is a quiet rescue.",
   path: "/en",
 });
 

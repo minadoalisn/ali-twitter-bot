@@ -61,6 +61,17 @@ const { products, storyChapters, dailyProductSeeds } = commonJsModule.exports;
 const failures = [];
 const notes = [];
 
+const forbiddenFiles = [
+  ["Stripe checkout route", path.join(root, "src", "app", "api", "payments", "stripe", "checkout", "route.ts")],
+  ["Stripe deposit route", path.join(root, "src", "app", "api", "payments", "stripe", "deposit", "route.ts")],
+  ["Stripe webhook route", path.join(root, "src", "app", "api", "webhooks", "stripe", "route.ts")],
+  ["Stripe integration", path.join(root, "src", "lib", "integrations", "stripe.ts")],
+  ["Bid API route", path.join(root, "src", "app", "api", "auctions", "bid", "route.ts")],
+];
+
+const walletConnectFile = path.join(root, "src", "components", "ui", "wallet-connect-panel.tsx");
+const productDetailFile = path.join(root, "src", "components", "sections", "product-detail.tsx");
+
 function fail(message) {
   failures.push(message);
 }
@@ -102,6 +113,41 @@ const allProducts = assertArray(products, "products");
 const chapters = assertArray(storyChapters, "storyChapters");
 const seeds = assertArray(dailyProductSeeds, "dailyProductSeeds");
 
+forbiddenFiles.forEach(([label, file]) => {
+  if (existsSync(file)) {
+    fail(`${label} must be removed for direct USDT sale flow: ${path.relative(root, file)}`);
+  }
+});
+
+const packageJson = JSON.parse(readFileSync(path.join(root, "package.json"), "utf8"));
+if (packageJson.dependencies?.stripe || packageJson.devDependencies?.stripe) {
+  fail("stripe package dependency must be removed");
+}
+
+const packageLockFile = path.join(root, "package-lock.json");
+if (existsSync(packageLockFile)) {
+  const lockSource = readFileSync(packageLockFile, "utf8");
+  if (lockSource.includes('"node_modules/stripe"') || lockSource.includes('"stripe":')) {
+    fail("package-lock still contains stripe");
+  }
+}
+
+if (!existsSync(walletConnectFile)) {
+  fail("wallet connect panel is missing for MetaMask and BNB Wallet");
+} else {
+  const walletConnectSource = readFileSync(walletConnectFile, "utf8");
+  ["MetaMask", "BNB Wallet", "wallet_switchEthereumChain", "wallet_addEthereumChain", "0x38", "walletAddress"].forEach((needle) => {
+    if (!walletConnectSource.includes(needle)) {
+      fail(`wallet connect panel must include ${needle}`);
+    }
+  });
+}
+
+const productDetailSource = readFileSync(productDetailFile, "utf8");
+if (!productDetailSource.includes("WalletConnectPanel")) {
+  fail("product detail must render the wallet connect panel in the USDT payment form");
+}
+
 checkUnique(allProducts, "product serial", (product) => product.serial);
 checkUnique(allProducts, "product slug", (product) => product.slug);
 checkUnique(allProducts, "product id", (product) => product.id);
@@ -123,20 +169,28 @@ allProducts.forEach((product) => {
     fail(`${product.serial} startPrice must stay in 18800-188000 USD: ${product.startPrice}`);
   }
 
-  if (product.currentPrice < product.startPrice) {
-    fail(`${product.serial} currentPrice cannot be below startPrice: ${product.currentPrice}`);
+  if (product.currentPrice !== product.startPrice) {
+    fail(`${product.serial} currentPrice must equal fixed direct-sale price: ${product.currentPrice}`);
   }
 
-  if (product.bidIncrement < 500) {
-    fail(`${product.serial} bidIncrement must fit luxury bidding: ${product.bidIncrement}`);
+  if (product.bidIncrement !== 0) {
+    fail(`${product.serial} bidIncrement must be 0 after removing bidding: ${product.bidIncrement}`);
   }
 
-  if (product.depositAmount < 1500) {
-    fail(`${product.serial} depositAmount must fit luxury bidding: ${product.depositAmount}`);
+  if (product.depositAmount !== 0) {
+    fail(`${product.serial} depositAmount must be 0 after removing deposits: ${product.depositAmount}`);
+  }
+
+  if (product.bids !== 0) {
+    fail(`${product.serial} bids must be 0 after removing auction mode: ${product.bids}`);
   }
 
   if (typeof product.pricingBasis === "string" && product.pricingBasis.includes("1888-5999")) {
     fail(`${product.serial} pricingBasis still references the old MVP range`);
+  }
+
+  if (typeof product.pricingBasis === "string" && /竞购|竞拍|拍卖|保证金|加价/.test(product.pricingBasis)) {
+    fail(`${product.serial} pricingBasis still references auction mechanics`);
   }
 
   if (!product.image && !product.spinVideo) {

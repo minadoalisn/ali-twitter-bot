@@ -18,7 +18,7 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
           </form>
         </div>
         <h1 className="mt-5 max-w-4xl font-serif text-6xl font-normal leading-tight">
-          {locale === "zh" ? "后台以故事线、作品编号和支付审计为核心。" : "Admin is organized by storylines, serials, and payment audit."}
+          {locale === "zh" ? "后台以故事线、作品编号、USDT 审核与订单发货为核心。" : "Admin is organized by storylines, serials, USDT review, and delivery."}
         </h1>
         <div className="mt-12 grid gap-5 md:grid-cols-4">
           {adminMetrics.map((metric) => (
@@ -36,7 +36,8 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
               <li>01. {locale === "zh" ? "选择故事系列、品类、材质和灵感词。" : "Choose story series, category, materials, and inspiration."}</li>
               <li>02. {locale === "zh" ? "组合 Story Lock、Style Lock 和禁止仿牌规则。" : "Combine Story Lock, Style Lock, and anti-imitation rules."}</li>
               <li>03. {locale === "zh" ? "生成四张概念图，管理员精选一张。" : "Generate four concepts and curate one."}</li>
-              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述，进入七日归属。" : "Create title, serial, SEO copy, and start the seven-day belonging window."}</li>
+              <li>04. {locale === "zh" ? "生成标题、编号、SEO 描述、固定归属价，进入现售孤品。" : "Create title, serial, SEO copy, fixed price, and publish as one-of-one."}</li>
+              <li>05. {locale === "zh" ? "用户提交 USDT 凭证，后台确认到账后登记拥有者并安排发货。" : "User submits USDT proof; admin confirms receipt, registers owner, and handles delivery."}</li>
             </ol>
           </div>
           <div className="border-t border-black/12 pt-6">
