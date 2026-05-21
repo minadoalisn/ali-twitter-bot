@@ -1,6 +1,7 @@
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { storySeries } from "@/lib/noirven-data";
+import { localizedSeries } from "@/lib/localized-content";
 import type { Locale } from "@/lib/types";
 
 export function SeriesPage({ locale = "zh" }: { locale?: Locale }) {
@@ -15,8 +16,11 @@ export function SeriesPage({ locale = "zh" }: { locale?: Locale }) {
           </h1>
         </section>
         <section className="section-shell space-y-16 pb-24">
-          {storySeries.map((series, index) => (
-            <article id={series.id} key={series.id} className="grid gap-8 border-t border-black/12 pt-10 lg:grid-cols-[0.7fr_1.3fr]">
+          {storySeries.map((rawSeries, index) => {
+            const series = localizedSeries(rawSeries, locale);
+
+            return (
+            <article id={rawSeries.id} key={rawSeries.id} className="grid gap-8 border-t border-black/12 pt-10 lg:grid-cols-[0.7fr_1.3fr]">
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--ash)]">
                   0{index + 1} / {series.name}
@@ -42,7 +46,8 @@ export function SeriesPage({ locale = "zh" }: { locale?: Locale }) {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </section>
       </main>
       <SiteFooter locale={locale} />

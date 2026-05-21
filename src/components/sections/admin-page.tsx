@@ -1,6 +1,7 @@
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { adminMetrics, materialLibrary, storySeries } from "@/lib/noirven-data";
+import { localizedSeries, localizedTerms } from "@/lib/localized-content";
 import type { Locale } from "@/lib/types";
 
 export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
@@ -44,7 +45,7 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-3xl">{locale === "zh" ? "物料库" : "Material Library"}</h2>
             <div className="mt-6 flex flex-wrap gap-2">
-              {[...materialLibrary.metals, ...materialLibrary.stones, ...materialLibrary.craft].map((item) => (
+              {localizedTerms([...materialLibrary.metals, ...materialLibrary.stones, ...materialLibrary.craft], locale).map((item) => (
                 <span key={item} className="border border-black/10 px-3 py-2 text-xs text-[var(--graphite)]">
                   {item}
                 </span>
@@ -55,13 +56,17 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
         <section className="mt-16 border-t border-black/12 pt-6">
           <h2 className="text-3xl">{locale === "zh" ? "故事线管理" : "Storyline Management"}</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {storySeries.map((series) => (
-              <div key={series.id} className="border border-black/10 p-5">
+            {storySeries.map((rawSeries) => {
+              const series = localizedSeries(rawSeries, locale);
+
+              return (
+              <div key={rawSeries.id} className="border border-black/10 p-5">
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--ash)]">{series.name}</p>
                 <h3 className="mt-3 text-2xl">{series.zhName}</h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">{series.ipHook}</p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </main>

@@ -1,5 +1,6 @@
 import { ProductDetail } from "@/components/sections/product-detail";
 import { AUTH_COOKIE, verifySessionToken } from "@/lib/auth";
+import { localizedProductConcept } from "@/lib/localized-content";
 import { getProduct } from "@/lib/noirven-data";
 import { createMetadata } from "@/lib/seo";
 import { cookies } from "next/headers";
@@ -9,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const product = getProduct(slug);
   return createMetadata({
     title: product ? `${product.title} ${product.serial}` : "Ultra-Luxury Work",
-    description: product?.concept,
+    description: product ? localizedProductConcept(product, "en") : undefined,
     path: `/en/auctions/${slug}`,
     image: product?.image,
   });

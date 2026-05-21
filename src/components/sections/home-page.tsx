@@ -7,6 +7,12 @@ import { ProductCard } from "@/components/sections/product-card";
 import { SeriesGrid } from "@/components/sections/series-grid";
 import { homeCopy, navCopy, withLocale } from "@/lib/i18n";
 import { liveProducts, materialNarratives, soldProducts, storySeries } from "@/lib/noirven-data";
+import {
+  localizedMaterialNarrativeStory,
+  localizedProductTitle,
+  localizedSeries,
+  localizedTerms,
+} from "@/lib/localized-content";
 import { formatCurrency } from "@/lib/format";
 import type { Locale } from "@/lib/types";
 
@@ -45,6 +51,7 @@ function HeroNav({ locale }: { locale: Locale }) {
 
 function HeroSaleStrip({ locale }: { locale: Locale }) {
   const featured = newestLiveProducts()[0];
+  const title = localizedProductTitle(featured, locale);
 
   return (
     <section className="section-shell pb-8">
@@ -53,7 +60,7 @@ function HeroSaleStrip({ locale }: { locale: Locale }) {
           <p className="font-mono text-[11px] text-[var(--ash)]">
             {locale === "zh" ? "最新上线顶奢作品" : "Latest Ultra-Luxury Work"} · {featured.serial}
           </p>
-          <p className="mt-2 text-sm text-black">{locale === "zh" ? featured.zhTitle : featured.title}</p>
+          <p className="mt-2 text-sm text-black">{title}</p>
         </div>
         <div className="border-b border-black/10 p-5 md:border-b-0 md:border-r">
           <p className="font-mono text-2xl text-black">{formatCurrency(featured.currentPrice)}</p>
@@ -62,7 +69,7 @@ function HeroSaleStrip({ locale }: { locale: Locale }) {
         <div className="relative hidden h-28 md:block">
           <Image
             src={featured.image}
-            alt={`${featured.serial} ${locale === "zh" ? featured.zhTitle : featured.title}`}
+            alt={`${featured.serial} ${title}`}
             fill
             sizes="220px"
             className="object-contain"
@@ -82,6 +89,7 @@ function HeroSaleStrip({ locale }: { locale: Locale }) {
 
 function MobileHeroSale({ locale }: { locale: Locale }) {
   const featured = newestLiveProducts()[0];
+  const title = localizedProductTitle(featured, locale);
 
   return (
     <div className="mx-auto mt-8 max-w-sm border border-black/12 p-4 md:hidden">
@@ -89,7 +97,7 @@ function MobileHeroSale({ locale }: { locale: Locale }) {
         {locale === "zh" ? "最新上线顶奢作品" : "Latest Ultra-Luxury Work"} · {featured.serial}
       </p>
       <p className="mt-2 font-mono text-2xl">{formatCurrency(featured.currentPrice)}</p>
-      <p className="mb-4 mt-2 text-sm leading-6 text-[var(--graphite)]">{locale === "zh" ? featured.zhTitle : featured.title}</p>
+      <p className="mb-4 mt-2 text-sm leading-6 text-[var(--graphite)]">{title}</p>
       <LinkButton href={withLocale(locale, "/auctions")}>{locale === "zh" ? "查看顶奢作品" : "Shop Ultra-Luxury"}</LinkButton>
       <div className="mt-3">
         <LinkButton href={withLocale(locale, "/story")} variant="outline">
@@ -104,6 +112,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
   const copy = homeCopy[locale];
   const live = newestLiveProducts().slice(0, 6);
   const featured = live[0];
+  const featuredTitle = localizedProductTitle(featured, locale);
   const sold = soldProducts.slice(0, 2);
 
   return (
@@ -142,7 +151,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
           <div className="relative mx-auto aspect-[1.18/1] w-full max-w-[720px]">
             <Image
               src={featured.image}
-              alt={`${featured.serial} ${locale === "zh" ? featured.zhTitle : featured.title}`}
+              alt={`${featured.serial} ${featuredTitle}`}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 56vw"
@@ -220,25 +229,31 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
                 <div key={item.title} className="border-t border-black/12 pt-4">
                   <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">{item.title}</p>
                   <h3 className="mt-2 text-xl">{locale === "zh" ? item.zhTitle : item.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">{locale === "zh" ? item.story : item.materials.join(" / ")}</p>
+                  <p className="mt-2 text-sm leading-7 text-[var(--graphite)]">
+                    {localizedMaterialNarrativeStory(item.title, item.story, locale)}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
-            {storySeries.map((series) => (
-              <div key={series.id} className="border-t border-black/12 pt-5">
+            {storySeries.map((rawSeries) => {
+              const series = localizedSeries(rawSeries, locale);
+
+              return (
+              <div key={rawSeries.id} className="border-t border-black/12 pt-5">
                 <h3 className="text-lg">{series.name}</h3>
                 <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">{series.emotionalLine}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {[...series.materials, ...series.craft].slice(0, 5).map((item) => (
+                  {localizedTerms([...rawSeries.materials, ...rawSeries.craft], locale).slice(0, 5).map((item) => (
                     <span key={item} className="border border-black/10 px-3 py-2 text-xs text-[var(--graphite)]">
                       {item}
                     </span>
                   ))}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 

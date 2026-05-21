@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/ui/brand-mark";
-import { localeLabels, navCopy, withLocale } from "@/lib/i18n";
+import { navCopy, withLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
 
 export function SiteHeader({ locale = "zh" }: { locale?: Locale }) {
@@ -35,7 +35,7 @@ export function SiteHeader({ locale = "zh" }: { locale?: Locale }) {
             {copy.account}
           </Link>
           <Link className="focus-ring" href={alternateLocale === "en" ? "/en" : "/"}>
-            {localeLabels[alternateLocale]}
+            {alternateLocale === "en" ? "EN" : "ZH"}
           </Link>
           <Link
             href={withLocale(locale, "/auctions")}

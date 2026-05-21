@@ -1,3 +1,6 @@
+import { localizedCategoryLabel } from "@/lib/localized-content";
+import type { Category, Locale } from "@/lib/types";
+
 export function formatCurrency(amount: number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -55,7 +58,11 @@ export function getTimeLeft(date: string) {
   return `${minutes}分`;
 }
 
-export function categoryLabel(category: string) {
+export function categoryLabel(category: string, locale: Locale = "zh") {
+  if (locale === "en") {
+    return localizedCategoryLabel(category as Category, locale);
+  }
+
   const labels: Record<string, string> = {
     ring: "戒指",
     necklace: "项链",

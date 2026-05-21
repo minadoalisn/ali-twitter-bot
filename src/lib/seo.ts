@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-const siteName = "Noirven 诺梵高奢";
+const zhSiteName = "Noirven 诺梵高奢";
+const enSiteName = "Noirven";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
 
 const baseTitle = "Noirven 诺梵高奢｜顶级奢侈品级艺术珠宝";
@@ -20,13 +21,15 @@ export function createMetadata({
   image?: string;
   openGraphLocale?: string;
 } = {}): Metadata {
-  const finalTitle = title ? `${title} | ${siteName}` : baseTitle;
-  const finalDescription = description ?? baseDescription;
   const normalizedPath = path || "/";
-  const zhPath = normalizedPath.startsWith("/en") ? normalizedPath.replace(/^\/en/, "") || "/" : normalizedPath;
-  const enPath = normalizedPath.startsWith("/en") ? normalizedPath : `/en${normalizedPath === "/" ? "" : normalizedPath}`;
+  const isEnglish = normalizedPath.startsWith("/en");
+  const siteName = isEnglish ? enSiteName : zhSiteName;
+  const finalTitle = title ? `${title} | ${siteName}` : isEnglish ? `Noirven | Unrepeatable Ultra-Luxury Art Jewelry` : baseTitle;
+  const finalDescription = description ?? (isEnglish ? "Noirven presents unrepeatable ultra-luxury numbered works: one physical piece, never copied, never reissued, and registered to one collector after confirmation." : baseDescription);
+  const zhPath = isEnglish ? normalizedPath.replace(/^\/en/, "") || "/" : normalizedPath;
+  const enPath = isEnglish ? normalizedPath : `/en${normalizedPath === "/" ? "" : normalizedPath}`;
   const url = `${siteUrl}${normalizedPath}`;
-  const finalOgLocale = openGraphLocale ?? (normalizedPath.startsWith("/en") ? "en_US" : "zh_CN");
+  const finalOgLocale = openGraphLocale ?? (isEnglish ? "en_US" : "zh_CN");
 
   return {
     title: finalTitle,

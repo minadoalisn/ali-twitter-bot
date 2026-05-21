@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BrandMark, NMark } from "@/components/ui/brand-mark";
 import { materialLibrary } from "@/lib/noirven-data";
+import { localizedTerms } from "@/lib/localized-content";
 import type { Locale } from "@/lib/types";
 
 export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
@@ -24,7 +25,7 @@ export function SiteFooter({ locale = "zh" }: { locale?: Locale }) {
         <div>
           <h2 className="text-xs uppercase tracking-[0.22em] text-white/46">Materials</h2>
           <div className="mt-5 flex flex-wrap gap-2">
-            {[...materialLibrary.metals, ...materialLibrary.stones].map((item) => (
+            {localizedTerms([...materialLibrary.metals, ...materialLibrary.stones], locale).map((item) => (
               <span key={item} className="border border-white/12 px-3 py-2 text-xs text-white/62">
                 {item}
               </span>

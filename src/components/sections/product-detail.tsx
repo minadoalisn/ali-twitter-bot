@@ -6,6 +6,16 @@ import { LinkButton } from "@/components/ui/link-button";
 import { Product360Viewer } from "@/components/ui/product-360-viewer";
 import { WalletConnectPanel } from "@/components/ui/wallet-connect-panel";
 import { categoryLabel, formatCurrency, formatDate } from "@/lib/format";
+import {
+  localizedPricingBasis,
+  localizedProductConcept,
+  localizedProductEngraving,
+  localizedProductInspiration,
+  localizedProductSizing,
+  localizedProductTitle,
+  localizedSeries,
+  localizedTerms,
+} from "@/lib/localized-content";
 import { getProduct, getSeries } from "@/lib/noirven-data";
 import type { Locale } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
@@ -58,13 +68,20 @@ function paymentMessage(locale: Locale, status?: string, expectedAmount?: string
 export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmount, session }: ProductDetailProps) {
   const product = getProduct(slug);
   if (!product) notFound();
-  const series = getSeries(product.seriesId);
+  const rawSeries = getSeries(product.seriesId);
+  const series = rawSeries ? localizedSeries(rawSeries, locale) : null;
   const productPath = withLocale(locale, `/auctions/${product.slug}`);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nvonly.com";
   const pageUrl = `${baseUrl}${productPath}`;
   const imageUrl = product.image.startsWith("/") ? `${baseUrl}${product.image}` : product.image;
-  const productName = locale === "zh" ? `${product.zhTitle} ${product.serial}` : `${product.title} ${product.serial}`;
-  const productDescription = product.concept || product.inspiration || "";
+  const localizedTitle = localizedProductTitle(product, locale);
+  const productName = `${localizedTitle} ${product.serial}`;
+  const productDescription = localizedProductConcept(product, locale) || localizedProductInspiration(product, locale);
+  const productMaterials = localizedTerms(product.materials, locale);
+  const productCraft = localizedTerms(product.craft, locale);
+  const productSizing = localizedProductSizing(product, locale);
+  const productEngraving = localizedProductEngraving(product, locale);
+  const productPricingBasis = localizedPricingBasis(product.pricingBasis, locale);
   const receivingAddress = process.env.BNB_USDT_RECEIVING_ADDRESS || defaultReceivingAddress;
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -74,8 +91,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
     image: [imageUrl],
     sku: product.serial,
     brand: { "@type": "Brand", name: "Noirven" },
-    category: categoryLabel(product.category),
-    material: product.materials.join(" / "),
+    category: categoryLabel(product.category, locale),
+    material: productMaterials.join(" / "),
     url: pageUrl,
     offers: {
       "@type": "Offer",
@@ -96,10 +113,10 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
       <main>
         <section className="section-shell grid gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="relative aspect-[4/5] overflow-hidden bg-[var(--ivory)]">
-            <Image src={product.image} alt={`${product.serial} ${product.zhTitle}`} fill priority className="object-cover" />
+            <Image src={product.image} alt={`${product.serial} ${localizedTitle}`} fill priority className="object-cover" />
             <Product360Viewer
               image={product.image}
-              title={locale === "zh" ? product.zhTitle : product.title}
+              title={localizedTitle}
               serial={product.serial}
               spinVideo={product.spinVideo}
               locale={locale}
@@ -107,10 +124,10 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
           </div>
           <div className="lg:pt-8">
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">
-              {product.serial} / {series?.name} / {categoryLabel(product.category)}
+              {product.serial} / {series?.name} / {categoryLabel(product.category, locale)}
             </p>
-            <h1 className="mt-5 font-serif text-6xl font-normal leading-tight">{locale === "zh" ? product.zhTitle : product.title}</h1>
-            <p className="mt-6 text-xl leading-9 text-[var(--graphite)]">{product.inspiration}</p>
+            <h1 className="mt-5 font-serif text-6xl font-normal leading-tight">{localizedTitle}</h1>
+            <p className="mt-6 text-xl leading-9 text-[var(--graphite)]">{localizedProductInspiration(product, locale)}</p>
             <div className="mt-10 grid grid-cols-2 gap-4 border-y border-black/10 py-6">
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{locale === "zh" ? "顶奢定价" : "Ultra-Luxury Price"}</p>
@@ -131,7 +148,7 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
                 </p>
               </div>
             </div>
-            <p className="mt-8 text-base leading-8 text-[var(--graphite)]">{product.concept}</p>
+            <p className="mt-8 text-base leading-8 text-[var(--graphite)]">{productDescription}</p>
             {notice ? (
               <p className="mt-6 border border-[var(--signature-red)]/30 px-4 py-3 text-sm leading-6 text-[var(--signature-red)]">
                 {notice}
@@ -208,11 +225,11 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
         <section className="section-shell grid gap-10 pb-24 md:grid-cols-3">
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "材质" : "Materials"}</h2>
-            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.materials.join(" / ")}</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{productMaterials.join(" / ")}</p>
           </div>
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "工艺" : "Craft"}</h2>
-            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.craft.join(" / ")}</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{productCraft.join(" / ")}</p>
           </div>
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "归属规则" : "Belonging Rule"}</h2>
@@ -226,15 +243,15 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
           </div>
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "可调节规格" : "Adjustable Fit"}</h2>
-            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.sizing}</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{productSizing}</p>
           </div>
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "唯一刻印" : "Unique Engraving"}</h2>
-            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.engraving}</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{productEngraving}</p>
           </div>
           <div className="border-t border-black/12 pt-6">
             <h2 className="text-sm uppercase tracking-[0.18em]">{locale === "zh" ? "定价依据" : "Pricing Basis"}</h2>
-            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{product.pricingBasis}</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{productPricingBasis}</p>
           </div>
         </section>
       </main>

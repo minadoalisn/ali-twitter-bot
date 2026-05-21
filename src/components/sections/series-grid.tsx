@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { storySeries } from "@/lib/noirven-data";
+import { localizedSeries } from "@/lib/localized-content";
 import type { Locale } from "@/lib/types";
 import { withLocale } from "@/lib/i18n";
 
 export function SeriesGrid({ locale = "zh" }: { locale?: Locale }) {
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {storySeries.map((series, index) => (
+      {storySeries.map((rawSeries, index) => {
+        const series = localizedSeries(rawSeries, locale);
+
+        return (
         <Link
-          key={series.id}
-          href={withLocale(locale, `/series#${series.id}`)}
+          key={rawSeries.id}
+          href={withLocale(locale, `/series#${rawSeries.id}`)}
           className="focus-ring group border-t border-black/12 py-6 transition hover:border-[var(--champagne)]"
         >
           <div className="flex items-start justify-between gap-6">
@@ -33,7 +37,8 @@ export function SeriesGrid({ locale = "zh" }: { locale?: Locale }) {
             ))}
           </div>
         </Link>
-      ))}
+        );
+      })}
     </div>
   );
 }

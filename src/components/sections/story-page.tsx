@@ -4,6 +4,13 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { LinkButton } from "@/components/ui/link-button";
 import { Product360Viewer } from "@/components/ui/product-360-viewer";
 import { dailyProductSeeds, getSeries, materialNarratives, storyChapters, storySeries } from "@/lib/noirven-data";
+import {
+  localizedMaterialNarrativeStory,
+  localizedProductSeed,
+  localizedSeries,
+  localizedStoryChapter,
+  localizedTerms,
+} from "@/lib/localized-content";
 import { withLocale } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
 
@@ -116,13 +123,17 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
             <h2 className="mt-4 font-serif text-5xl font-normal">{locale === "zh" ? "每个故事，对应一件顶奢饰品。" : "Each story maps to one ultra-luxury jewel."}</h2>
           </div>
           <div className="grid gap-8 md:grid-cols-2">
-            {storySeries.map((series) => (
-              <article key={series.id} className="border-t border-black/12 pt-6">
+            {storySeries.map((rawSeries) => {
+              const series = localizedSeries(rawSeries, locale);
+
+              return (
+              <article key={rawSeries.id} className="border-t border-black/12 pt-6">
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--ash)]">{series.name}</p>
                 <h3 className="mt-4 text-3xl">{locale === "zh" ? series.zhName : series.name}</h3>
                 <p className="mt-5 text-lg leading-8 text-[var(--graphite)]">{locale === "zh" ? series.ipHook : series.description}</p>
               </article>
-            ))}
+              );
+            })}
           </div>
           <section className="mt-20 border-t border-black/12 pt-10">
             <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
@@ -138,14 +149,17 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 </p>
               </div>
               <div className="grid gap-5 md:grid-cols-2">
-                {storyChapters.map((chapter) => {
-                  const series = getSeries(chapter.seriesId);
-                  const chapterSeed =
-                    dailyProductSeeds.find((seed) => seed.serial === chapter.productSerial) ??
-                    dailyProductSeeds.find((seed) => seed.seriesId === chapter.seriesId);
+                {storyChapters.map((rawChapter) => {
+                  const chapter = localizedStoryChapter(rawChapter, locale);
+                  const rawSeries = getSeries(rawChapter.seriesId);
+                  const series = rawSeries ? localizedSeries(rawSeries, locale) : null;
+                  const rawChapterSeed =
+                    dailyProductSeeds.find((seed) => seed.serial === rawChapter.productSerial) ??
+                    dailyProductSeeds.find((seed) => seed.seriesId === rawChapter.seriesId);
+                  const chapterSeed = rawChapterSeed ? localizedProductSeed(rawChapterSeed, locale) : null;
 
                   return (
-                    <article key={chapter.code} className="overflow-hidden border border-black/10">
+                    <article key={rawChapter.code} className="overflow-hidden border border-black/10">
                       {chapterSeed ? (
                         <div className="relative aspect-[16/10] bg-[var(--ivory)]">
                           <Image
@@ -189,8 +203,12 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
                 <article key={item.title} className="border border-black/10 p-5">
                   <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">{item.title}</p>
                   <h3 className="mt-4 text-2xl">{locale === "zh" ? item.zhTitle : item.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">{locale === "zh" ? item.story : item.materials.join(" / ")}</p>
-                  <p className="mt-5 text-xs leading-6 text-[var(--ash)]">{[...item.materials, ...item.craft].join(" / ")}</p>
+                  <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">
+                    {localizedMaterialNarrativeStory(item.title, item.story, locale)}
+                  </p>
+                  <p className="mt-5 text-xs leading-6 text-[var(--ash)]">
+                    {localizedTerms([...item.materials, ...item.craft], locale).join(" / ")}
+                  </p>
                 </article>
               ))}
             </div>
@@ -208,11 +226,13 @@ export function StoryPage({ locale = "zh" }: { locale?: Locale }) {
               </p>
             </div>
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {dailyProductSeeds.map((seed) => {
-                const series = getSeries(seed.seriesId);
+              {dailyProductSeeds.map((rawSeed) => {
+                const seed = localizedProductSeed(rawSeed, locale);
+                const rawSeries = getSeries(rawSeed.seriesId);
+                const series = rawSeries ? localizedSeries(rawSeries, locale) : null;
 
                 return (
-                  <article key={seed.serial} className="overflow-hidden border border-black/10">
+                  <article key={rawSeed.serial} className="overflow-hidden border border-black/10">
                     <div className="relative aspect-[4/5] bg-[var(--ivory)]">
                       <Image
                         src={seed.image}
