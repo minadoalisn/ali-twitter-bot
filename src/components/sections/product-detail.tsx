@@ -31,8 +31,8 @@ function paymentMessage(locale: Locale, status?: string, expectedAmount?: string
       en: "Please sign in or create an account before submitting a USDT payment proof.",
     },
     invalid: {
-      zh: "付款凭证信息不完整，请检查付款钱包地址与交易哈希。",
-      en: "Payment proof is incomplete. Check the payer wallet and transaction hash.",
+      zh: "付款凭证信息不完整，请先通过钱包完成 BEP-20 USDT 转账。",
+      en: "Payment proof is incomplete. Complete the BEP-20 USDT wallet transfer first.",
     },
     missing: {
       zh: "没有找到对应作品，请从顶奢作品页重新进入。",
@@ -169,8 +169,8 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
                 <input type="hidden" name="returnPath" value={productPath} />
                 <p className="mb-5 text-xs leading-6 text-[var(--ash)]">
                   {locale === "zh"
-                    ? `已登录为 ${session.email || session.nickname || "Private Collector"}。请按顶奢定价支付 USDT，并提交链上交易哈希。`
-                    : `Signed in as ${session.email || session.nickname || "Private Collector"}. Send USDT for the ultra-luxury fixed price, then submit the transaction hash.`}
+                    ? `已登录为 ${session.email || session.nickname || "Private Collector"}。请按顶奢定价支付 USDT；钱包返回链上凭证后，系统会自动写入后台确认表单。`
+                    : `Signed in as ${session.email || session.nickname || "Private Collector"}. Pay the ultra-luxury fixed price in USDT; the wallet proof is added to the admin review form automatically.`}
                 </p>
                 <div className="mb-5 border border-black/12 bg-[var(--ivory)] p-4">
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
@@ -179,24 +179,12 @@ export function ProductDetail({ slug, locale = "zh", paymentStatus, expectedAmou
                   <p className="mt-3 break-all font-mono text-sm text-black">{receivingAddress}</p>
                   <p className="mt-3 text-sm leading-7 text-[var(--graphite)]">
                     {locale === "zh"
-                      ? `应付金额：${formatCurrency(product.currentPrice)}，按 1 USD = 1 USDT 提交。`
-                      : `Amount due: ${formatCurrency(product.currentPrice)}, submitted as 1 USD = 1 USDT.`}
+                      ? `应付金额：${formatCurrency(product.currentPrice)}，按 1 USD = 1 USDT 提交。点击下方钱包按钮会切换到 BNB Smart Chain，并发起 BEP-20 USDT 转账。`
+                      : `Amount due: ${formatCurrency(product.currentPrice)}, submitted as 1 USD = 1 USDT. The wallet button switches to BNB Smart Chain and starts a BEP-20 USDT transfer.`}
                   </p>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <WalletConnectPanel locale={locale} />
-                  <label className="block">
-                    <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
-                      {locale === "zh" ? "交易哈希 TXID" : "Transaction Hash"}
-                    </span>
-                    <input
-                      className="mt-3 h-12 w-full border border-black/14 bg-transparent px-4 font-mono text-sm outline-none transition focus:border-[var(--champagne)]"
-                      name="txHash"
-                      minLength={24}
-                      maxLength={120}
-                      required
-                    />
-                  </label>
+                <div>
+                  <WalletConnectPanel locale={locale} amountUsd={product.currentPrice} receivingAddress={receivingAddress} />
                 </div>
                 <div className="mt-5 flex flex-col gap-3 text-sm leading-6 text-[var(--graphite)] sm:flex-row sm:items-center sm:justify-between">
                   <p>

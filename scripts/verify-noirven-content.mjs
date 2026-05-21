@@ -74,6 +74,7 @@ const productDetailFile = path.join(root, "src", "components", "sections", "prod
 const usdtRouteFile = path.join(root, "src", "app", "api", "payments", "usdt", "route.ts");
 const envExampleFile = path.join(root, ".env.example");
 const expectedBnbReceivingAddress = "0xbd00c3d12dB5840A403D2880039Cb1c86155F8cC";
+const expectedBscUsdtContract = "0x55d398326f99059fF775485246999027B3197955";
 const jewelryCategories = new Set(["ring", "necklace", "earring", "bracelet", "watch", "stud", "brooch"]);
 
 function fail(message) {
@@ -140,7 +141,18 @@ if (!existsSync(walletConnectFile)) {
   fail("wallet connect panel is missing for MetaMask and BNB Wallet");
 } else {
   const walletConnectSource = readFileSync(walletConnectFile, "utf8");
-  ["MetaMask", "BNB Wallet", "wallet_switchEthereumChain", "wallet_addEthereumChain", "0x38", "walletAddress"].forEach((needle) => {
+  [
+    "MetaMask",
+    "BNB Wallet",
+    "wallet_switchEthereumChain",
+    "wallet_addEthereumChain",
+    "eth_sendTransaction",
+    "0x38",
+    "walletAddress",
+    "txHash",
+    "type=\"hidden\"",
+    expectedBscUsdtContract,
+  ].forEach((needle) => {
     if (!walletConnectSource.includes(needle)) {
       fail(`wallet connect panel must include ${needle}`);
     }
@@ -150,6 +162,10 @@ if (!existsSync(walletConnectFile)) {
 const productDetailSource = readFileSync(productDetailFile, "utf8");
 if (!productDetailSource.includes("WalletConnectPanel")) {
   fail("product detail must render the wallet connect panel in the USDT payment form");
+}
+
+if (/Transaction Hash|交易哈希|TXID/.test(productDetailSource)) {
+  fail("product detail must not render a visible transaction hash input");
 }
 
 [
@@ -202,6 +218,10 @@ allProducts.forEach((product) => {
 
   if (typeof product.pricingBasis === "string" && product.pricingBasis.includes("1888-5999")) {
     fail(`${product.serial} pricingBasis still references the old MVP range`);
+  }
+
+  if (typeof product.pricingBasis === "string" && /18,800|188,000|现售区间|售价区间|price range/i.test(product.pricingBasis)) {
+    fail(`${product.serial} pricingBasis must not display a public sale range`);
   }
 
   if (typeof product.pricingBasis === "string" && /竞购|竞拍|拍卖|保证金|加价/.test(product.pricingBasis)) {

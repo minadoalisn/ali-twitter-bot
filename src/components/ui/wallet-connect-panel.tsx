@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Locale } from "@/lib/types";
 
 type WalletProviderName = "metamask" | "bnb";
@@ -8,6 +8,14 @@ type WalletProviderName = "metamask" | "bnb";
 type EthereumProvider = {
   isMetaMask?: boolean;
   request(args: { method: string; params?: unknown[] }): Promise<unknown>;
+};
+
+type WalletConnectPanelProps = {
+  locale?: Locale;
+  inputName?: string;
+  txHashInputName?: string;
+  amountUsd: number;
+  receivingAddress: string;
 };
 
 declare global {
@@ -28,6 +36,10 @@ const bnbSmartChain = {
   rpcUrls: ["https://bsc-dataseed.binance.org/"],
   blockExplorerUrls: ["https://bscscan.com"],
 };
+
+const bscUsdtContract = "0x55d398326f99059fF775485246999027B3197955";
+const erc20TransferSelector = "0xa9059cbb";
+const tokenDecimals = BigInt("1000000000000000000");
 
 function providerLabel(providerName: WalletProviderName) {
   return providerName === "metamask" ? "MetaMask" : "BNB Wallet";
@@ -67,12 +79,107 @@ function accountFromResult(result: unknown) {
   return "";
 }
 
-export function WalletConnectPanel({ locale = "zh", inputName = "walletAddress" }: { locale?: Locale; inputName?: string }) {
-  const [walletAddress, setWalletAddress] = useState("");
-  const [status, setStatus] = useState("");
-  const [isConnecting, setIsConnecting] = useState<WalletProviderName | null>(null);
+function normalizeAddress(address: string) {
+  const cleanAddress = address.trim();
 
-  async function connect(providerName: WalletProviderName) {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(cleanAddress)) {
+    throw new Error("Invalid BEP-20 receiving address.");
+  }
+
+  return cleanAddress.toLowerCase().replace(/^0x/, "").padStart(64, "0");
+}
+
+function parseTokenAmount(amountUsd: number) {
+  if (!Number.isFinite(amountUsd) || amountUsd <= 0) {
+    throw new Error("Invalid payment amount.");
+  }
+
+  const [whole = "0", fraction = ""] = String(amountUsd).replace(/,/g, "").split(".");
+
+  if (!/^\d+$/.test(whole) || !/^\d*$/.test(fraction)) {
+    throw new Error("Invalid payment amount.");
+  }
+
+  const normalizedFraction = `${fraction}${"0".repeat(18)}`.slice(0, 18);
+  return BigInt(whole) * tokenDecimals + BigInt(normalizedFraction || "0");
+}
+
+function encodeUsdtTransfer(to: string, amount: bigint) {
+  const encodedTo = normalizeAddress(to);
+  const encodedAmount = amount.toString(16).padStart(64, "0");
+
+  return `${erc20TransferSelector}${encodedTo}${encodedAmount}`;
+}
+
+async function sendUsdtPayment({
+  provider,
+  from,
+  amountUsd,
+  receivingAddress,
+}: {
+  provider: EthereumProvider;
+  from: string;
+  amountUsd: number;
+  receivingAddress: string;
+}) {
+  const transactionHash = await provider.request({
+    method: "eth_sendTransaction",
+    params: [
+      {
+        from,
+        to: bscUsdtContract,
+        value: "0x0",
+        data: encodeUsdtTransfer(receivingAddress, parseTokenAmount(amountUsd)),
+      },
+    ],
+  });
+
+  if (typeof transactionHash !== "string" || !transactionHash.startsWith("0x")) {
+    throw new Error("Wallet did not return a transaction hash.");
+  }
+
+  return transactionHash;
+}
+
+function paymentPrompt(locale: Locale, providerName: WalletProviderName) {
+  const label = providerLabel(providerName);
+
+  return locale === "zh" ? `连接 ${label} 并支付` : `Pay With ${label}`;
+}
+
+export function WalletConnectPanel({
+  locale = "zh",
+  inputName = "walletAddress",
+  txHashInputName = "txHash",
+  amountUsd,
+  receivingAddress,
+}: WalletConnectPanelProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [walletAddress, setWalletAddress] = useState("");
+  const [txHash, setTxHash] = useState("");
+  const [status, setStatus] = useState("");
+  const [activeProvider, setActiveProvider] = useState<WalletProviderName | null>(null);
+
+  useEffect(() => {
+    const form = panelRef.current?.closest("form");
+    if (!form) return undefined;
+
+    function handleSubmit(event: Event) {
+      if (txHash) return;
+
+      event.preventDefault();
+      setStatus(
+        locale === "zh"
+          ? "请先点击钱包按钮完成 BEP-20 USDT 转账，钱包返回链上凭证后再提交后台确认。"
+          : "Pay with a wallet first. After the wallet returns the on-chain proof, submit for admin review.",
+      );
+    }
+
+    form.addEventListener("submit", handleSubmit);
+    return () => form.removeEventListener("submit", handleSubmit);
+  }, [locale, txHash]);
+
+  async function payWithWallet(providerName: WalletProviderName) {
     const provider = getProvider(providerName);
     const label = providerLabel(providerName);
 
@@ -81,8 +188,9 @@ export function WalletConnectPanel({ locale = "zh", inputName = "walletAddress" 
       return;
     }
 
-    setIsConnecting(providerName);
-    setStatus(locale === "zh" ? `正在连接 ${label}...` : `Connecting ${label}...`);
+    setActiveProvider(providerName);
+    setTxHash("");
+    setStatus(locale === "zh" ? `正在连接 ${label} 并切换到 BNB Smart Chain...` : `Connecting ${label} and switching to BNB Smart Chain...`);
 
     try {
       await switchToBnbSmartChain(provider);
@@ -95,20 +203,29 @@ export function WalletConnectPanel({ locale = "zh", inputName = "walletAddress" 
       }
 
       setWalletAddress(address);
-      setStatus(locale === "zh" ? `${label} 已连接，并已切换至 BNB Smart Chain。` : `${label} connected and switched to BNB Smart Chain.`);
+      setStatus(locale === "zh" ? "请在钱包中确认 BEP-20 USDT 转账。" : "Confirm the BEP-20 USDT transfer in your wallet.");
+
+      const nextTxHash = await sendUsdtPayment({ provider, from: address, amountUsd, receivingAddress });
+
+      setTxHash(nextTxHash);
+      setStatus(
+        locale === "zh"
+          ? "钱包已返回链上交易凭证，可提交后台确认。"
+          : "Wallet returned the on-chain transaction proof; submit for admin review.",
+      );
     } catch (error) {
       setStatus(
         locale === "zh"
-          ? `钱包连接未完成：${error instanceof Error ? error.message : "请检查钱包授权。"}`
-          : `Wallet connection was not completed: ${error instanceof Error ? error.message : "check wallet authorization."}`,
+          ? `钱包支付未完成：${error instanceof Error ? error.message : "请检查授权、USDT 余额与 BNB Gas。"}`
+          : `Wallet payment was not completed: ${error instanceof Error ? error.message : "check authorization, USDT balance, and BNB gas."}`,
       );
     } finally {
-      setIsConnecting(null);
+      setActiveProvider(null);
     }
   }
 
   return (
-    <div className="block">
+    <div ref={panelRef} className="block">
       <span className="text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
         {locale === "zh" ? "付款钱包地址" : "Payer Wallet"}
       </span>
@@ -117,17 +234,11 @@ export function WalletConnectPanel({ locale = "zh", inputName = "walletAddress" 
           <button
             key={providerName}
             type="button"
-            onClick={() => connect(providerName)}
-            disabled={Boolean(isConnecting)}
+            onClick={() => payWithWallet(providerName)}
+            disabled={Boolean(activeProvider)}
             className="focus-ring min-h-11 border border-black/14 px-3 py-2 text-[11px] uppercase tracking-[0.12em] text-black transition hover:border-black disabled:cursor-wait disabled:opacity-55"
           >
-            {isConnecting === providerName
-              ? locale === "zh"
-                ? "连接中"
-                : "Connecting"
-              : locale === "zh"
-                ? `连接 ${providerLabel(providerName)}`
-                : `Connect ${providerLabel(providerName)}`}
+            {activeProvider === providerName ? (locale === "zh" ? "等待钱包确认" : "Waiting For Wallet") : paymentPrompt(locale, providerName)}
           </button>
         ))}
       </div>
@@ -140,7 +251,13 @@ export function WalletConnectPanel({ locale = "zh", inputName = "walletAddress" 
         maxLength={120}
         required
       />
-      <p className="mt-2 min-h-5 text-xs leading-5 text-[var(--ash)]">{status || (locale === "zh" ? "可自动连接，也可手动粘贴付款钱包地址。" : "Connect automatically or paste the payer wallet manually.")}</p>
+      <input type="hidden" name={txHashInputName} value={txHash} />
+      <p className="mt-2 min-h-5 text-xs leading-5 text-[var(--ash)]">
+        {status ||
+          (locale === "zh"
+            ? "点击钱包按钮会发起 BEP-20 USDT 转账；链上凭证会自动写入后台确认表单。"
+            : "Wallet payment starts a BEP-20 USDT transfer; the on-chain proof is added to the review form automatically.")}
+      </p>
     </div>
   );
 }

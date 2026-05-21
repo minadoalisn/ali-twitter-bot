@@ -42,7 +42,7 @@ export function AccountPage({ locale = "zh", paymentStatus }: { locale?: Locale;
         <div className="grid gap-6">
           {[
             [locale === "zh" ? "昵称与公开身份" : "Nickname and public identity", locale === "zh" ? "选择显示昵称或 Private Collector，归属确认后用于作品拥有者展示。" : "Choose a display name or Private Collector for ownership display after confirmation."],
-            [locale === "zh" ? "USDT 付款凭证" : "USDT payment proof", locale === "zh" ? "按顶奢定价向 BEP-20 USDT 收款地址付款，并提交交易哈希。" : "Send BEP-20 USDT for the ultra-luxury fixed price and submit the transaction hash."],
+            [locale === "zh" ? "USDT 付款凭证" : "USDT payment proof", locale === "zh" ? "按顶奢定价通过钱包向 BEP-20 USDT 收款地址付款，链上凭证会自动进入后台确认。" : "Pay BEP-20 USDT through the wallet for the ultra-luxury fixed price; the on-chain proof is sent to admin review automatically."],
             [locale === "zh" ? "后台到账确认" : "Admin receipt review", locale === "zh" ? "后台人工核对收款地址、金额、代币合约、确认数与时间戳。" : "Admin checks recipient, amount, token contract, confirmations, and timestamp."],
             [locale === "zh" ? "订单与发货" : "Order and delivery", locale === "zh" ? "到账确认后登记拥有者、确认收货信息并安排发货。" : "After receipt confirmation, ownership, shipping details, and delivery are handled."],
           ].map(([title, text]) => (
