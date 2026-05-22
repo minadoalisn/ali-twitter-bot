@@ -1,62 +1,16 @@
 import { Archive, BadgeCheck, Gem, MessageCircle, ShieldCheck } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import type { CustomerServiceConfig, InquiryInbox } from "@/lib/inquiries";
-import { localizedSeries } from "@/lib/localized-content";
-import { products, storySeries } from "@/lib/noirven-data";
-import type { Locale, Product } from "@/lib/types";
+import type { Locale } from "@/lib/types";
 
 const receivingAddress = process.env.BNB_USDT_RECEIVING_ADDRESS || "0xbd00c3d12dB5840A403D2880039Cb1c86155F8cC";
 
-type AdminOrder = {
-  orderId: string;
-  product: Product;
-  collector: string;
-  wallet: string;
-  txid: string;
-  submittedAt: string;
-  paymentStatus: { zh: string; en: string };
-  reviewStatus: { zh: string; en: string };
-  deliveryStatus: { zh: string; en: string };
-  riskNote: { zh: string; en: string };
+export const orderInbox = {
+  storageConfigured: false,
+  orders: [],
 };
-
-const latestProducts = [...products].sort((left, right) => right.serial.localeCompare(left.serial, "en", { numeric: true }));
-
-export const adminOrders: AdminOrder[] = latestProducts.slice(0, 6).map((product, index) => {
-  const presets = [
-    {
-      paymentStatus: { zh: "待核验 TXID", en: "TXID Review" },
-      reviewStatus: { zh: "人工审核", en: "Manual Review" },
-      deliveryStatus: { zh: "未发货", en: "Not Shipped" },
-      riskNote: { zh: "等待链上到账确认，暂不登记拥有者。", en: "Waiting for on-chain receipt before owner registration." },
-    },
-    {
-      paymentStatus: { zh: "链上确认中", en: "Confirming" },
-      reviewStatus: { zh: "金额匹配", en: "Amount Matched" },
-      deliveryStatus: { zh: "待确认地址", en: "Address Needed" },
-      riskNote: { zh: "金额与作品定价一致，需复核收款地址。", en: "Amount matches the work price; receiving address still needs review." },
-    },
-    {
-      paymentStatus: { zh: "已到账", en: "Received" },
-      reviewStatus: { zh: "可确认归属", en: "Ready To Approve" },
-      deliveryStatus: { zh: "待发货", en: "Ready To Ship" },
-      riskNote: { zh: "可登记拥有者，并进入高价值发货流程。", en: "Ready for owner registration and high-value delivery workflow." },
-    },
-  ];
-  const preset = presets[index % presets.length];
-
-  return {
-    orderId: `NV-ORD-${product.serial.replace("N-", "")}`,
-    product,
-    collector: index === 0 ? "local@example.com" : `collector-${index + 1}@noirven.vip`,
-    wallet: index === 0 ? "Connected wallet pending" : `0x${String(index + 1).repeat(4)}...${String(9 - index).repeat(4)}`,
-    txid: index === 0 ? "Waiting for wallet proof" : `0xnv${product.serial.replace("N-", "")}${String(index).repeat(8)}`,
-    submittedAt: product.soldAt ?? product.endsAt,
-    ...preset,
-  };
-});
 
 export const permissionMatrix = [
   {
@@ -84,37 +38,28 @@ export const permissionMatrix = [
 const dashboardMetrics = [
   {
     label: { zh: "订单查看", en: "Order Review" },
-    value: `${adminOrders.length}`,
-    detail: { zh: "按最新编号、付款状态和发货阶段集中查看。", en: "Review by latest serial, payment state, and delivery stage." },
+    value: "0",
+    detail: { zh: "只显示真实订单数据，不展示演示买家或模拟钱包。", en: "Only real order records are shown. No demo buyers or simulated wallets." },
   },
   {
     label: { zh: "支付数据", en: "Payment Proofs" },
-    value: `${adminOrders.filter((order) => order.paymentStatus.en !== "Received").length}`,
-    detail: { zh: "BEP-20 USDT 收款地址、TXID、付款钱包与金额核验。", en: "BEP-20 USDT address, TXID, payer wallet, and amount checks." },
+    value: "0",
+    detail: { zh: "等待真实 USDT 付款凭证入库后显示。", en: "Shown after real USDT payment proofs are stored." },
   },
   {
     label: { zh: "人工审核", en: "Manual Approval" },
-    value: `${adminOrders.filter((order) => order.reviewStatus.en !== "Ready To Approve").length}`,
-    detail: { zh: "确认到账后才登记拥有者，避免重复归属。", en: "Owner registration happens only after receipt approval." },
+    value: "0",
+    detail: { zh: "等待真实订单进入审核队列。", en: "Waiting for real orders to enter review." },
   },
   {
     label: { zh: "发货管理", en: "Delivery" },
-    value: `${adminOrders.filter((order) => order.deliveryStatus.en !== "Not Shipped").length}`,
-    detail: { zh: "到账确认后进入保价发货、交付凭证和售后档案。", en: "After approval: insured shipping, delivery proof, and service archive." },
+    value: "0",
+    detail: { zh: "到账确认后才进入真实发货流程。", en: "Real fulfillment starts only after receipt approval." },
   },
 ];
 
 function localizedText(value: { zh: string; en: string }, locale: Locale) {
   return value[locale];
-}
-
-function productName(product: Product, locale: Locale) {
-  return locale === "zh" ? product.zhTitle : product.title;
-}
-
-function shortAddress(address: string) {
-  if (!address.startsWith("0x") || address.length < 14) return address;
-  return `${address.slice(0, 8)}...${address.slice(-6)}`;
 }
 
 export function AdminPage({
@@ -195,7 +140,7 @@ export function AdminPage({
                 },
                 {
                   label: isZh ? "邮件兜底" : "Email Fallback",
-                  value: customerServiceConfig?.conciergeEmail ?? "concierge@nvonly.com",
+                  value: customerServiceConfig?.conciergeEmail ?? "lansenlight@gmail.com",
                   state: "ok",
                   key: "conciergeEmail",
                 },
@@ -323,74 +268,37 @@ export function AdminPage({
               <p className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ash)]">
                 <Archive size={14} /> {isZh ? "订单查看" : "Order Review"}
               </p>
-              <h2 className="mt-3 text-3xl">{isZh ? "最新归属订单队列" : "Latest Ownership Queue"}</h2>
+              <h2 className="mt-3 text-3xl">{isZh ? "真实订单队列" : "Real Orders"}</h2>
             </div>
             <p className="max-w-xl text-sm leading-6 text-[var(--graphite)]">
               {isZh
-                ? "每条订单绑定一个作品编号、一个故事线和一个付款凭证；审核通过后才会显示拥有者并进入发货。"
-                : "Each order binds one serial, one storyline, and one payment proof; owner display and delivery start only after approval."}
+                ? "这里不再展示演示买家。只有用户提交付款凭证并写入数据库后，订单、买家、钱包和发货状态才会出现。"
+                : "Demo buyers are no longer displayed. Orders, buyers, wallets, and delivery status appear only after real payment proofs are stored."}
             </p>
           </div>
 
-          <div className="mt-7 overflow-x-auto">
-            <table className="w-full min-w-[980px] border-collapse text-left text-sm">
-              <thead className="border-b border-black/12 text-[11px] uppercase tracking-[0.16em] text-[var(--ash)]">
-                <tr>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "订单" : "Order"}</th>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "作品" : "Work"}</th>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "买家" : "Collector"}</th>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "金额" : "Amount"}</th>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "状态" : "Status"}</th>
-                  <th className="py-4 pr-5 font-normal">{isZh ? "操作" : "Actions"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {adminOrders.map((order) => {
-                  const series = storySeries.find((item) => item.id === order.product.seriesId);
-                  const localized = series ? localizedSeries(series, locale) : null;
-
-                  return (
-                    <tr key={order.orderId} className="border-b border-black/8 align-top">
-                      <td className="py-5 pr-5 font-mono text-xs">
-                        <p>{order.orderId}</p>
-                        <p className="mt-2 text-[var(--ash)]">{formatDate(order.submittedAt)}</p>
-                      </td>
-                      <td className="py-5 pr-5">
-                        <p className="font-medium">{productName(order.product, locale)}</p>
-                        <p className="mt-1 font-mono text-xs text-[var(--ash)]">{order.product.serial}</p>
-                        <p className="mt-1 text-xs text-[var(--graphite)]">{localized?.zhName ?? order.product.seriesId}</p>
-                      </td>
-                      <td className="py-5 pr-5">
-                        <p>{order.collector}</p>
-                        <p className="mt-1 font-mono text-xs text-[var(--ash)]">{shortAddress(order.wallet)}</p>
-                      </td>
-                      <td className="py-5 pr-5 font-mono">{formatCurrency(order.product.currentPrice)}</td>
-                      <td className="py-5 pr-5">
-                        <div className="grid gap-2">
-                          <span className="w-fit border border-black/12 px-2 py-1 text-xs">{localizedText(order.paymentStatus, locale)}</span>
-                          <span className="w-fit border border-black/12 px-2 py-1 text-xs">{localizedText(order.reviewStatus, locale)}</span>
-                          <span className="w-fit border border-black/12 px-2 py-1 text-xs">{localizedText(order.deliveryStatus, locale)}</span>
-                        </div>
-                      </td>
-                      <td className="py-5 pr-5">
-                        <div className="flex flex-wrap gap-2">
-                          <button className="focus-ring border border-black/12 px-3 py-2 text-xs transition hover:border-[var(--champagne)]">
-                            {isZh ? "确认到账" : "Approve Receipt"}
-                          </button>
-                          <button className="focus-ring border border-black/12 px-3 py-2 text-xs transition hover:border-[var(--champagne)]">
-                            {isZh ? "登记拥有者" : "Register Owner"}
-                          </button>
-                          <button className="focus-ring border border-black/12 px-3 py-2 text-xs transition hover:border-[var(--champagne)]">
-                            {isZh ? "安排发货" : "Ship"}
-                          </button>
-                        </div>
-                        <p className="mt-3 text-xs leading-5 text-[var(--graphite)]">{localizedText(order.riskNote, locale)}</p>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div className="mt-7 border border-black/10 p-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ash)]">
+              {orderInbox.storageConfigured ? "ORDER STORAGE ACTIVE" : "ORDER STORAGE PENDING"}
+            </p>
+            <h3 className="mt-4 text-2xl">{isZh ? "暂无真实订单" : "No real orders yet"}</h3>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--graphite)]">
+              {isZh
+                ? "当前没有从数据库读取到真实订单。接入 Supabase 订单/付款表后，这里会显示真实买家、真实钱包、真实 TXID、审核与发货状态；未接入前不会再显示任何模拟数据。"
+                : "No database-backed order records are available. After Supabase order/payment tables are connected, this area will show real buyers, wallets, TXIDs, review, and fulfillment states. Until then, no simulated data is shown."}
+            </p>
+            <div className="mt-6 grid gap-3 text-sm md:grid-cols-3">
+              {[
+                isZh ? "用户提交 USDT 凭证" : "User submits USDT proof",
+                isZh ? "后台确认到账" : "Admin confirms receipt",
+                isZh ? "登记拥有者并发货" : "Register owner and ship",
+              ].map((step, index) => (
+                <div key={step} className="border border-black/10 p-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ash)]">0{index + 1}</p>
+                  <p className="mt-2">{step}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -409,13 +317,10 @@ export function AdminPage({
                   : "Review amount, receiving address, payer wallet, TXID, and confirmations. Owner registration and delivery stay locked before receipt approval."}
               </p>
             </div>
-            <div className="mt-5 grid gap-3 text-sm">
-              {adminOrders.slice(0, 3).map((order) => (
-                <div key={order.txid} className="border-b border-black/10 pb-3">
-                  <p className="font-mono text-xs text-[var(--ash)]">{order.orderId}</p>
-                  <p className="mt-1 break-all">{order.txid}</p>
-                </div>
-              ))}
+            <div className="mt-5 border border-black/10 p-5 text-sm leading-7 text-[var(--graphite)]">
+              {isZh
+                ? "暂无真实付款凭证。用户完成钱包转账并成功提交询盘/付款记录后，这里才显示真实 TXID、付款钱包、金额和确认状态。"
+                : "No real payment proofs yet. Real TXIDs, payer wallets, amounts, and confirmation states appear only after a user submits a stored payment record."}
             </div>
           </div>
 

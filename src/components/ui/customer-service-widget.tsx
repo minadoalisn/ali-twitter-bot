@@ -8,7 +8,7 @@ import type { Locale } from "@/lib/types";
 type SubmitState = "idle" | "sending" | "sent" | "error";
 type InquiryIntent = "available_work" | "custom" | "payment" | "delivery" | "press" | "other";
 
-const conciergeEmail = process.env.NEXT_PUBLIC_NOIRVEN_CONCIERGE_EMAIL || "concierge@nvonly.com";
+const conciergeEmail = process.env.NEXT_PUBLIC_NOIRVEN_CONCIERGE_EMAIL || "lansenlight@gmail.com";
 
 const copy = {
   zh: {

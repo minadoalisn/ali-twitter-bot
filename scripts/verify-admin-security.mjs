@@ -39,10 +39,10 @@ expectIncludes("English admin route", enAdminPage, [
 ]);
 
 expectIncludes("Admin dashboard", adminComponent, [
-  "adminOrders",
-  "paymentStatus",
-  "reviewStatus",
-  "deliveryStatus",
+  "orderInbox",
+  "storageConfigured",
+  "真实订单",
+  "Real Orders",
   "permissionMatrix",
   "Order Review",
   "Payment Proofs",
@@ -55,6 +55,12 @@ expectIncludes("Admin dashboard", adminComponent, [
   "发货管理",
   "权限控制",
 ]);
+
+for (const forbidden of ["local@example.com", "collector-", "Connected wallet pending", "0xnv", "adminOrders"]) {
+  if (adminComponent.includes(forbidden)) {
+    failures.push(`Admin dashboard must not contain demo buyer/order data: ${forbidden}`);
+  }
+}
 
 if (failures.length > 0) {
   console.error("Admin security verification failed:");

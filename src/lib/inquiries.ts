@@ -71,7 +71,7 @@ export function inferInquiryPriority(input: Pick<CustomerInquiryInput, "intent" 
 }
 
 export function getCustomerServiceConfig(): CustomerServiceConfig {
-  const conciergeEmail = process.env.NEXT_PUBLIC_NOIRVEN_CONCIERGE_EMAIL || "concierge@nvonly.com";
+  const conciergeEmail = process.env.NEXT_PUBLIC_NOIRVEN_CONCIERGE_EMAIL || "lansenlight@gmail.com";
 
   return {
     storageConfigured: Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY),
