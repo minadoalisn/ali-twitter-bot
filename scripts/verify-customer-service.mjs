@@ -41,6 +41,10 @@ expectIncludes("customer service widget", widget, [
   '"use client"',
   "在线客服",
   "Luxury Concierge",
+  "智能建议",
+  "smartGuidance",
+  "quickPrompts",
+  "setMessage",
   "fetch(\"/api/inquiries\"",
   "contactChannel",
   "productSerial",
@@ -57,6 +61,8 @@ expectIncludes("inquiry route", inquiryRoute, [
 
 expectIncludes("inquiries library", inquiriesLib, [
   "customer_inquiries",
+  "inferInquiryPriority",
+  "getCustomerServiceConfig",
   "createCustomerInquiry",
   "getRecentCustomerInquiries",
   "getSupabaseAdmin",
@@ -68,6 +74,14 @@ expectIncludes("admin routes", `${adminPage}\n${enAdminPage}`, ["getRecentCustom
 
 expectIncludes("admin dashboard", adminComponent, [
   "inquiryInbox",
+  "customerServiceConfig",
+  "智能客服配置",
+  "Smart Concierge Configuration",
+  "智能分流规则",
+  "Lead Intelligence",
+  "高净值优先",
+  "storageConfigured",
+  "aiConfigured",
   "询盘管理",
   "Concierge Inquiries",
   "contact_channel",

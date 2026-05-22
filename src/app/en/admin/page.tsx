@@ -1,6 +1,6 @@
 import { AdminPage } from "@/components/sections/admin-page";
 import { AUTH_COOKIE, verifySessionToken } from "@/lib/auth";
-import { getRecentCustomerInquiries } from "@/lib/inquiries";
+import { getCustomerServiceConfig, getRecentCustomerInquiries } from "@/lib/inquiries";
 import { createMetadata } from "@/lib/seo";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -30,6 +30,7 @@ export default async function Page() {
   }
 
   const inquiryInbox = await getRecentCustomerInquiries();
+  const customerServiceConfig = getCustomerServiceConfig();
 
-  return <AdminPage locale="en" inquiryInbox={inquiryInbox} />;
+  return <AdminPage locale="en" inquiryInbox={inquiryInbox} customerServiceConfig={customerServiceConfig} />;
 }

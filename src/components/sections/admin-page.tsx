@@ -2,7 +2,7 @@ import { Archive, BadgeCheck, Gem, MessageCircle, ShieldCheck } from "lucide-rea
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatCurrency, formatDate } from "@/lib/format";
-import type { InquiryInbox } from "@/lib/inquiries";
+import type { CustomerServiceConfig, InquiryInbox } from "@/lib/inquiries";
 import { localizedSeries } from "@/lib/localized-content";
 import { products, storySeries } from "@/lib/noirven-data";
 import type { Locale, Product } from "@/lib/types";
@@ -117,7 +117,15 @@ function shortAddress(address: string) {
   return `${address.slice(0, 8)}...${address.slice(-6)}`;
 }
 
-export function AdminPage({ locale = "zh", inquiryInbox }: { locale?: Locale; inquiryInbox?: InquiryInbox }) {
+export function AdminPage({
+  locale = "zh",
+  inquiryInbox,
+  customerServiceConfig,
+}: {
+  locale?: Locale;
+  inquiryInbox?: InquiryInbox;
+  customerServiceConfig?: CustomerServiceConfig;
+}) {
   const isZh = locale === "zh";
   const inquiries = inquiryInbox?.inquiries ?? [];
 
@@ -153,6 +161,91 @@ export function AdminPage({ locale = "zh", inquiryInbox }: { locale?: Locale; in
               <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">{localizedText(metric.detail, locale)}</p>
             </div>
           ))}
+        </section>
+
+        <section className="mt-14 border-t border-black/12 pt-7">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ash)]">
+                <MessageCircle size={14} /> {isZh ? "智能客服配置" : "Smart Concierge Configuration"}
+              </p>
+              <h2 className="mt-3 text-3xl">{isZh ? "客服能力、渠道与智能分流" : "Service capability, channels, and lead intelligence"}</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-[var(--graphite)]">
+              {isZh
+                ? "这里不是只提示缺配置，而是告诉运营当前客服系统哪些能力可用、哪些渠道未接、哪些询盘会自动优先处理。"
+                : "This panel shows what is enabled, which channels need setup, and how concierge inquiries are prioritized."}
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                {
+                  label: isZh ? "询盘存储" : "Inquiry Storage",
+                  value: customerServiceConfig?.storageConfigured ? (isZh ? "已接入" : "Connected") : (isZh ? "待接入" : "Pending"),
+                  state: customerServiceConfig?.storageConfigured ? "ok" : "pending",
+                  key: "storageConfigured",
+                },
+                {
+                  label: isZh ? "智能分析" : "AI Intelligence",
+                  value: customerServiceConfig?.aiConfigured ? (isZh ? "AI 已配置" : "AI Enabled") : (isZh ? "规则引擎运行中" : "Rules Engine Active"),
+                  state: "ok",
+                  key: "aiConfigured",
+                },
+                {
+                  label: isZh ? "邮件兜底" : "Email Fallback",
+                  value: customerServiceConfig?.conciergeEmail ?? "concierge@nvonly.com",
+                  state: "ok",
+                  key: "conciergeEmail",
+                },
+                {
+                  label: isZh ? "高净值优先" : "High Net Worth Priority",
+                  value: isZh ? "预算 / 编号 / 私定识别" : "Budget / serial / custom signals",
+                  state: "ok",
+                  key: "hnwPriority",
+                },
+              ].map((item) => (
+                <div key={item.key} className="border border-black/10 p-5">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{item.label}</p>
+                  <p className="mt-3 text-xl">{item.value}</p>
+                  <p className={`mt-3 font-mono text-[10px] uppercase tracking-[0.16em] ${item.state === "ok" ? "text-[var(--graphite)]" : "text-[var(--signature-red)]"}`}>
+                    {item.state === "ok" ? "ACTIVE" : "ACTION REQUIRED"}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid gap-5">
+              <div className="border border-black/10 p-5">
+                <h3 className="text-xl">{isZh ? "客服渠道配置" : "Concierge Channels"}</h3>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {(customerServiceConfig?.channels ?? []).map((channel) => (
+                    <div key={channel.key} className="border border-black/8 p-4">
+                      <p className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--ash)]">{channel.key}</p>
+                      <p className="mt-2 break-all text-sm">{channel.label}</p>
+                      <p className={`mt-2 text-[10px] uppercase tracking-[0.16em] ${channel.configured ? "text-[var(--graphite)]" : "text-[var(--signature-red)]"}`}>
+                        {channel.configured ? (isZh ? "已配置" : "Configured") : (isZh ? "待配置" : "Missing")}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border border-black/10 p-5">
+                <h3 className="text-xl">{isZh ? "智能分流规则" : "Lead Intelligence"}</h3>
+                <div className="mt-5 grid gap-3">
+                  {(customerServiceConfig?.routingRules ?? []).map((rule) => (
+                    <div key={rule.name} className="grid gap-3 border-b border-black/10 pb-3 last:border-b-0 last:pb-0 md:grid-cols-[0.35fr_0.45fr_0.2fr]">
+                      <p className="font-medium">{isZh ? rule.zhName : rule.name}</p>
+                      <p className="text-sm leading-6 text-[var(--graphite)]">{rule.condition}</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ash)]">{rule.priority}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section className="mt-14 border-t border-black/12 pt-7">
