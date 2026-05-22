@@ -9,7 +9,8 @@
     "lint": "eslint",
     "verify:catalog": "node scripts/verify-noirven-content.mjs",
     "verify:admin": "node scripts/verify-admin-security.mjs",
-    "verify:customer-service": "node scripts/verify-customer-service.mjs"
+    "verify:customer-service": "node scripts/verify-customer-service.mjs",
+    "verify:geo": "node scripts/verify-geo-content.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.0",
