@@ -71,6 +71,8 @@ const forbiddenFiles = [
 
 const walletConnectFile = path.join(root, "src", "components", "ui", "wallet-connect-panel.tsx");
 const productDetailFile = path.join(root, "src", "components", "sections", "product-detail.tsx");
+const homePageFile = path.join(root, "src", "components", "sections", "home-page.tsx");
+const seriesGridFile = path.join(root, "src", "components", "sections", "series-grid.tsx");
 const usdtRouteFile = path.join(root, "src", "app", "api", "payments", "usdt", "route.ts");
 const envExampleFile = path.join(root, ".env.example");
 const expectedBnbReceivingAddress = "0xbd00c3d12dB5840A403D2880039Cb1c86155F8cC";
@@ -160,9 +162,37 @@ if (!existsSync(walletConnectFile)) {
 }
 
 const productDetailSource = readFileSync(productDetailFile, "utf8");
+const homePageSource = readFileSync(homePageFile, "utf8");
+const seriesGridSource = readFileSync(seriesGridFile, "utf8");
 if (!productDetailSource.includes("WalletConnectPanel")) {
   fail("product detail must render the wallet connect panel in the USDT payment form");
 }
+
+[
+  "稀世",
+  "保值",
+  "gem-grade rarity",
+  "long-horizon value",
+].forEach((needle) => {
+  if (!homePageSource.includes(needle)) {
+    fail(`home page luxury pricing copy must include ${needle}`);
+  }
+});
+
+if (homePageSource.includes("按顶级奢侈品级材质、工艺与唯一实体价值直接出售")) {
+  fail("home page pricing copy still uses the overly direct old wording");
+}
+
+[
+  "ArrowUpRight",
+  "story-card-arrow",
+  "rounded-full",
+  "aria-hidden",
+].forEach((needle) => {
+  if (!seriesGridSource.includes(needle)) {
+    fail(`series grid cards must render a visible icon affordance: ${needle}`);
+  }
+});
 
 if (/Transaction Hash|交易哈希|TXID/.test(productDetailSource)) {
   fail("product detail must not render a visible transaction hash input");

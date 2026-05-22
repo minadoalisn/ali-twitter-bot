@@ -1,4 +1,4 @@
-import { Archive, BadgeCheck, ClipboardCheck, Gem, MessageCircle, PackageCheck, ShieldCheck, Truck } from "lucide-react";
+import { Activity, Archive, BadgeCheck, ClipboardCheck, Gem, MessageCircle, PackageCheck, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatDate } from "@/lib/format";
@@ -35,26 +35,26 @@ export const permissionMatrix = [
   },
 ];
 
-const dashboardMetrics = [
+export const analyticsDashboard = [
   {
-    label: { zh: "订单查看", en: "Order Review" },
-    value: "0",
-    detail: { zh: "只显示真实订单数据，不展示演示买家或模拟钱包。", en: "Only real order records are shown. No demo buyers or simulated wallets." },
+    key: "traffic",
+    label: { zh: "浏览访问", en: "Traffic Signal" },
+    source: { zh: "等待接入 Vercel Analytics 或 Supabase page_events", en: "Awaiting Vercel Analytics or Supabase page_events" },
   },
   {
-    label: { zh: "支付数据", en: "Payment Proofs" },
-    value: "0",
-    detail: { zh: "等待真实 USDT 付款凭证入库后显示。", en: "Shown after real USDT payment proofs are stored." },
+    key: "payment",
+    label: { zh: "支付金额", en: "Payment Volume" },
+    source: { zh: "来自真实 USDT 付款凭证和到账审核", en: "From real USDT proofs and receipt review" },
   },
   {
-    label: { zh: "人工审核", en: "Manual Approval" },
-    value: "0",
-    detail: { zh: "等待真实订单进入审核队列。", en: "Waiting for real orders to enter review." },
+    key: "concierge",
+    label: { zh: "客服询盘", en: "Concierge Messages" },
+    source: { zh: "来自在线客服询盘队列", en: "From the online concierge inbox" },
   },
   {
-    label: { zh: "发货管理", en: "Delivery" },
-    value: "0",
-    detail: { zh: "到账确认后才进入真实发货流程。", en: "Real fulfillment starts only after receipt approval." },
+    key: "orders",
+    label: { zh: "订单状态", en: "Order Pipeline" },
+    source: { zh: "来自真实订单、审核与发货状态", en: "From real orders, review, and fulfillment" },
   },
 ];
 
@@ -131,6 +131,21 @@ function localizedText(value: { zh: string; en: string }, locale: Locale) {
   return value[locale];
 }
 
+function dashboardSparkline(points: number[]) {
+  const width = 160;
+  const height = 46;
+  const max = Math.max(...points, 1);
+  const step = points.length > 1 ? width / (points.length - 1) : width;
+
+  return points
+    .map((point, index) => {
+      const x = Number((index * step).toFixed(2));
+      const y = Number((height - 4 - (point / max) * 34).toFixed(2));
+      return `${x},${y}`;
+    })
+    .join(" ");
+}
+
 export function AdminPage({
   locale = "zh",
   inquiryInbox,
@@ -142,40 +157,100 @@ export function AdminPage({
 }) {
   const isZh = locale === "zh";
   const inquiries = inquiryInbox?.inquiries ?? [];
+  const orderCount = orderInbox.orders.length;
+  const urgentInquiryCount = inquiries.filter((inquiry) => inquiry.priority === "urgent").length;
+  const dashboardCards = analyticsDashboard.map((metric) => {
+    if (metric.key === "traffic") {
+      return {
+        ...metric,
+        icon: Activity,
+        value: "--",
+        status: isZh ? "待接入实时访问数据" : "Waiting for live traffic feed",
+        series: [0, 0, 0, 0, 0, 0, 0],
+      };
+    }
+
+    if (metric.key === "payment") {
+      return {
+        ...metric,
+        icon: Gem,
+        value: "$0",
+        status: isZh ? "暂无真实到账记录" : "No received payments yet",
+        series: [0, 0, 0, 0, 0, 0, 0],
+      };
+    }
+
+    if (metric.key === "concierge") {
+      return {
+        ...metric,
+        icon: MessageCircle,
+        value: `${inquiries.length}`,
+        status: isZh ? `${urgentInquiryCount} 条紧急询盘` : `${urgentInquiryCount} urgent inquiries`,
+        series: [0, 0, 0, 0, urgentInquiryCount, inquiries.length],
+      };
+    }
+
+    return {
+      ...metric,
+      icon: ShoppingBag,
+      value: `${orderCount}`,
+      status: isZh ? "暂无真实订单入库" : "No real orders stored yet",
+      series: [0, 0, 0, 0, 0, orderCount],
+    };
+  });
 
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
       <SiteHeader locale={locale} />
       <main className="section-shell py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-black/12 pb-8">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Noirven Admin</p>
-            <h1 className="mt-4 max-w-4xl font-serif text-5xl font-normal leading-tight md:text-6xl">
-              {isZh ? "运营后台：订单、支付、审核、发货与权限。" : "Operations console for orders, payments, approval, delivery, and permissions."}
-            </h1>
-            <p className="mt-5 max-w-3xl text-sm leading-7 text-[var(--graphite)]">
-              {isZh
-                ? "后台只允许管理员账号进入。用户可浏览作品，但订单、付款凭证、收货资料、审核和发货信息只在此处处理。"
-                : "Only admin accounts can enter this console. Visitors can browse works, while orders, payment proofs, shipping data, review, and fulfillment are handled here."}
-            </p>
-          </div>
-          <form action="/api/auth/logout" method="post">
-            <input type="hidden" name="next" value={isZh ? "/admin/login" : "/en/admin/login"} />
-            <button className="focus-ring rounded-full border border-black/14 px-5 py-3 text-[10px] uppercase tracking-[0.16em] text-black transition hover:border-[var(--champagne)]">
-              {isZh ? "退出后台会话" : "Sign Out"}
-            </button>
-          </form>
-        </div>
-
-        <section className="mt-10 grid gap-5 md:grid-cols-4">
-          {dashboardMetrics.map((metric) => (
-            <div key={metric.label.en} className="border-t border-black/12 pt-5">
-              <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{localizedText(metric.label, locale)}</p>
-              <p className="mt-3 font-mono text-3xl">{metric.value}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">{localizedText(metric.detail, locale)}</p>
+        <div className="border-b border-black/12 pb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h1 className="sr-only">Noirven Admin Dashboard</h1>
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--ash)]">Live Operations</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">
+                {isZh ? "浏览访问 / 支付金额 / 客服询盘 / 订单状态" : "Traffic / payment volume / concierge messages / order pipeline"}
+              </p>
             </div>
-          ))}
-        </section>
+            <form action="/api/auth/logout" method="post">
+              <input type="hidden" name="next" value={isZh ? "/admin/login" : "/en/admin/login"} />
+              <button className="focus-ring rounded-full border border-black/14 px-5 py-3 text-[10px] uppercase tracking-[0.16em] text-black transition hover:border-[var(--champagne)]">
+                {isZh ? "退出后台会话" : "Sign Out"}
+              </button>
+            </form>
+          </div>
+
+          <section className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {dashboardCards.map((card) => {
+              const Icon = card.icon;
+
+              return (
+                <div key={card.key} className="border border-black/10 bg-white/30 p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-[var(--ash)]">{localizedText(card.label, locale)}</p>
+                      <p className="mt-3 font-mono text-3xl">{card.value}</p>
+                    </div>
+                    <Icon size={19} className="text-[var(--antique-gold)]" />
+                  </div>
+                  <svg className="mt-5 h-14 w-full overflow-visible" viewBox="0 0 160 46" role="img" aria-label={localizedText(card.label, locale)}>
+                    <line x1="0" x2="160" y1="42" y2="42" stroke="currentColor" strokeOpacity="0.12" />
+                    <polyline
+                      fill="none"
+                      points={dashboardSparkline(card.series)}
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                  <p className="mt-4 text-sm leading-6 text-[var(--graphite)]">{card.status}</p>
+                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--ash)]">{localizedText(card.source, locale)}</p>
+                </div>
+              );
+            })}
+          </section>
+        </div>
 
         <section className="mt-14 border-t border-black/12 pt-7">
           <div className="flex flex-wrap items-end justify-between gap-4">

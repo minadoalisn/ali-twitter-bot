@@ -50,6 +50,12 @@ expectIncludes("Admin dashboard", adminComponent, [
   "Manual Approval",
   "Delivery",
   "Permissions",
+  "analyticsDashboard",
+  "dashboardSparkline",
+  "Traffic Signal",
+  "Payment Volume",
+  "Concierge Messages",
+  "Order Pipeline",
   "shipmentWorkflow",
   "deliveryChecklist",
   "Insured Logistics",
@@ -62,6 +68,16 @@ expectIncludes("Admin dashboard", adminComponent, [
   "发货管理",
   "权限控制",
 ]);
+
+for (const forbiddenCopy of [
+  "运营后台：订单、支付、审核、发货与权限。",
+  "Operations console for orders, payments, approval, delivery, and permissions.",
+  "后台只允许管理员账号进入。用户可浏览作品",
+]) {
+  if (adminComponent.includes(forbiddenCopy)) {
+    failures.push(`Admin dashboard hero must not show static intro copy: ${forbiddenCopy}`);
+  }
+}
 
 expectIncludes("Supabase fulfillment schema", supabaseSchema, [
   "shipment_status",

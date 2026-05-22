@@ -168,7 +168,7 @@ export function HomePage({ locale = "zh" }: { locale?: Locale }) {
         <section className="border-y border-black/10 bg-[var(--ivory)]">
           <div className="section-shell grid gap-8 py-12 md:grid-cols-3">
             {[
-              { icon: Gem, label: locale === "zh" ? "顶奢定价" : "Ultra-Luxury Price", text: locale === "zh" ? "按顶级奢侈品级材质、工艺与唯一实体价值直接出售，确认后只归一人。" : "Each work is priced by ultra-luxury materials, craft, and one-physical-piece value, then belongs to one collector after confirmation." },
+              { icon: Gem, label: locale === "zh" ? "顶奢定价" : "Ultra-Luxury Price", text: locale === "zh" ? "以宝石级稀缺、匠作时长与唯一编号定价；稀世之作只入一位藏家的档案，重在传承与长期保值。" : "Pricing follows gem-grade rarity, atelier hours, and one-of-one provenance; each rare work enters one collector archive with long-horizon value in mind." },
               { icon: Archive, label: locale === "zh" ? "唯一编号" : "One Serial", text: locale === "zh" ? "每件作品内侧或背面刻入 N+编号。" : "Every work carries an N+serial engraving." },
               { icon: ShieldCheck, label: locale === "zh" ? "到账确认" : "Receipt Review", text: locale === "zh" ? "USDT 到账后后台登记拥有者并安排发货。" : "After USDT receipt is confirmed, ownership and delivery are registered." },
             ].map((item) => (

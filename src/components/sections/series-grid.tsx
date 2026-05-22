@@ -24,7 +24,12 @@ export function SeriesGrid({ locale = "zh" }: { locale?: Locale }) {
               </p>
               <h3 className="mt-4 text-3xl font-normal text-black">{locale === "zh" ? series.zhName : series.name}</h3>
             </div>
-            <ArrowUpRight className="mt-2 text-[var(--ash)] transition group-hover:text-[var(--champagne)]" size={18} />
+            <span
+              className="story-card-arrow mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/12 text-[var(--ash)] transition group-hover:border-black group-hover:bg-black group-hover:text-white"
+              aria-hidden="true"
+            >
+              <ArrowUpRight size={18} strokeWidth={1.7} />
+            </span>
           </div>
           <p className="mt-5 max-w-xl text-lg leading-8 text-[var(--graphite)]">
             {locale === "zh" ? series.emotionalLine : series.theme}
