@@ -43,6 +43,7 @@ const copy = {
     submit: "提交询盘",
     sending: "提交中",
     sent: "询盘已提交，后台会进入客服跟进。",
+    fallback: "询盘已生成邮件草稿，请发送给客服完成提交：",
     error: "询盘暂时未保存，请稍后再试，或发送邮件至 ",
     mail: "邮件咨询",
   },
@@ -78,6 +79,7 @@ const copy = {
     submit: "Send Inquiry",
     sending: "Sending",
     sent: "Inquiry submitted. It will enter concierge follow-up.",
+    fallback: "A concierge email draft has been created. Send it to complete the inquiry:",
     error: "Inquiry could not be saved. Try again later, or email ",
     mail: "Email Concierge",
   },
@@ -130,6 +132,26 @@ function smartGuidance({
     : "Choose an inquiry type first; adding a serial or budget automatically improves lead priority.";
 }
 
+function buildFallbackMailto(payload: Record<string, FormDataEntryValue>, locale: Locale) {
+  const subjectPrefix = locale === "zh" ? "Noirven 询盘" : "Noirven inquiry";
+  const product = String(payload.productSerial || "");
+  const subject = `${subjectPrefix}${product ? ` ${product}` : ""}`;
+  const body = [
+    `Name: ${String(payload.name || "")}`,
+    `Contact channel: ${String(payload.contactChannel || "")}`,
+    `Contact handle: ${String(payload.contactHandle || "")}`,
+    `Email: ${String(payload.email || "")}`,
+    `Product serial: ${String(payload.productSerial || "")}`,
+    `Budget USD: ${String(payload.budgetUsd || "")}`,
+    `Intent: ${String(payload.intent || "")}`,
+    `Page: ${String(payload.pagePath || "")}`,
+    "",
+    String(payload.message || ""),
+  ].join("\n");
+
+  return `mailto:${conciergeEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 export function CustomerServiceWidget({ locale = "zh" }: { locale?: Locale }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -161,9 +183,18 @@ export function CustomerServiceWidget({ locale = "zh" }: { locale?: Locale }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         throw new Error("Inquiry failed");
+      }
+
+      if (result.mode === "fallback_email" || result.status === "accepted_without_storage") {
+        const mailto = buildFallbackMailto(payload, locale);
+        setSubmitState("sent");
+        setStatusText(`${t.fallback} ${result.fallbackEmail || conciergeEmail}`);
+        window.location.href = mailto;
+        return;
       }
 
       event.currentTarget.reset();
@@ -183,7 +214,7 @@ export function CustomerServiceWidget({ locale = "zh" }: { locale?: Locale }) {
   return (
     <div className="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:right-6">
       {open ? (
-        <section className="w-[calc(100vw-2rem)] max-w-[390px] border border-black/12 bg-[var(--porcelain)] shadow-[0_24px_70px_rgba(0,0,0,0.14)]">
+        <section className="max-h-[calc(100dvh-7rem)] w-[calc(100vw-2rem)] max-w-[390px] overflow-y-auto overscroll-contain border border-black/12 bg-[var(--porcelain)] shadow-[0_24px_70px_rgba(0,0,0,0.14)]">
           <div className="flex items-start justify-between gap-4 border-b border-black/10 p-5">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--ash)]">{t.subtitle}</p>

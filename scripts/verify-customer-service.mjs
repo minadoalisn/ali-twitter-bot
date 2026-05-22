@@ -42,11 +42,16 @@ expectIncludes("customer service widget", widget, [
   "在线客服",
   "Luxury Concierge",
   "lansenlight@gmail.com",
+  "max-h-[calc(100dvh-7rem)]",
+  "overflow-y-auto",
+  "overscroll-contain",
   "智能建议",
   "smartGuidance",
   "quickPrompts",
   "setMessage",
   "fetch(\"/api/inquiries\"",
+  "fallback_email",
+  "mailto:",
   "contactChannel",
   "productSerial",
   "message",
@@ -57,6 +62,7 @@ expectIncludes("inquiry route", inquiryRoute, [
   "createCustomerInquiry",
   "requireAdminSession",
   "export async function POST",
+  "fallback_email",
   "export async function GET",
 ]);
 
@@ -66,6 +72,8 @@ expectIncludes("inquiries library", inquiriesLib, [
   "getCustomerServiceConfig",
   "lansenlight@gmail.com",
   "createCustomerInquiry",
+  "fallback_email",
+  "accepted_without_storage",
   "getRecentCustomerInquiries",
   "getSupabaseAdmin",
 ]);

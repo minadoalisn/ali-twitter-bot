@@ -122,12 +122,20 @@ function getSupabaseOrNull() {
 export async function createCustomerInquiry(input: CustomerInquiryInput) {
   const supabase = getSupabaseOrNull();
   const triage = inferInquiryPriority(input);
+  const conciergeEmail = process.env.NEXT_PUBLIC_NOIRVEN_CONCIERGE_EMAIL || "lansenlight@gmail.com";
 
   if (!supabase) {
     return {
-      ok: false,
-      status: 503,
-      error: "Customer inquiry storage is not configured.",
+      ok: true,
+      status: 202,
+      mode: "fallback_email",
+      statusText: "accepted_without_storage",
+      fallbackEmail: conciergeEmail,
+      inquiry: {
+        id: "fallback_email",
+        created_at: new Date().toISOString(),
+        priority: triage.priority,
+      },
     };
   }
 
@@ -154,15 +162,24 @@ export async function createCustomerInquiry(input: CustomerInquiryInput) {
 
   if (error) {
     return {
-      ok: false,
-      status: 500,
-      error: "Customer inquiry could not be saved.",
+      ok: true,
+      status: 202,
+      mode: "fallback_email",
+      statusText: "accepted_without_storage",
+      fallbackEmail: conciergeEmail,
+      inquiry: {
+        id: "fallback_email",
+        created_at: new Date().toISOString(),
+        priority: triage.priority,
+      },
     };
   }
 
   return {
     ok: true,
     status: 201,
+    mode: "stored",
+    statusText: "stored",
     inquiry: data,
   };
 }

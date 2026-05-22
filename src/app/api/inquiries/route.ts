@@ -36,10 +36,20 @@ export async function POST(request: Request) {
   const result = await createCustomerInquiry(parsed.data);
 
   if (!result.ok) {
-    return NextResponse.json({ error: result.error }, { status: result.status });
+    return NextResponse.json({ error: "Customer inquiry failed" }, { status: result.status });
   }
 
-  return NextResponse.json({ status: "stored", inquiry: result.inquiry }, { status: 201 });
+  const mode = result.mode ?? "stored";
+
+  return NextResponse.json(
+    {
+      status: mode === "fallback_email" ? "accepted_without_storage" : (result.statusText ?? "stored"),
+      mode,
+      fallbackEmail: result.fallbackEmail,
+      inquiry: result.inquiry,
+    },
+    { status: result.status ?? 201 },
+  );
 }
 
 export async function GET(request: Request) {
