@@ -1,7 +1,8 @@
-import { Archive, BadgeCheck, Gem, ShieldCheck } from "lucide-react";
+import { Archive, BadgeCheck, Gem, MessageCircle, ShieldCheck } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatCurrency, formatDate } from "@/lib/format";
+import type { InquiryInbox } from "@/lib/inquiries";
 import { localizedSeries } from "@/lib/localized-content";
 import { products, storySeries } from "@/lib/noirven-data";
 import type { Locale, Product } from "@/lib/types";
@@ -116,8 +117,9 @@ function shortAddress(address: string) {
   return `${address.slice(0, 8)}...${address.slice(-6)}`;
 }
 
-export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
+export function AdminPage({ locale = "zh", inquiryInbox }: { locale?: Locale; inquiryInbox?: InquiryInbox }) {
   const isZh = locale === "zh";
+  const inquiries = inquiryInbox?.inquiries ?? [];
 
   return (
     <div className="min-h-screen bg-[var(--porcelain)]">
@@ -151,6 +153,75 @@ export function AdminPage({ locale = "zh" }: { locale?: Locale }) {
               <p className="mt-2 text-sm leading-6 text-[var(--graphite)]">{localizedText(metric.detail, locale)}</p>
             </div>
           ))}
+        </section>
+
+        <section className="mt-14 border-t border-black/12 pt-7">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ash)]">
+                <MessageCircle size={14} /> {isZh ? "询盘管理" : "Concierge Inquiries"}
+              </p>
+              <h2 className="mt-3 text-3xl">{isZh ? "在线客服询盘队列" : "Online Concierge Inbox"}</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-[var(--graphite)]">
+              {isZh
+                ? "客服浮窗提交的咨询会进入这里，优先处理作品购买、私人定制、USDT 支付和发货问题。"
+                : "Inquiries from the concierge widget appear here, prioritized across available works, custom requests, USDT payment, and delivery."}
+            </p>
+          </div>
+
+          {!inquiryInbox?.configured ? (
+            <div className="mt-7 border border-[var(--signature-red)]/25 p-5 text-sm leading-7 text-[var(--graphite)]">
+              {isZh
+                ? "询盘存储尚未配置。请在 Supabase 执行 schema.sql 中的 customer_inquiries 表结构，并配置 NEXT_PUBLIC_SUPABASE_URL 与 SUPABASE_SERVICE_ROLE_KEY。"
+                : "Inquiry storage is not configured. Apply the customer_inquiries table from schema.sql in Supabase and set NEXT_PUBLIC_SUPABASE_URL plus SUPABASE_SERVICE_ROLE_KEY."}
+            </div>
+          ) : inquiries.length === 0 ? (
+            <div className="mt-7 border border-black/10 p-5 text-sm leading-7 text-[var(--graphite)]">
+              {isZh ? "当前暂无新询盘。客服浮窗收到咨询后会显示在这里。" : "No new inquiries yet. Concierge widget submissions will appear here."}
+            </div>
+          ) : (
+            <div className="mt-7 overflow-x-auto">
+              <table className="w-full min-w-[980px] border-collapse text-left text-sm">
+                <thead className="border-b border-black/12 text-[11px] uppercase tracking-[0.16em] text-[var(--ash)]">
+                  <tr>
+                    <th className="py-4 pr-5 font-normal">{isZh ? "客户" : "Client"}</th>
+                    <th className="py-4 pr-5 font-normal" data-field="contact_channel">
+                      {isZh ? "联系渠道" : "Contact"}
+                    </th>
+                    <th className="py-4 pr-5 font-normal" data-field="product_serial">
+                      {isZh ? "作品编号" : "Serial"}
+                    </th>
+                    <th className="py-4 pr-5 font-normal">{isZh ? "意向" : "Intent"}</th>
+                    <th className="py-4 pr-5 font-normal" data-field="message">
+                      {isZh ? "内容" : "Message"}
+                    </th>
+                    <th className="py-4 pr-5 font-normal">{isZh ? "状态" : "Status"}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {inquiries.map((inquiry) => (
+                    <tr key={inquiry.id} className="border-b border-black/8 align-top">
+                      <td className="py-5 pr-5">
+                        <p className="font-medium">{inquiry.name}</p>
+                        <p className="mt-1 font-mono text-xs text-[var(--ash)]">{formatDate(inquiry.created_at)}</p>
+                      </td>
+                      <td className="py-5 pr-5">
+                        <p className="uppercase">{inquiry.contact_channel}</p>
+                        <p className="mt-1 text-xs text-[var(--graphite)]">{inquiry.contact_handle || inquiry.email || inquiry.phone || "-"}</p>
+                      </td>
+                      <td className="py-5 pr-5 font-mono">{inquiry.product_serial || "-"}</td>
+                      <td className="py-5 pr-5">{inquiry.intent}</td>
+                      <td className="max-w-sm py-5 pr-5 leading-6 text-[var(--graphite)]">{inquiry.message}</td>
+                      <td className="py-5 pr-5">
+                        <span className="border border-black/12 px-2 py-1 text-xs uppercase">{inquiry.status}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
 
         <section className="mt-14 border-t border-black/12 pt-7">

@@ -1,5 +1,6 @@
 import { AdminPage } from "@/components/sections/admin-page";
 import { AUTH_COOKIE, verifySessionToken } from "@/lib/auth";
+import { getRecentCustomerInquiries } from "@/lib/inquiries";
 import { createMetadata } from "@/lib/seo";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -28,5 +29,7 @@ export default async function Page() {
     redirect("/admin/login?next=%2Fadmin");
   }
 
-  return <AdminPage locale="zh" />;
+  const inquiryInbox = await getRecentCustomerInquiries();
+
+  return <AdminPage locale="zh" inquiryInbox={inquiryInbox} />;
 }

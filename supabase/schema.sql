@@ -4,6 +4,7 @@ create type public.user_role as enum ('buyer', 'admin', 'super_admin');
 create type public.auction_status as enum ('draft', 'live', 'sold', 'recycled', 'cancelled');
 create type public.payment_status as enum ('pending', 'requires_action', 'paid', 'failed', 'refunded', 'manual_review');
 create type public.order_status as enum ('awaiting_payment', 'paid', 'awaiting_shipping_info', 'in_production', 'quality_check', 'shipped', 'delivered', 'cancelled', 'refunded');
+create type public.inquiry_status as enum ('new', 'contacted', 'qualified', 'converted', 'closed', 'spam');
 
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
@@ -116,6 +117,31 @@ create table public.admin_audit_logs (
   created_at timestamptz not null default now()
 );
 
+create table public.customer_inquiries (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text,
+  phone text,
+  contact_channel text not null,
+  contact_handle text,
+  intent text not null,
+  product_serial text,
+  budget_usd numeric(12,2),
+  message text not null,
+  locale text not null default 'zh',
+  page_path text,
+  source text not null default 'concierge_widget',
+  status public.inquiry_status not null default 'new',
+  priority text not null default 'normal',
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index customer_inquiries_created_at_idx on public.customer_inquiries (created_at desc);
+create index customer_inquiries_status_idx on public.customer_inquiries (status);
+create index customer_inquiries_product_serial_idx on public.customer_inquiries (product_serial);
+
 create or replace function public.place_bid_locked(
   p_auction_id uuid,
   p_bidder_id uuid,
@@ -171,6 +197,7 @@ alter table public.bids enable row level security;
 alter table public.payments enable row level security;
 alter table public.orders enable row level security;
 alter table public.admin_audit_logs enable row level security;
+alter table public.customer_inquiries enable row level security;
 
 create policy "public can read active catalog" on public.products for select using (true);
 create policy "public can read story series" on public.story_series for select using (true);
