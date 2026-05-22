@@ -232,6 +232,7 @@ const productInspirationTranslations: Record<string, string> = {
   "N-0511": "Moonlight does not make you forget; it keeps the deep-blue evidence until you are ready to read it.",
   "N-0512": "The first flame in the ruins rises again without permission.",
   "N-0519": "A piece of meteorite is evidence after ash. It says nothing, but it never withdraws.",
+  "N-0520": "Returning is not walking the old path again; it is receiving your own receipt at last.",
 };
 
 const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summary" | "emotion">> = {
@@ -288,6 +289,12 @@ const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summ
     summary:
       "The meteorite slice in N-0519 is not decoration. It is evidence that fell from beyond the sky into a ruin. It remembers the breath of ash and the silence after being left behind.",
     emotion: "rebuilding, evidence, reversal",
+  },
+  "CH-10": {
+    title: "Tide Return's Receipt: A Proof for Myself",
+    summary:
+      "N-0520 does not flaunt return with brightness. It asks a quieter question: can you feel, with your own hands, that blue is not right or wrong but direction? The collector said: I only wanted the part of me that waited to finally receive a receipt.",
+    emotion: "return, received, recalibration",
   },
 };
 

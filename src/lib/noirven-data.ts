@@ -233,6 +233,15 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-10",
+    seriesId: "tide-return",
+    title: "归潮的回执：我自己的反证",
+    summary:
+      "N-0520 并没有用光炫耀一次回来，它用一个很小的细节讨论你是否真的回来：请用手触到手感，感到蓝色不是对错，是方向。买家把它签收在背光的时刻，说：我只想让自己那一部分终于有收到一个回执而已。",
+    emotion: "回来 / 收到 / 调整",
+    productSerial: "N-0520",
+  },
+  {
     code: "CH-01",
     seriesId: "ash-garden",
     title: "灰烬花园的第一封信",
@@ -316,6 +325,19 @@ export const storyChapters = [
 ];
 
 export const dailyProductSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0520",
+    title: "Tide Return Receipt Glow Earrings",
+    seriesId: "tide-return",
+    category: "earring",
+    zhTitle: "归潮回执流光耳坠",
+    image: "/assets/products/n-0520-tide-return-receipt-glow-earrings.png",
+    materialLine: "铂金 / 帕拉伊巴碧玺 / 透明水晶 / 白水晶 / 天然白钻",
+    craftLine: "隐秘式镶嵌 / 半透明珐琅 / 水晶切面 / 微密镶 / 镜面抛光",
+    storyLine: "回来不是把旧的再走完，而是把等待收到收到。",
+    imagePrompt:
+      "Noirven one-of-one luxury earrings, platinum with paraiba tourmaline and clear quartz facets, translucent enamel water-arc lines, micro pav\u00e9 natural white diamonds, airy asymmetry like a tide receipt, porcelain background, ultra-clean studio render, no logo, no text",
+  },
   {
     serial: "N-0501",
     title: "Justice of One Oracle Bracelet",
