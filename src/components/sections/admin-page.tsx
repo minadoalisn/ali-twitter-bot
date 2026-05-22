@@ -1,4 +1,4 @@
-import { Archive, BadgeCheck, Gem, MessageCircle, ShieldCheck } from "lucide-react";
+import { Archive, BadgeCheck, ClipboardCheck, Gem, MessageCircle, PackageCheck, ShieldCheck, Truck } from "lucide-react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatDate } from "@/lib/format";
@@ -55,6 +55,75 @@ const dashboardMetrics = [
     label: { zh: "发货管理", en: "Delivery" },
     value: "0",
     detail: { zh: "到账确认后才进入真实发货流程。", en: "Real fulfillment starts only after receipt approval." },
+  },
+];
+
+export const shipmentWorkflow = [
+  {
+    title: { zh: "到账锁定", en: "Receipt Lock" },
+    detail: { zh: "未确认 USDT 到账前，不允许生成发货单、登记拥有者或公开归属。", en: "No shipment, owner registration, or public ownership before USDT receipt approval." },
+    gate: { zh: "财务确认", en: "Finance approval" },
+  },
+  {
+    title: { zh: "主人资料", en: "Owner Profile" },
+    detail: { zh: "核对收件人姓名、联系方式、国家地区、完整地址、邮编与高价值配送备注。", en: "Verify recipient name, contact, region, full address, postcode, and high-value delivery notes." },
+    gate: { zh: "资料完整", en: "Profile complete" },
+  },
+  {
+    title: { zh: "白手套封装", en: "White Glove Packing" },
+    detail: { zh: "记录作品编号、证书、封装照片、封条编号、出库复核人和包装视频。", en: "Record serial, certificate, packing photos, seal number, release reviewer, and packing video." },
+    gate: { zh: "出库复核", en: "Release review" },
+  },
+  {
+    title: { zh: "保价物流", en: "Insured Logistics" },
+    detail: { zh: "按售价声明保价，登记承运商、保价金额、追踪号、预计送达与签收要求。", en: "Insure by sale value; record courier, insured value, tracking number, ETA, and signature requirements." },
+    gate: { zh: "物流锁定", en: "Logistics locked" },
+  },
+  {
+    title: { zh: "交付凭证", en: "Delivery Evidence" },
+    detail: { zh: "保存签收回执、交付照片或视频、物流轨迹截图与异常说明。", en: "Store receipt, delivery photo or video, tracking screenshots, and exception notes." },
+    gate: { zh: "凭证归档", en: "Proof archived" },
+  },
+  {
+    title: { zh: "售后档案", en: "Aftercare Archive" },
+    detail: { zh: "归档保养建议、维修记录、二次定制备注、客户偏好和长期服务记录。", en: "Archive care notes, repair history, custom follow-ups, client preference, and long-term service records." },
+    gate: { zh: "服务建档", en: "Service archive" },
+  },
+  {
+    title: { zh: "异常挂起", en: "Exception Hold" },
+    detail: { zh: "金额、地址、TXID、收件人或风控不一致时，发货单必须冻结并进入人工复核。", en: "Freeze fulfillment for amount, address, TXID, recipient, or risk mismatches until manual review." },
+    gate: { zh: "人工复核", en: "Manual review" },
+  },
+];
+
+export const deliveryChecklist = [
+  {
+    label: { zh: "收货资料", en: "Shipping Identity" },
+    items: {
+      zh: ["姓名与联系方式二次确认", "国家/地区、完整地址、邮编", "高价值配送备注与签收人要求"],
+      en: ["Recipient name and contact re-confirmed", "Region, full address, and postcode", "High-value delivery notes and signer requirements"],
+    },
+  },
+  {
+    label: { zh: "作品出库", en: "Work Release" },
+    items: {
+      zh: ["N 编号与证书一致", "封装照片、封条编号、出库复核人", "360 展示与交付前状态留档"],
+      en: ["N serial matches certificate", "Packing photos, seal number, release reviewer", "360 view and pre-delivery condition archived"],
+    },
+  },
+  {
+    label: { zh: "保价物流", en: "Insured Logistics" },
+    items: {
+      zh: ["保价金额与售价一致", "承运商、追踪号、预计送达", "签收要求与丢损预案"],
+      en: ["Insured value matches sale value", "Courier, tracking number, and ETA", "Signature requirement and loss/damage plan"],
+    },
+  },
+  {
+    label: { zh: "交付售后", en: "Delivery And Aftercare" },
+    items: {
+      zh: ["签收回执与交付凭证", "拥有者公开显示确认", "保养、维修与长期服务档案"],
+      en: ["Receipt and delivery proof", "Owner display approval", "Care, repair, and long-term service archive"],
+    },
   },
 ];
 
@@ -353,6 +422,79 @@ export function AdminPage({
                   <p className="mt-3 text-sm leading-6 text-[var(--graphite)]">{localizedText(item.text, locale)}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-14 border-t border-black/12 pt-7">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ash)]">
+                <PackageCheck size={14} /> {isZh ? "发货工作台" : "Fulfillment Workbench"}
+              </p>
+              <h2 className="mt-3 text-3xl">{isZh ? "从到账确认到交付归档的完整发货链路" : "Full delivery chain from receipt approval to aftercare archive"}</h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-[var(--graphite)]">
+              {isZh
+                ? "发货不是一个按钮，而是一组必须满足的门禁。只有真实订单完成到账审核、收货资料和出库复核后，才允许进入保价物流与交付归档。"
+                : "Fulfillment is a gated workflow, not a single button. Only real orders with approved payment, shipping data, and release review can move into insured logistics and delivery archive."}
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-7">
+            {shipmentWorkflow.map((stage, index) => (
+              <div key={stage.title.en} className="border border-black/10 p-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ash)]">0{index + 1}</p>
+                <h3 className="mt-3 text-lg">{localizedText(stage.title, locale)}</h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--graphite)]">{localizedText(stage.detail, locale)}</p>
+                <p className="mt-4 border-t border-black/10 pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ash)]">
+                  {localizedText(stage.gate, locale)}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-7 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+            <div className="border border-black/10 bg-white/35 p-5">
+              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[var(--ash)]">
+                <Truck size={14} /> {isZh ? "发货队列状态" : "Shipment Queue State"}
+              </p>
+              <h3 className="mt-4 text-2xl">{isZh ? "暂无可发货订单" : "No shippable orders yet"}</h3>
+              <p className="mt-4 text-sm leading-7 text-[var(--graphite)]">
+                {isZh
+                  ? "当前没有真实订单进入发货队列。后台接入 shipments 表后，这里会按“待收货资料、待出库、待保价物流、已发货、已签收、售后归档、异常挂起”显示真实记录。"
+                  : "No real order is ready for fulfillment. After the shipments table is connected, this queue will show real records across address needed, release review, insured logistics, shipped, delivered, aftercare archived, and exception hold."}
+              </p>
+              <div className="mt-5 grid gap-3 text-sm">
+                {[
+                  isZh ? "到账未确认：禁止发货" : "Receipt unapproved: fulfillment blocked",
+                  isZh ? "收货资料缺失：禁止出库" : "Shipping profile missing: release blocked",
+                  isZh ? "保价物流未登记：禁止公开发货状态" : "Insured logistics missing: shipment status blocked",
+                ].map((rule) => (
+                  <p key={rule} className="border-t border-black/10 pt-3">{rule}</p>
+                ))}
+              </div>
+            </div>
+
+            <div className="border border-black/10 p-5">
+              <p className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[var(--ash)]">
+                <ClipboardCheck size={14} /> {isZh ? "发货审核清单" : "Delivery Checklist"}
+              </p>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                {deliveryChecklist.map((group) => (
+                  <div key={group.label.en} className="border border-black/8 p-4">
+                    <h3 className="text-lg">{localizedText(group.label, locale)}</h3>
+                    <ul className="mt-4 grid gap-3 text-sm leading-6 text-[var(--graphite)]">
+                      {group.items[locale].map((item) => (
+                        <li key={item} className="flex gap-3">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--champagne)]" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

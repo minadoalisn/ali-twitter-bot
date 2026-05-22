@@ -19,6 +19,7 @@ function expectIncludes(label, content, needles) {
 const zhAdminPage = read("src/app/admin/page.tsx");
 const enAdminPage = read("src/app/en/admin/page.tsx");
 const adminComponent = read("src/components/sections/admin-page.tsx");
+const supabaseSchema = read("supabase/schema.sql");
 
 expectIncludes("Chinese admin route", zhAdminPage, [
   "cookies",
@@ -49,11 +50,26 @@ expectIncludes("Admin dashboard", adminComponent, [
   "Manual Approval",
   "Delivery",
   "Permissions",
+  "shipmentWorkflow",
+  "deliveryChecklist",
+  "Insured Logistics",
+  "Delivery Evidence",
+  "Aftercare Archive",
+  "Exception Hold",
   "订单查看",
   "支付数据",
   "人工审核",
   "发货管理",
   "权限控制",
+]);
+
+expectIncludes("Supabase fulfillment schema", supabaseSchema, [
+  "shipment_status",
+  "create table public.shipments",
+  "insured_value_usd",
+  "tracking_number",
+  "delivery_proof_url",
+  "aftercare_notes",
 ]);
 
 for (const forbidden of ["local@example.com", "collector-", "Connected wallet pending", "0xnv", "adminOrders"]) {

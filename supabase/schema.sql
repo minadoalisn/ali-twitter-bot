@@ -4,6 +4,7 @@ create type public.user_role as enum ('buyer', 'admin', 'super_admin');
 create type public.auction_status as enum ('draft', 'live', 'sold', 'recycled', 'cancelled');
 create type public.payment_status as enum ('pending', 'requires_action', 'paid', 'failed', 'refunded', 'manual_review');
 create type public.order_status as enum ('awaiting_payment', 'paid', 'awaiting_shipping_info', 'in_production', 'quality_check', 'shipped', 'delivered', 'cancelled', 'refunded');
+create type public.shipment_status as enum ('blocked', 'awaiting_shipping_info', 'release_review', 'insured_logistics', 'shipped', 'delivered', 'aftercare_archived', 'exception_hold');
 create type public.inquiry_status as enum ('new', 'contacted', 'qualified', 'converted', 'closed', 'spam');
 
 create table public.profiles (
@@ -107,6 +108,28 @@ create table public.orders (
   created_at timestamptz not null default now()
 );
 
+create table public.shipments (
+  id uuid primary key default gen_random_uuid(),
+  order_id uuid unique not null references public.orders(id) on delete cascade,
+  product_id uuid not null references public.products(id),
+  buyer_id uuid not null references public.profiles(id),
+  status public.shipment_status not null default 'blocked',
+  owner_profile jsonb not null default '{}',
+  shipping_address jsonb not null default '{}',
+  courier text,
+  tracking_number text,
+  insured_value_usd numeric(12,2),
+  package_evidence_url text,
+  delivery_proof_url text,
+  aftercare_notes text,
+  exception_reason text,
+  release_reviewer_id uuid references public.profiles(id),
+  shipped_at timestamptz,
+  delivered_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table public.admin_audit_logs (
   id uuid primary key default gen_random_uuid(),
   actor_id uuid references public.profiles(id),
@@ -141,6 +164,8 @@ create table public.customer_inquiries (
 create index customer_inquiries_created_at_idx on public.customer_inquiries (created_at desc);
 create index customer_inquiries_status_idx on public.customer_inquiries (status);
 create index customer_inquiries_product_serial_idx on public.customer_inquiries (product_serial);
+create index shipments_status_idx on public.shipments (status);
+create index shipments_buyer_id_idx on public.shipments (buyer_id);
 
 create or replace function public.place_bid_locked(
   p_auction_id uuid,
@@ -196,6 +221,7 @@ alter table public.auctions enable row level security;
 alter table public.bids enable row level security;
 alter table public.payments enable row level security;
 alter table public.orders enable row level security;
+alter table public.shipments enable row level security;
 alter table public.admin_audit_logs enable row level security;
 alter table public.customer_inquiries enable row level security;
 
@@ -207,3 +233,4 @@ create policy "buyers can read own profile" on public.profiles for select using 
 create policy "buyers can read own bids" on public.bids for select using (auth.uid() = bidder_id);
 create policy "buyers can read own payments" on public.payments for select using (auth.uid() = profile_id);
 create policy "buyers can read own orders" on public.orders for select using (auth.uid() = buyer_id);
+create policy "buyers can read own shipments" on public.shipments for select using (auth.uid() = buyer_id);
