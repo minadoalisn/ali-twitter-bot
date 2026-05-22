@@ -20,6 +20,10 @@ const zhAdminPage = read("src/app/admin/page.tsx");
 const enAdminPage = read("src/app/en/admin/page.tsx");
 const adminComponent = read("src/components/sections/admin-page.tsx");
 const supabaseSchema = read("supabase/schema.sql");
+const adminAnalytics = read("src/lib/admin-analytics.ts");
+const analyticsRoute = read("src/app/api/analytics/page-view/route.ts");
+const analyticsTracker = read("src/components/ui/site-analytics-tracker.tsx");
+const rootLayout = read("src/app/layout.tsx");
 
 expectIncludes("Chinese admin route", zhAdminPage, [
   "cookies",
@@ -86,6 +90,33 @@ expectIncludes("Supabase fulfillment schema", supabaseSchema, [
   "tracking_number",
   "delivery_proof_url",
   "aftercare_notes",
+]);
+
+expectIncludes("Supabase analytics schema", supabaseSchema, [
+  "create table public.site_events",
+  "site_events_created_at_idx",
+  "event_name",
+  "page_view",
+]);
+
+expectIncludes("Admin analytics data layer", adminAnalytics, [
+  "getAdminAnalyticsSnapshot",
+  "createSiteEvent",
+  "site_events",
+  "payments",
+  "orders",
+]);
+
+expectIncludes("Page view analytics route", analyticsRoute, [
+  "createSiteEvent",
+  "export async function POST",
+  "page_view",
+]);
+
+expectIncludes("Site analytics tracker", `${analyticsTracker}\n${rootLayout}`, [
+  "SiteAnalyticsTracker",
+  "/api/analytics/page-view",
+  "navigator.sendBeacon",
 ]);
 
 for (const forbidden of ["local@example.com", "collector-", "Connected wallet pending", "0xnv", "adminOrders"]) {

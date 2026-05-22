@@ -2,6 +2,7 @@ import { Activity, Archive, BadgeCheck, ClipboardCheck, Gem, MessageCircle, Pack
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { formatDate } from "@/lib/format";
+import type { AdminAnalyticsSnapshot } from "@/lib/admin-analytics";
 import type { CustomerServiceConfig, InquiryInbox } from "@/lib/inquiries";
 import type { Locale } from "@/lib/types";
 
@@ -150,13 +151,24 @@ export function AdminPage({
   locale = "zh",
   inquiryInbox,
   customerServiceConfig,
+  adminAnalytics,
 }: {
   locale?: Locale;
   inquiryInbox?: InquiryInbox;
   customerServiceConfig?: CustomerServiceConfig;
+  adminAnalytics?: AdminAnalyticsSnapshot;
 }) {
   const isZh = locale === "zh";
   const inquiries = inquiryInbox?.inquiries ?? [];
+  const analytics = adminAnalytics ?? {
+    configured: false,
+    trafficViews: 0,
+    trafficSeries: [0, 0, 0, 0, 0, 0, 0],
+    paymentVolumeUsd: 0,
+    paymentSeries: [0, 0, 0, 0, 0, 0, 0],
+    orderCount: 0,
+    orderSeries: [0, 0, 0, 0, 0, 0, 0],
+  };
   const orderCount = orderInbox.orders.length;
   const urgentInquiryCount = inquiries.filter((inquiry) => inquiry.priority === "urgent").length;
   const dashboardCards = analyticsDashboard.map((metric) => {
@@ -164,9 +176,9 @@ export function AdminPage({
       return {
         ...metric,
         icon: Activity,
-        value: "--",
-        status: isZh ? "待接入实时访问数据" : "Waiting for live traffic feed",
-        series: [0, 0, 0, 0, 0, 0, 0],
+        value: analytics.configured ? `${analytics.trafficViews}` : "--",
+        status: analytics.configured ? (isZh ? "近 7 日真实访问" : "Real visits in the last 7 days") : (isZh ? "待接入实时访问数据" : "Waiting for live traffic feed"),
+        series: analytics.trafficSeries,
       };
     }
 
@@ -174,9 +186,9 @@ export function AdminPage({
       return {
         ...metric,
         icon: Gem,
-        value: "$0",
-        status: isZh ? "暂无真实到账记录" : "No received payments yet",
-        series: [0, 0, 0, 0, 0, 0, 0],
+        value: `$${Math.round(analytics.paymentVolumeUsd).toLocaleString("en-US")}`,
+        status: analytics.configured ? (isZh ? "近 7 日已确认到账" : "Confirmed receipt in the last 7 days") : (isZh ? "暂无真实到账记录" : "No received payments yet"),
+        series: analytics.paymentSeries,
       };
     }
 
@@ -193,9 +205,9 @@ export function AdminPage({
     return {
       ...metric,
       icon: ShoppingBag,
-      value: `${orderCount}`,
-      status: isZh ? "暂无真实订单入库" : "No real orders stored yet",
-      series: [0, 0, 0, 0, 0, orderCount],
+      value: `${analytics.configured ? analytics.orderCount : orderCount}`,
+      status: analytics.configured ? (isZh ? "近 7 日订单状态" : "Orders in the last 7 days") : (isZh ? "暂无真实订单入库" : "No real orders stored yet"),
+      series: analytics.orderSeries,
     };
   });
 

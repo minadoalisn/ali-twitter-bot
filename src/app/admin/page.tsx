@@ -1,4 +1,5 @@
 import { AdminPage } from "@/components/sections/admin-page";
+import { getAdminAnalyticsSnapshot } from "@/lib/admin-analytics";
 import { AUTH_COOKIE, verifySessionToken } from "@/lib/auth";
 import { getCustomerServiceConfig, getRecentCustomerInquiries } from "@/lib/inquiries";
 import { createMetadata } from "@/lib/seo";
@@ -31,6 +32,7 @@ export default async function Page() {
 
   const inquiryInbox = await getRecentCustomerInquiries();
   const customerServiceConfig = getCustomerServiceConfig();
+  const adminAnalytics = await getAdminAnalyticsSnapshot();
 
-  return <AdminPage locale="zh" inquiryInbox={inquiryInbox} customerServiceConfig={customerServiceConfig} />;
+  return <AdminPage locale="zh" inquiryInbox={inquiryInbox} customerServiceConfig={customerServiceConfig} adminAnalytics={adminAnalytics} />;
 }

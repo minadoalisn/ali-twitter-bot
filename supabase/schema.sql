@@ -161,11 +161,24 @@ create table public.customer_inquiries (
   updated_at timestamptz not null default now()
 );
 
+create table public.site_events (
+  id uuid primary key default gen_random_uuid(),
+  event_name text not null default 'page_view',
+  path text not null,
+  locale text not null default 'zh',
+  referrer text,
+  user_agent text,
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now()
+);
+
 create index customer_inquiries_created_at_idx on public.customer_inquiries (created_at desc);
 create index customer_inquiries_status_idx on public.customer_inquiries (status);
 create index customer_inquiries_product_serial_idx on public.customer_inquiries (product_serial);
 create index shipments_status_idx on public.shipments (status);
 create index shipments_buyer_id_idx on public.shipments (buyer_id);
+create index site_events_created_at_idx on public.site_events (created_at desc);
+create index site_events_event_name_idx on public.site_events (event_name);
 
 create or replace function public.place_bid_locked(
   p_auction_id uuid,
@@ -224,6 +237,7 @@ alter table public.orders enable row level security;
 alter table public.shipments enable row level security;
 alter table public.admin_audit_logs enable row level security;
 alter table public.customer_inquiries enable row level security;
+alter table public.site_events enable row level security;
 
 create policy "public can read active catalog" on public.products for select using (true);
 create policy "public can read story series" on public.story_series for select using (true);
