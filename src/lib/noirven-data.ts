@@ -11,7 +11,6 @@ type DailyProductSeed = {
   materialLine: string;
   craftLine: string;
   storyLine: string;
-  imagePrompt: string;
 };
 
 export const brand = {
@@ -233,6 +232,15 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-11",
+    seriesId: "tender-armor",
+    title: "温柔盾甲的格架应答",
+    summary:
+      "N-0521 用碳纤维与钛金属切线写下一个很冷静的答案：边界不是墙，是你在温柔里仍然完整的骨架。它不让你再用退让来和解，也不需要用冷硬来护你。那天，买家把它戴在视线看不见的内腕，说：我终于不用再解释我的温柔，它有自己的等式。",
+    emotion: "边界 / 温柔 / 修复",
+    productSerial: "N-0521",
+  },
+  {
     code: "CH-10",
     seriesId: "tide-return",
     title: "归潮的回执：我自己的反证",
@@ -326,6 +334,17 @@ export const storyChapters = [
 
 export const dailyProductSeeds: DailyProductSeed[] = [
   {
+    serial: "N-0521",
+    title: "Tender Armor Lattice Cuff Bracelet",
+    seriesId: "tender-armor",
+    category: "bracelet",
+    zhTitle: "温柔盾甲格架手环",
+    image: "/assets/products/n-0521-tender-armor-lattice-cuff-bracelet.png",
+    materialLine: "碳纤维 / 雾面钛 / 钯金 / 粉玉髓 / 白玛瑙 / 天然白钻",
+    craftLine: "碳纤维层压 / 钢琴烤漆 / 微密镶 / 拉丝雾面 / 镜面抛光",
+    storyLine: "边界不是墙，是你在温柔里仍然完整的骨架。",
+  },
+  {
     serial: "N-0520",
     title: "Tide Return Receipt Glow Earrings",
     seriesId: "tide-return",
@@ -335,8 +354,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "铂金 / 帕拉伊巴碧玺 / 透明水晶 / 白水晶 / 天然白钻",
     craftLine: "隐秘式镶嵌 / 半透明珐琅 / 水晶切面 / 微密镶 / 镜面抛光",
     storyLine: "回来不是把旧的再走完，而是把等待收到收到。",
-    imagePrompt:
-      "Noirven one-of-one luxury earrings, platinum with paraiba tourmaline and clear quartz facets, translucent enamel water-arc lines, micro pav\u00e9 natural white diamonds, airy asymmetry like a tide receipt, porcelain background, ultra-clean studio render, no logo, no text",
   },
   {
     serial: "N-0501",
@@ -348,8 +365,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "雕金 / 孔雀石 / 沙弗莱石 / 天然白钻",
     craftLine: "手工錾刻 / 微密镶 / 鎏金 / 隐秘式镶嵌",
     storyLine: "真正的裁决不是喧哗，而是让被低估的绿重新被看见。",
-    imagePrompt:
-      "Noirven one-of-one luxury malachite bracelet, carved gold, tsavorite and white diamonds, ceremonial verdict-green geometry, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0502",
@@ -361,8 +376,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "玫瑰金 / 欧泊 / 天然白钻 / 透明水晶",
     craftLine: "半透明珐琅 / 微密镶 / 贝母薄片镶嵌",
     storyLine: "潮水退去后留下的不是空缺，而是下一次归来的光。",
-    imagePrompt:
-      "Noirven one-of-one luxury opal pendant necklace, rose gold, white diamonds and translucent enamel, tide-return dawn silhouette, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0503",
@@ -374,8 +387,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "黑陶瓷 / 月光石 / 铂金 / 天然白钻",
     craftLine: "陶瓷烧结 / 微密镶 / 半透明珐琅 / 镜面抛光",
     storyLine: "温柔不是退让，是把边界做成可以被佩戴的盔甲。",
-    imagePrompt:
-      "Noirven one-of-one luxury moonstone cuff, black ceramic, platinum and white diamonds, soft armor silhouette, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0504",
@@ -387,8 +398,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "黑贝母 / 坦桑石 / 月光石 / 天然白钻",
     craftLine: "贝母薄片镶嵌 / 微密镶 / 半透明珐琅 / 微刻封存线",
     storyLine: "有些告别不能公开，于是月光替它们保存成一对黑色档案。",
-    imagePrompt:
-      "Noirven one-of-one luxury black nacre earrings, tanzanite, moonstone and white diamonds, moon archive geometry, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0505",
@@ -400,8 +409,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "铂金 / 帕拉伊巴碧玺 / 珍珠母贝 / 天然白钻",
     craftLine: "隐秘式镶嵌 / 贝母薄片镶嵌 / 半透明珐琅",
     storyLine: "有些光不属于人群，只等待唯一能读懂它的人。",
-    imagePrompt:
-      "Noirven one-of-one luxury necklace, awaiting star concept, platinum, paraiba tourmaline, pearl mother-of-pearl and white diamond, floating single-gem composition, vast negative space, porcelain background, no logo",
   },
   {
     serial: "N-0506",
@@ -413,8 +420,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "雕金 / 孔雀石 / 沙弗莱石 / 天然白钻",
     craftLine: "手工錾刻 / 景泰蓝 / 错金银 / 微密镶",
     storyLine: "真正的价值，不需要多数人举手。",
-    imagePrompt:
-      "Noirven one-of-one luxury brooch, justice of one concept, carved gold, malachite and tsavorite, cloisonne-inspired blue line, evidence-like green gem offset, high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0507",
@@ -426,8 +431,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "黑铑铂金 / 玫瑰金 / 烟晶 / 天然白钻",
     craftLine: "钢琴烤漆 / 半透明珐琅 / 微密镶",
     storyLine: "裂痕不是终点，是光经过的地方。",
-    imagePrompt:
-      "Noirven one-of-one luxury open ring, still here concept, black rhodium platinum and rose gold, smoky quartz, tiny white diamond beside a lacquer rift, restrained emotional high jewelry, porcelain background, no logo",
   },
   {
     serial: "N-0508",
@@ -439,8 +442,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "黄金 / 玫瑰金 / 红宝石 / 贝母盘面",
     craftLine: "玑镂雕纹 / 鎏彩 / 雪花镶 / 微刻时标",
     storyLine: "最后一小时，光有了心跳。",
-    imagePrompt:
-      "Noirven one-of-one luxury jewelry watch, seventh light concept, gold and rose gold, ruby crown, mother of pearl dial, seven fine markers, guilloche texture, poetic countdown feeling, porcelain background, no logo",
   },
   {
     serial: "N-0509",
@@ -452,8 +453,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "铂金 / 海蓝宝 / 贝母 / 天然白钻",
     craftLine: "水纹雕刻 / 半透明珐琅 / 隐秘式镶嵌 / 镜面抛光",
     storyLine: "回来不是重复旧路，是以另一种蓝色抵达自己。",
-    imagePrompt:
-      "Noirven one-of-one luxury aquamarine cuff, platinum, mother of pearl and white diamonds, tide-return water curve, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0510",
@@ -465,8 +464,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "铂金 / 黑玛瑙 / 祖母绿 / 天然白钻",
     craftLine: "钢琴烤漆 / 隐秘式镶嵌 / 微密镶 / 镜面抛光",
     storyLine: "黑色不是防备，是把柔软留给值得靠近的人。",
-    imagePrompt:
-      "Noirven one-of-one luxury obsidian ring, platinum, black onyx, emerald and white diamonds, tender armor boundary language, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0511",
@@ -478,8 +475,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "青金石 / 铂金 / 蓝宝石 / 天然白钻",
     craftLine: "贝母薄片镶嵌 / 微密镶 / 玑镂雕纹 / 微刻封存线",
     storyLine: "月光不替你遗忘，只把深蓝色的证据留到你愿意翻阅那天。",
-    imagePrompt:
-      "Noirven one-of-one luxury lapis stud earrings, platinum, sapphire and white diamonds, moon archive memory seal geometry, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0512",
@@ -491,8 +486,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "玫瑰金 / 红宝石 / 尖晶石 / 暖色珐琅",
     craftLine: "鎏金鎏彩 / 微密镶 / 冷珐琅 / 手工錾刻",
     storyLine: "废墟里的第一束火，不需要被允许也会重新升起。",
-    imagePrompt:
-      "Noirven one-of-one luxury phoenix earrings, rose gold, ruby, spinel and warm enamel, ash garden rebirth language, original high jewelry render, porcelain background, no logo",
   },
   {
     serial: "N-0519",
@@ -504,8 +497,6 @@ export const dailyProductSeeds: DailyProductSeed[] = [
     materialLine: "钛金属 / 陨铁 / 烟晶 / 暗红珐琅 / 天然白钻 / 黑陶瓷",
     craftLine: "陶瓷烧结 / 局部氧化 / 雪花镶 / 微密镶",
     storyLine: "一块陨铁是灰烬后的证据，它不说话，但它从不撤销。",
-    imagePrompt:
-      "Noirven one-of-one luxury brooch, ash garden concept, meteorite slice, titanium frame, black ceramic and smoky quartz, dark red enamel bloom, tiny white diamonds like ash sparks, minimalist high jewelry render, porcelain background, no logo, no text",
   },
 ];
 
@@ -521,8 +512,6 @@ export const internalProductConceptSeeds: DailyProductSeed[] = [
     craftLine: "错金银 / 手工錾刻 / 玑镂雕纹 / 雪花镶 / 隐秘式镶嵌",
     storyLine:
       "被涂黑的判决不是结案，而是证据改变了出现的方式：黑铑的低声把愤怒收进结构里；陨石的纹路像无法伪造的时间戳，把被抹去的名字重新压印出来。雪花镶让白钻像冷静的目击者，而错金银与錾刻把“真相曾被覆盖”这一事实，变成无法再被覆盖的纹理。",
-    imagePrompt:
-      "Noirven one-of-one high jewelry brooch, black-rhodium platinum and palladium with meteorite inlay, guilloche field and hand-chased lines, snow-set natural white diamonds, palimpsest verdict document geometry, porcelain background, ultra-detailed studio render, no logo, no text",
   },
   {
     serial: "N-0517",
@@ -535,8 +524,6 @@ export const internalProductConceptSeeds: DailyProductSeed[] = [
     craftLine: "钛金属阳极氧化 / 陶瓷烧结 / 隐秘式镶嵌 / 拉丝雾面 / 微密镶",
     storyLine:
       "Still Here 从不把裂痕刻掉，但会把它放在能呼吸、能发光的位置：钛金属阳极氧化出的蓝像“重新能说话”的气息；碳纤维和黑陶瓷把脆弱变成支撑；红尖晶石被隐秘式镶嵌在缺口边缘，像一句低声但坚定的“我还在”。",
-    imagePrompt:
-      "Noirven one-of-one luxury open ring, anodized titanium gradient blue with carbon fiber core and black ceramic edges, invisible-set red spinel accent and micro pavé natural white diamonds, riftlight gap silhouette, ultra-clean porcelain background, studio macro render, no logo, no text",
   },
   {
     serial: "N-0518",
@@ -549,8 +536,6 @@ export const internalProductConceptSeeds: DailyProductSeed[] = [
     craftLine: "钢琴烤漆 / 透光珐琅 / 景泰蓝灵感配色 / 玑镂雕纹 / 隐秘式镶嵌",
     storyLine:
       "第七日最后一小时，归属像一只不可撤回的秒针：黑陶瓷让时间更沉稳，黑贝母把“说不出口”的部分藏进内光；透光珐琅与漆面层层叠加，把等待做成可被看见的深度；帕拉伊巴与坦桑石像两束不同方向的光，提醒你——不是所有迟到都是错过，有些迟到是清算后的回归。",
-    imagePrompt:
-      "Noirven one-of-one luxury watch, black ceramic case, black mother-of-pearl dial with translucent enamel + cloisonne-inspired color segments, piano lacquer depth, guilloche sunburst under enamel, paraiba tourmaline and tanzanite accents with natural white diamonds, seventh-light countdown mood, porcelain background, studio render, no logo, no text",
   },
 ];
 

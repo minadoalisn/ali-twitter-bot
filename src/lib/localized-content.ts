@@ -233,6 +233,7 @@ const productInspirationTranslations: Record<string, string> = {
   "N-0512": "The first flame in the ruins rises again without permission.",
   "N-0519": "A piece of meteorite is evidence after ash. It says nothing, but it never withdraws.",
   "N-0520": "Returning is not walking the old path again; it is receiving your own receipt at last.",
+  "N-0521": "A boundary is not a wall; it is the structure that keeps you whole inside tenderness.",
 };
 
 const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summary" | "emotion">> = {
@@ -295,6 +296,12 @@ const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summ
     summary:
       "N-0520 does not flaunt return with brightness. It asks a quieter question: can you feel, with your own hands, that blue is not right or wrong but direction? The collector said: I only wanted the part of me that waited to finally receive a receipt.",
     emotion: "return, received, recalibration",
+  },
+  "CH-11": {
+    title: "Tender Armor's Lattice Answer",
+    summary:
+      "N-0521 writes a calm answer with carbon fiber and titanium cutlines: a boundary is not a wall, but the structure that keeps you whole inside tenderness. The collector wore it on the inner wrist and said: I no longer need to explain my softness; it has its own equation.",
+    emotion: "boundary, tenderness, repair",
   },
 };
 

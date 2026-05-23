@@ -164,6 +164,10 @@ if (!existsSync(walletConnectFile)) {
 const productDetailSource = readFileSync(productDetailFile, "utf8");
 const homePageSource = readFileSync(homePageFile, "utf8");
 const seriesGridSource = readFileSync(seriesGridFile, "utf8");
+if (/imagePrompt\s*:/.test(source)) {
+  fail("public product catalog data must not contain internal image prompts");
+}
+
 if (!productDetailSource.includes("WalletConnectPanel")) {
   fail("product detail must render the wallet connect panel in the USDT payment form");
 }
