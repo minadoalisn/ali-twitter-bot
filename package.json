@@ -10,7 +10,9 @@
     "verify:catalog": "node scripts/verify-noirven-content.mjs",
     "verify:admin": "node scripts/verify-admin-security.mjs",
     "verify:customer-service": "node scripts/verify-customer-service.mjs",
-    "verify:geo": "node scripts/verify-geo-content.mjs"
+    "verify:geo": "node scripts/verify-geo-content.mjs",
+    "verify:production": "node scripts/verify-production-launch.mjs",
+    "deploy:prod:clean": "node scripts/deploy-production-clean.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.0",
