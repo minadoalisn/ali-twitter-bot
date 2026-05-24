@@ -232,6 +232,15 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-12",
+    seriesId: "moon-archive",
+    title: "月相档案的封存索引",
+    summary:
+      "N-0522 把一个不再愿意替人保密的名字，封存进黑贝母与水晶透镜之间：不是为了报复，而是为了让真相有归档的位置。买家说：我终于不用再替任何人扛住沉默，月光会替我作证。",
+    emotion: "证据 / 告别 / 自己",
+    productSerial: "N-0522",
+  },
+  {
     code: "CH-11",
     seriesId: "tender-armor",
     title: "温柔盾甲的格架应答",
@@ -333,6 +342,17 @@ export const storyChapters = [
 ];
 
 export const dailyProductSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0522",
+    title: "Moon Archive Sealed Index Pendant",
+    seriesId: "moon-archive",
+    category: "necklace",
+    zhTitle: "月相档案封存索引吊坠",
+    image: "/assets/products/n-0522-moon-archive-sealed-index-pendant.png",
+    materialLine: "铂金 / 黑贝母 / 水晶透镜 / 灰月光石 / 淡灰珐琅 / 天然白钻",
+    craftLine: "贝母薄片镶嵌 / 半透明珐琅 / 玑镂雕纹 / 微刻封存线 / 镜面抛光",
+    storyLine: "有些名字不需要被原谅，只需要被归档。",
+  },
   {
     serial: "N-0521",
     title: "Tender Armor Lattice Cuff Bracelet",

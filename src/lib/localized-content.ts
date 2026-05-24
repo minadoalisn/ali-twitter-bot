@@ -233,6 +233,7 @@ const productInspirationTranslations: Record<string, string> = {
   "N-0512": "The first flame in the ruins rises again without permission.",
   "N-0519": "A piece of meteorite is evidence after ash. It says nothing, but it never withdraws.",
   "N-0520": "Returning is not walking the old path again; it is receiving your own receipt at last.",
+  "N-0522": "Some names do not need forgiveness; they need archiving.",
   "N-0521": "A boundary is not a wall; it is the structure that keeps you whole inside tenderness.",
 };
 
@@ -296,6 +297,12 @@ const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summ
     summary:
       "N-0520 does not flaunt return with brightness. It asks a quieter question: can you feel, with your own hands, that blue is not right or wrong but direction? The collector said: I only wanted the part of me that waited to finally receive a receipt.",
     emotion: "return, received, recalibration",
+  },
+  "CH-12": {
+    title: "Moon Archive's Sealed Index",
+    summary:
+      "N-0522 seals a name you refuse to carry in silence anymore between black nacre and a crystal lens. Not for revenge, but to give truth a place to be filed. The collector said: I no longer have to hold anyone else's silence; moonlight will testify for me.",
+    emotion: "evidence, farewell, self",
   },
   "CH-11": {
     title: "Tender Armor's Lattice Answer",
