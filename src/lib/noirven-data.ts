@@ -232,6 +232,33 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-15",
+    seriesId: "still-here",
+    title: "仍在这里的静阀回声",
+    summary:
+      "N-0525 把裂缝做成一枚可以呼吸的静阀：黑铑铂金没有遮住断口，钯金内线把它重新拉成秩序，烟晶像低声保留的证词，唯一一颗白钻只在偏心处亮一下。买家说：我不需要别人把我救回原样，我只需要确认，裂缝之后的我仍然可以选择光从哪里经过。",
+    emotion: "救回 / 裂缝 / 自我秩序",
+    productSerial: "N-0525",
+  },
+  {
+    code: "CH-14",
+    seriesId: "justice-of-one",
+    title: "唯一证明的绿密裁决",
+    summary:
+      "N-0524 把被误读的绿色压成一枚很安静的密钥：祖母绿不站在中央讨好任何人，孔雀石的纹理像被重新排列的证词，沙弗莱与白钻只在不对称的边线发光。买家说：我不需要赢过所有人，我只需要把那份被误判的自己交还给自己。",
+    emotion: "反转 / 证明 / 归还自己",
+    productSerial: "N-0524",
+  },
+  {
+    code: "CH-13",
+    seriesId: "unclaimed-star",
+    title: "待归之星的子午低语",
+    summary:
+      "N-0523 没有把等待做成一颗直白的星，而是把它拉成一条很安静的子午线：珍珠母贝像未寄出的信，水晶透镜把迟来的光折回自己，帕拉伊巴与坦桑石只在边缘亮一下。买家说：我不是在原地等谁，我是在沿着自己的轨道抵达自己。",
+    emotion: "等待 / 抵达 / 唯一识别",
+    productSerial: "N-0523",
+  },
+  {
     code: "CH-12",
     seriesId: "moon-archive",
     title: "月相档案的封存索引",
@@ -342,6 +369,39 @@ export const storyChapters = [
 ];
 
 export const dailyProductSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0525",
+    title: "Still Here Quiet Valve Brooch",
+    seriesId: "still-here",
+    category: "brooch",
+    zhTitle: "仍在这里静阀回声胸针",
+    image: "/assets/products/n-0525-still-here-quiet-valve-brooch.png",
+    materialLine: "黑铑铂金 / 钯金 / 烟晶 / 灰色尖晶石 / 天然白钻",
+    craftLine: "镜面抛光 / 拉丝雾面 / 微密镶 / 手工錾刻 / 钢琴烤漆",
+    storyLine: "裂缝不是等待别人修复的证据，而是自己重新规定光路的静阀。",
+  },
+  {
+    serial: "N-0524",
+    title: "Justice of One Verdant Cipher Ring",
+    seriesId: "justice-of-one",
+    category: "ring",
+    zhTitle: "唯一证明绿密裁决戒",
+    image: "/assets/products/n-0524-justice-of-one-verdant-cipher-ring.png",
+    materialLine: "黑铑铂金 / 雕金 / 孔雀石 / 沙弗莱石 / 祖母绿 / 天然白钻",
+    craftLine: "景泰蓝 / 错金银 / 手工錾刻 / 隐秘式镶嵌 / 镜面抛光",
+    storyLine: "真正的反转不是赢过人群，而是把被误读的绿色交还给自己。",
+  },
+  {
+    serial: "N-0523",
+    title: "Awaiting Star Meridian Whisper Earrings",
+    seriesId: "unclaimed-star",
+    category: "earring",
+    zhTitle: "待归之星子午低语耳坠",
+    image: "/assets/products/n-0523-awaiting-star-meridian-whisper-earrings.png",
+    materialLine: "铂金 / 珍珠母贝 / 坦桑石 / 白水晶 / 天然白钻 / 帕拉伊巴碧玺",
+    craftLine: "隐秘式镶嵌 / 贝母薄片镶嵌 / 水晶切面 / 雪花镶 / 镜面抛光",
+    storyLine: "不是所有等待都在原地，有些光沿着自己的子午线抵达唯一的人。",
+  },
   {
     serial: "N-0522",
     title: "Moon Archive Sealed Index Pendant",
@@ -576,6 +636,7 @@ const seedAuctionEndsAt = [
   "2026-06-03T20:30:00+08:00",
   "2026-06-04T20:00:00+08:00",
   "2026-06-04T20:30:00+08:00",
+  "2026-06-05T20:00:00+08:00",
 ];
 
 function splitSeedLine(line: string) {
@@ -963,10 +1024,10 @@ export const liveProducts = products.filter((product) => product.status !== "sol
 export const soldProducts = products.filter((product) => product.status === "sold");
 
 export const adminMetrics: AdminMetric[] = [
-  { label: "Live Belonging", value: "22", detail: "New story-backed product images are listed first" },
+  { label: "Live Belonging", value: "24", detail: "New story-backed product images are listed first" },
   { label: "Story Series", value: "08", detail: "Ready for IP, short drama, game extension" },
   { label: "Pending Settlement", value: "$220k+", detail: "USDT transfer proofs waiting for admin confirmation" },
-  { label: "Generated Drafts", value: "12", detail: "Seed prompts stay internal; only finished product images are public" },
+  { label: "Generated Drafts", value: "14", detail: "Seed prompts stay internal; only finished product images are public" },
 ];
 
 export function getSeries(seriesId: string) {

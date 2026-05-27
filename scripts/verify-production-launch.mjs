@@ -1,12 +1,8 @@
 import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
 import process from "node:process";
-import vm from "node:vm";
-import ts from "typescript";
 
 const root = process.cwd();
-const requireFromScript = createRequire(import.meta.url);
 const baseUrl = process.env.NOIRVEN_PRODUCTION_URL || "https://nvonly.com";
 
 function argValue(name, fallback = "") {
@@ -19,38 +15,6 @@ function argValue(name, fallback = "") {
   return fallback;
 }
 
-function loadTsModule(file) {
-  const source = readFileSync(file, "utf8");
-  const compiled = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2022,
-      esModuleInterop: true,
-    },
-  }).outputText;
-  const commonJsModule = { exports: {} };
-  vm.runInNewContext(
-    compiled,
-    { exports: commonJsModule.exports, module: commonJsModule, require: createTsRequire(file), console },
-    { filename: file },
-  );
-  return commonJsModule.exports;
-}
-
-function createTsRequire(fromFile) {
-  return (id) => {
-    if (id.startsWith("@/")) {
-      return loadTsModule(path.join(root, "src", `${id.slice(2)}.ts`));
-    }
-
-    if (id.startsWith(".")) {
-      return loadTsModule(path.join(path.dirname(fromFile), `${id}.ts`));
-    }
-
-    return requireFromScript(id);
-  };
-}
-
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -59,17 +23,92 @@ function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-const dataFile = path.join(root, "src", "lib", "noirven-data.ts");
-const { products, storyChapters } = loadTsModule(dataFile);
-const requestedSerial = argValue("serial");
-const product = requestedSerial ? products.find((item) => item.serial === requestedSerial) : products[0];
-
-if (!product) {
-  console.error(`No product found for serial: ${requestedSerial || "latest"}`);
-  process.exit(1);
+function readStringField(block, field) {
+  return block.match(new RegExp(`${field}:\\s*"([^"]+)"`))?.[1] ?? "";
 }
 
-const chapter = storyChapters.find((item) => item.productSerial === product.serial);
+function findBraceBlock(source, startIndex) {
+  const openIndex = source.lastIndexOf("{", startIndex);
+  if (openIndex < 0) return "";
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = openIndex; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+
+    if (char === '"') {
+      inString = true;
+    } else if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) return source.slice(openIndex, index + 1);
+    }
+  }
+
+  return "";
+}
+
+function loadProductFromSource(serial) {
+  const dataFile = path.join(root, "src", "lib", "noirven-data.ts");
+  const source = readFileSync(dataFile, "utf8");
+  const seedsIndex = source.indexOf("export const dailyProductSeeds");
+  if (seedsIndex < 0) throw new Error("dailyProductSeeds export not found");
+
+  const seedSource = source.slice(seedsIndex);
+  const seedEndIndex = seedSource.indexOf("export const internalProductConceptSeeds");
+  const seedListSource = seedEndIndex > 0 ? seedSource.slice(0, seedEndIndex) : seedSource;
+  const products = [];
+  const serialPattern = /serial:\s*"(N-\d+)"/g;
+  let match = null;
+
+  while ((match = serialPattern.exec(seedListSource))) {
+    const block = findBraceBlock(seedListSource, match.index);
+    const product = {
+      serial: readStringField(block, "serial"),
+      seriesId: readStringField(block, "seriesId"),
+      image: readStringField(block, "image"),
+    };
+
+    if (product.serial && product.seriesId && product.image) {
+      product.slug = `${product.seriesId}-${product.serial.toLowerCase()}`;
+      products.push(product);
+    }
+  }
+
+  const product =
+    products.find((item) => item.serial === serial) ??
+    (serial
+      ? null
+      : products
+          .slice()
+          .sort((left, right) => Number(right.serial.replace(/\D/g, "")) - Number(left.serial.replace(/\D/g, "")))[0]);
+
+  if (!product) {
+    throw new Error(`Product seed not found: ${serial || "latest"}`);
+  }
+
+  const chapterPattern = new RegExp(
+    `\\{[\\s\\S]*?code:\\s*"([^"]+)"[\\s\\S]*?productSerial:\\s*"${escapeRegExp(product.serial)}"[\\s\\S]*?\\}`,
+  );
+  product.chapterCode = source.match(chapterPattern)?.[1] ?? "";
+  return product;
+}
+
+const product = loadProductFromSource(argValue("serial"));
 const imageFileName = product.image.split("/").pop();
 const retries = Number(argValue("retries", "6"));
 const delayMs = Number(argValue("delay-ms", "10000"));
@@ -95,7 +134,7 @@ async function checkOnce() {
       hasImage: Boolean(imageFileName && html.includes(imageFileName)),
       has360: html.includes("360"),
       noPromptLeak: !/imagePrompt|ultra-clean studio render|no logo, no text/i.test(html),
-      hasStory: !page.requireStory || Boolean(chapter && new RegExp(escapeRegExp(chapter.code)).test(html)),
+      hasStory: !page.requireStory || Boolean(product.chapterCode && html.includes(product.chapterCode)),
     };
 
     Object.entries(checks).forEach(([key, passed]) => {

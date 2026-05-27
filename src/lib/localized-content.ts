@@ -235,9 +235,30 @@ const productInspirationTranslations: Record<string, string> = {
   "N-0520": "Returning is not walking the old path again; it is receiving your own receipt at last.",
   "N-0522": "Some names do not need forgiveness; they need archiving.",
   "N-0521": "A boundary is not a wall; it is the structure that keeps you whole inside tenderness.",
+  "N-0525": "A fracture is not evidence waiting for repair; it is a quiet valve where you choose how light passes through.",
+  "N-0523": "Not every waiting stays still; some light reaches its one person along its own meridian.",
+  "N-0524": "The true reversal is not defeating the crowd; it is returning the misread green to yourself.",
 };
 
 const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summary" | "emotion">> = {
+  "CH-15": {
+    title: "Still Here's Quiet Valve Echo",
+    summary:
+      "N-0525 turns the fracture into a quiet valve that can breathe: black rhodium platinum refuses to hide the break, a palladium inner line pulls it back into order, smoky quartz holds testimony in a low voice, and the single white diamond flashes only off-center. The collector said: I do not need anyone to rescue me back into my old shape. I only need to confirm that after the fracture, I can still choose where light passes through.",
+    emotion: "rescue, fracture, self-order",
+  },
+  "CH-14": {
+    title: "Justice of One's Verdant Cipher",
+    summary:
+      "N-0524 compresses misread green into a quiet cipher: the emerald refuses to stand at the center for approval, malachite lines behave like rearranged testimony, and tsavorite with white diamond light appears only along the asymmetric edge. The collector said: I do not need to defeat everyone; I only need to return the misjudged part of myself to myself.",
+    emotion: "reversal, proof, self-return",
+  },
+  "CH-13": {
+    title: "Awaiting Star's Meridian Whisper",
+    summary:
+      "N-0523 does not turn waiting into a literal star. It stretches it into a quiet meridian: pearl mother-of-pearl feels like an unsent letter, a crystal lens bends late light back toward the self, and Paraiba with tanzanite flashes only at the edge. The collector said: I was not standing still for someone else; I was reaching myself along my own orbit.",
+    emotion: "waiting, arrival, singular recognition",
+  },
   "CH-01": {
     title: "Ash Garden's First Letter",
     summary:
