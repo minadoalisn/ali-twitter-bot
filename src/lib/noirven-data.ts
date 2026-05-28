@@ -232,6 +232,15 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-16",
+    seriesId: "seventh-light",
+    title: "第七日的七衡光晕",
+    summary:
+      "N-0526 把第七日最后一小时做成一枚偏心光晕：黑贝母盘面没有追求完整圆形，七道金线从玫瑰金轴心向外校准，蓝宝石像迟到后终于被看见的坐标，坦桑石与白钻沿着不对称外缘留下一圈低声光。买家说：我不再把迟到解释成错过，我只确认那束光终于按我的时间抵达。",
+    emotion: "归属 / 最后一小时 / 校准",
+    productSerial: "N-0526",
+  },
+  {
     code: "CH-15",
     seriesId: "still-here",
     title: "仍在这里的静阀回声",
@@ -369,6 +378,17 @@ export const storyChapters = [
 ];
 
 export const dailyProductSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0526",
+    title: "Seventh Light Sevenfold Halo Watch",
+    seriesId: "seventh-light",
+    category: "watch",
+    zhTitle: "第七日七衡光晕腕表",
+    image: "/assets/products/n-0526-seventh-light-sevenfold-halo-watch.jpg",
+    materialLine: "玫瑰金 / 黄金 / 贝母盘面 / 蓝宝石 / 坦桑石 / 天然白钻",
+    craftLine: "微刻时标 / 玑镂雕纹 / 雪花镶 / 镜面抛光 / 鎏彩",
+    storyLine: "第七道光不再追问迟到，它在最后一小时把归属校准成自己的时间。",
+  },
   {
     serial: "N-0525",
     title: "Still Here Quiet Valve Brooch",

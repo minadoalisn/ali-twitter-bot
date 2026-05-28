@@ -235,12 +235,19 @@ const productInspirationTranslations: Record<string, string> = {
   "N-0520": "Returning is not walking the old path again; it is receiving your own receipt at last.",
   "N-0522": "Some names do not need forgiveness; they need archiving.",
   "N-0521": "A boundary is not a wall; it is the structure that keeps you whole inside tenderness.",
+  "N-0526": "The seventh light no longer asks whether it was late; it calibrates belonging to its own hour.",
   "N-0525": "A fracture is not evidence waiting for repair; it is a quiet valve where you choose how light passes through.",
   "N-0523": "Not every waiting stays still; some light reaches its one person along its own meridian.",
   "N-0524": "The true reversal is not defeating the crowd; it is returning the misread green to yourself.",
 };
 
 const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summary" | "emotion">> = {
+  "CH-16": {
+    title: "Seventh Light's Sevenfold Halo",
+    summary:
+      "N-0526 turns the final hour of the seventh day into an off-center halo: the black nacre dial refuses a perfect circle, seven gold lines calibrate outward from a rose-gold axis, sapphire becomes the coordinate finally seen after delay, and tanzanite with white diamonds leaves a low ring of light along the asymmetric edge. The collector said: I no longer explain lateness as being missed. I only confirm that the light arrived on my own time.",
+    emotion: "belonging, final hour, calibration",
+  },
   "CH-15": {
     title: "Still Here's Quiet Valve Echo",
     summary:
