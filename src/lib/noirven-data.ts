@@ -232,6 +232,15 @@ export const storySeries: StorySeries[] = [
 
 export const storyChapters = [
   {
+    code: "CH-17",
+    seriesId: "ash-garden",
+    title: "灰烬花园的余温证词",
+    summary:
+      "N-0527 把废墟之后没有散尽的余温做成一圈靠近颈侧的证词：黑陶瓷收住外缘，玫瑰金在内侧搭出安静的骨架，陨铁纹理像无法伪造的时间，暗红珐琅与烟晶把火光压低，红宝石和白钻只在转折处亮一下。买家说：我不需要回到没有燃烧以前，我只需要证明，灰烬之后仍有我自己的温度。",
+    emotion: "余温 / 证词 / 重建",
+    productSerial: "N-0527",
+  },
+  {
     code: "CH-16",
     seriesId: "seventh-light",
     title: "第七日的七衡光晕",
@@ -378,6 +387,17 @@ export const storyChapters = [
 ];
 
 export const dailyProductSeeds: DailyProductSeed[] = [
+  {
+    serial: "N-0527",
+    title: "Ash Garden Ember Witness Collar Necklace",
+    seriesId: "ash-garden",
+    category: "necklace",
+    zhTitle: "灰烬花园余温证词项圈",
+    image: "/assets/products/n-0527-ash-garden-ember-witness-collar-necklace.webp",
+    materialLine: "黑陶瓷 / 玫瑰金 / 陨铁 / 暗红珐琅 / 烟晶 / 红宝石 / 天然白钻",
+    craftLine: "陶瓷烧结 / 手工錾刻 / 半透明珐琅 / 雪花镶 / 镜面抛光",
+    storyLine: "灰烬之后的余温不是残留，而是自己仍然存在的证词。",
+  },
   {
     serial: "N-0526",
     title: "Seventh Light Sevenfold Halo Watch",

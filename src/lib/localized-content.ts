@@ -207,6 +207,7 @@ const seriesTranslations: Record<
 };
 
 const productInspirationTranslations: Record<string, string> = {
+  "N-0527": "The ember after ash is not residue; it is testimony that the self still exists.",
   "N-0101": "I am still here, so the light is still here.",
   "N-0102": "Not repairing the wound, but recognizing that what remains after it is still whole.",
   "N-0103": "After the wound, form remains.",
@@ -242,6 +243,12 @@ const productInspirationTranslations: Record<string, string> = {
 };
 
 const chapterTranslations: Record<string, Pick<StoryChapterLike, "title" | "summary" | "emotion">> = {
+  "CH-17": {
+    title: "Ash Garden's Ember Witness",
+    summary:
+      "N-0527 turns the warmth that remains after ruin into a collar-close testimony: black ceramic holds the outer edge, rose gold builds a quiet inner structure, meteorite texture reads like time that cannot be forged, and dark red enamel with smoky quartz lowers the flame. Ruby and white diamonds flash only at the turning points. The collector said: I do not need to return to before the fire. I only need to prove that after ash, my own temperature remains.",
+    emotion: "ember, testimony, rebuilding",
+  },
   "CH-16": {
     title: "Seventh Light's Sevenfold Halo",
     summary:
